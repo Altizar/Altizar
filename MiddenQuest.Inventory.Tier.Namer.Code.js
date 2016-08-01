@@ -15,6 +15,9 @@ var Inventory = {
     "Axe": {
         "Oracle Master": "T12"
     },
+    "Battlestaff": {
+        "Thundersoul": "T16",
+    },
     "Blade": {
         "Angel": "T09",
         "Ogre": "T08",
@@ -74,7 +77,8 @@ var Inventory = {
     },
     "Greaves": {
         "Phoenix": "T14",
-        "Prophecy": "T12"
+        "Prophecy": "T12",
+                "Thundersoul": "T16"
     },
     "Hat": {
         "Soul Whisperer": "T13"
@@ -86,7 +90,8 @@ var Inventory = {
         "Demon Bane Great": "T11"
     },
     "Helmet": {
-        "Scalemail": "T06"
+        "Scalemail": "T06",
+        "Thundersoul": "T16"        
     },
     "Hood": {
         "Deva-Touched": "T12",
@@ -121,6 +126,9 @@ var Inventory = {
         "Royal": "T10",
         "Scalemail": "T06",
         "Soul Whisperer": "T13",
+        "Thundersoul": "T16"
+    },
+    "Phylactery": {
         "Thundersoul": "T16"
     },
     "Ring": {
@@ -176,7 +184,7 @@ var newInv = {};
 var ItemRenamer = setInterval(function () {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
-        jQuery(this).html(getItemLevel(name) + name);        
+        jQuery(this).html(getItemLevel(name) + name);
     });
     jQuery('#ContentLoad .ui-widget-content > div > div > div:first-child > div').each(function () {
         var name = jQuery(this).clone().children().remove().end().html();
