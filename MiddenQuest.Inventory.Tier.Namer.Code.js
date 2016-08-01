@@ -185,17 +185,22 @@ var ItemRenamer = setInterval(function () {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
         var itemLevel = getItemLevel(name);
-        jQuery(this).html(itemLevel + name);
+        if (itemLevel !== undefined && itemLevel !== false) {
+            jQuery(this).html(itemLevel + name);
+        }
     });
     jQuery('#ContentLoad .ui-widget-content > div > div > div:first-child > div').each(function () {
         var name = jQuery(this).clone().children().remove().end().html();
-        jQuery(this).prepend(getItemLevel(name));
+        var itemLevel = getItemLevel(name);
+        if (itemLevel !== undefined && itemLevel !== false) {
+            jQuery(this).prepend(itemLevel);
+        }        
     });
 }, 1000);
 function getItemLevel(name) {
     var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
     if (match == undefined) {
-        return "T?? - ";
+        return false;
     }
     var itemType = Inventory[match[2]];
     if (itemType == undefined) {
