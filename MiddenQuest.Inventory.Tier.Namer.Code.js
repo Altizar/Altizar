@@ -1,5 +1,5 @@
 /*
- * MidenQuest - Item Tier Namer v0.3
+ * MidenQuest - Item Tier Namer v0.4
  */
 var Inventory = {
     "": {
@@ -31,8 +31,9 @@ var Inventory = {
         "Soul Whisperer": "T13"
     },
     "Bow": {
-        "Demon Bane": "T11",
         "Atlas": "T15",
+        "Demon Bane": "T11",
+        "Guard": "T06",
     },
     "Cap": {
         "Darksin": "T08"
@@ -53,6 +54,9 @@ var Inventory = {
     "Destroyer": {
         "Gloves of the": "T15",
         "Plate of the": "T15"
+    },
+    "Destruction": {
+        "Staff of": "T15"
     },
     "Dirk": {
         "Soul Shattering": "T13"
@@ -87,6 +91,7 @@ var Inventory = {
         "Demon Bane": "T11"
     },
     "Helm": {
+        "Aged Dragon": "T07",
         "Demon Bane Great": "T11"
     },
     "Helmet": {
@@ -97,10 +102,15 @@ var Inventory = {
         "Deva-Touched": "T12",
         "Diabolic": "T10",
         "Dragonscale": "T07",
+        "Trollskin ": "T06",
         "Miden's": "T13",
         "Planeswalker": "T11"
     },
+    "Longbow": {
+        "Scale Piercing": "T07",
+    },
     "Leggings": {
+        "Aged Dragon": "T07",
         "Phoenix": "T14",
         "Prophecy": "T12"
     },
@@ -151,6 +161,7 @@ var Inventory = {
     },
     "Shield": {
         "Eternal Flame": "T14",
+        "Flame-Eater": "T07",
         "Royal": "T10"
     },
     "Staff": {
@@ -158,6 +169,7 @@ var Inventory = {
         "Eternal Flame": "T14"
     },
     "Sword": {
+        "Dragon Fang ": "T07",
         "Eternal Flame": "T14",
         "Royal": "T10",
         "Thundersoul": "T16"
@@ -169,6 +181,7 @@ var Inventory = {
         "Angelic": "T09"
     },
     "Tunic": {
+        "Darkskin": "T08",
         "Soul Whisperer": "T13"
     },
     "Vambraces": {
@@ -177,11 +190,11 @@ var Inventory = {
         "Prophecy": "T12"
     },
     "Wand": {
-        "Soul Whisperer": "T19"
+        "Soul Whisperer": "T13"
     }
-}
+};
 var newInv = {};
-var ItemRenamer = setInterval(function () {
+jQuery('#ContentLoad').bind('DOMNodeInserted', function(event) {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
         var itemLevel = getItemLevel(name);
@@ -194,9 +207,9 @@ var ItemRenamer = setInterval(function () {
         var itemLevel = getItemLevel(name);
         if (itemLevel !== undefined && itemLevel !== false) {
             jQuery(this).prepend(itemLevel);
-        }        
+        }
     });
-}, 1000);
+});
 function getItemLevel(name) {
     var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
     if (match == undefined) {
