@@ -1,4 +1,11 @@
+/*
+ * MidenQuest - Item Tier Namer v0.02
+ */
 var Inventory = {
+    "": {
+        "Katana": "T06",
+        "Necklace": "T06"
+    },
     "Armor": {
         "Aged Dragon": "T07",
         "Phoenix": "T14",
@@ -15,7 +22,9 @@ var Inventory = {
         "Soul Shattering": "T13"
     },
     "Boots": {
+        "Darkskin": "T08",
         "Royal": "T10",
+        "Scalemail": "T06",
         "Soul Whisperer": "T13"
     },
     "Bow": {
@@ -26,9 +35,10 @@ var Inventory = {
         "Darksin": "T08"
     },
     "Charm": {
-        "Wizard": "T12",
-        "Expert": "T09",
-        "Everlasting": "T15"
+        "Expert": "T09",        
+        "Everlasting": "T15",
+        "Strong": "T06",
+        "Wizard": "T12"
     },
     "Coif": {
         "Prophecy": "T12",
@@ -51,9 +61,10 @@ var Inventory = {
         "Royal": "T10"
     },
     "Gloves": {
-        "Angelic": "T09",        
+        "Angelic": "T09",
         "Scalemail": "T06",
-        "Soul Whisperer": "T13"
+        "Soul Whisperer": "T13",
+        "Thundersoul": "T16"
     },
     "Greathelm": {
         "Phoenix": "T14"
@@ -76,7 +87,7 @@ var Inventory = {
     },
     "Helmet": {
         "Scalemail": "T06"
-    }, 
+    },
     "Hood": {
         "Deva-Touched": "T12",
         "Diabolic": "T10",
@@ -90,12 +101,15 @@ var Inventory = {
     },
     "Mask": {
         "Abyssal": "T09",
+        "Cotton": "T06",
         "Deicide's": "T14",
-        "Cotton": "T06"
+        "Wyrmscale": "T08"
     },
     "Necklace": {
+        "Eternal": "T16",
         "Royal": "T12",
-        "Silver": "T09"
+        "Silver": "T09",
+        "Sturdy": "T06"
     },
     "Orb": {
         "Demon Bane": "T11",
@@ -109,6 +123,7 @@ var Inventory = {
         "Soul Whisperer": "T13"
     },
     "Ring": {
+        "Eternal": "T09",
         "Royal": "T12",
         "Silver": "T09"
     },
@@ -116,6 +131,7 @@ var Inventory = {
         "Angelic": "T09"
     },
     "Sabatons": {
+        "Aged Dragon": "T07",
         "Demon Bane": "T11"
     },
     "Sandals": {
