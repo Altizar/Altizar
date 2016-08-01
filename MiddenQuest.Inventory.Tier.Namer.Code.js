@@ -78,7 +78,7 @@ var Inventory = {
     "Greaves": {
         "Phoenix": "T14",
         "Prophecy": "T12",
-                "Thundersoul": "T16"
+        "Thundersoul": "T16"
     },
     "Hat": {
         "Soul Whisperer": "T13"
@@ -91,7 +91,7 @@ var Inventory = {
     },
     "Helmet": {
         "Scalemail": "T06",
-        "Thundersoul": "T16"        
+        "Thundersoul": "T16"
     },
     "Hood": {
         "Deva-Touched": "T12",
@@ -184,7 +184,8 @@ var newInv = {};
 var ItemRenamer = setInterval(function () {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
-        jQuery(this).html(getItemLevel(name) + name);
+        var itemLevel = getItemLevel(name);
+        jQuery(this).html(itemLevel + name);
     });
     jQuery('#ContentLoad .ui-widget-content > div > div > div:first-child > div').each(function () {
         var name = jQuery(this).clone().children().remove().end().html();
@@ -194,13 +195,13 @@ var ItemRenamer = setInterval(function () {
 function getItemLevel(name) {
     var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
     if (match == undefined) {
-        return;
+        return "T?? - ";
     }
     var itemType = Inventory[match[2]];
     if (itemType == undefined) {
         newInv[match[2]] = {};
         newInv[match[2]][match[1]] = "T??";
-        console.log('Unknown Item - unknown item list is:')
+        console.log('Unknown Item - unknown item list is:');
         console.log(JSON.stringify(newInv));
         return "T?? - ";
     }
