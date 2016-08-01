@@ -1,5 +1,5 @@
 /*
- * MidenQuest - Item Tier Namer v0.02
+ * MidenQuest - Item Tier Namer v0.3
  */
 var Inventory = {
     "": {
@@ -35,7 +35,7 @@ var Inventory = {
         "Darksin": "T08"
     },
     "Charm": {
-        "Expert": "T09",        
+        "Expert": "T09",
         "Everlasting": "T15",
         "Strong": "T06",
         "Wizard": "T12"
@@ -120,7 +120,8 @@ var Inventory = {
         "Darkskin": "T08",
         "Royal": "T10",
         "Scalemail": "T06",
-        "Soul Whisperer": "T13"
+        "Soul Whisperer": "T13",
+        "Thundersoul": "T16"
     },
     "Ring": {
         "Eternal": "T09",
@@ -150,7 +151,8 @@ var Inventory = {
     },
     "Sword": {
         "Eternal Flame": "T14",
-        "Royal": "T10"
+        "Royal": "T10",
+        "Thundersoul": "T16"
     },
     "Tassets": {
         "Demon Bane": "T11"
@@ -174,45 +176,35 @@ var newInv = {};
 var ItemRenamer = setInterval(function () {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
-        var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
-        if (match == undefined) {
-            return;
-        }
-        ;
-        var itemType = Inventory[match[2]];
-        if (itemType == undefined) {
-            Inventory[match[2]] = {};
-            itemType = Inventory[match[2]];
-        }
-        var itemLevel = Inventory[match[2]][match[1]];
-        if (itemLevel == undefined) {
-            newInv[match[2]][match[1]] = "T00";
-//            itemLevel = Inventory[match[2]][match[1]];
-        } else {
-            jQuery(this).html(itemLevel + " - " + name);
-        }
+        jQuery(this).html(getItemLevel(name) + name);        
     });
     jQuery('#ContentLoad .ui-widget-content > div > div > div:first-child > div').each(function () {
         var name = jQuery(this).clone().children().remove().end().html();
-        var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
-        if (match == undefined) {
-            return;
-        }
-        ;
-        var itemType = Inventory[match[2]];
-        if (itemType == undefined) {
-            newInv[match[2]] = {};
-            newInv[match[2]][match[1]] = "T??";
-            return;
-        }
-        var itemLevel = Inventory[match[2]][match[1]];
-        if (itemLevel == undefined) {
-            if (newInv[match[2]] == undefined) {
-                newInv[match[2]] = {};
-            }
-            newInv[match[2]][match[1]] = "T??";
-        } else {
-            jQuery(this).prepend(itemLevel + " - ");
-        }
+        jQuery(this).prepend(getItemLevel(name));
     });
 }, 1000);
+function getItemLevel(name) {
+    var match = name.match(/^[^T0-9]{3,3}\w* ([\w'\-]*|[\w'\-]* [\w'\-]*|[\w'\-]* [\w'\-]* [\w'\-]*) (\w*)[ ]?[\[\]0-9]{0,4}$/);
+    if (match == undefined) {
+        return;
+    }
+    var itemType = Inventory[match[2]];
+    if (itemType == undefined) {
+        newInv[match[2]] = {};
+        newInv[match[2]][match[1]] = "T??";
+        console.log('Unknown Item - unknown item list is:')
+        console.log(JSON.stringify(newInv));
+        return "T?? - ";
+    }
+    var itemLevel = Inventory[match[2]][match[1]];
+    if (itemLevel == undefined) {
+        if (newInv[match[2]] == undefined) {
+            newInv[match[2]] = {};
+        }
+        newInv[match[2]][match[1]] = "T??";
+        console.log('Unknown Item - unknown item list is:')
+        console.log(JSON.stringify(newInv));
+        return "T?? - ";
+    }
+    return itemLevel + " - ";
+}
