@@ -1,19 +1,22 @@
 /*
- * MidenQuest - Item Tier Namer v0.4
+ * MidenQuest - Item Tier Namer v0.5
  */
 var Inventory = {
     "": {
         "Katana": "T06",
-        "Necklace": "T06"
+        "Necklace": "T03",
+        "Shortsword": "T02"
     },
     "Armor": {
         "Aged Dragon": "T07",
         "Phoenix": "T14",
         "Royal": "T10",
+        "Spiked": "T05",
         "Thundersoul": "T16"
     },
     "Axe": {
-        "Oracle Master": "T12"
+        "Oracle Master": "T12",
+        "Destruction": "T15"
     },
     "Battlestaff": {
         "Thundersoul": "T16",
@@ -26,8 +29,10 @@ var Inventory = {
     },
     "Boots": {
         "Darkskin": "T08",
+        "Leather": "T02",
         "Royal": "T10",
         "Scalemail": "T06",
+        "Spiked": "T05",
         "Soul Whisperer": "T13"
     },
     "Bow": {
@@ -36,6 +41,7 @@ var Inventory = {
         "Guard": "T06",
     },
     "Cap": {
+        "Cheap": "T01",
         "Darksin": "T08"
     },
     "Charm": {
@@ -53,7 +59,10 @@ var Inventory = {
     },
     "Destroyer": {
         "Gloves of the": "T15",
-        "Plate of the": "T15"
+        "Helm of the": "T15",
+        "Pants of the": "T15",
+        "Plate of the": "T15",
+        "Sabatons of the": "T15"
     },
     "Destruction": {
         "Staff of": "T15"
@@ -65,10 +74,13 @@ var Inventory = {
         "Prophecy": "T12"
     },
     "Gauntlets": {
+        "Aged Dragon": "T07",
+        "Copper Plated": "T04",
         "Royal": "T10"
     },
     "Gloves": {
         "Angelic": "T09",
+        "Darkskin ": "T08",
         "Scalemail": "T06",
         "Soul Whisperer": "T13",
         "Thundersoul": "T16"
@@ -102,26 +114,31 @@ var Inventory = {
         "Deva-Touched": "T12",
         "Diabolic": "T10",
         "Dragonscale": "T07",
-        "Trollskin ": "T06",
+        "Trollskin": "T06",
         "Miden's": "T13",
         "Planeswalker": "T11"
+    },
+    "Longsword": {
+        "Unforgiving": "T05",
     },
     "Longbow": {
         "Scale Piercing": "T07",
     },
     "Leggings": {
         "Aged Dragon": "T07",
+        "Copper Plated": "T04",
         "Phoenix": "T14",
         "Prophecy": "T12"
     },
     "Mask": {
         "Abyssal": "T09",
-        "Cotton": "T06",
+        "Cotton": "T01",
+        "Trollskin": "T05",
         "Deicide's": "T14",
         "Wyrmscale": "T08"
     },
     "Necklace": {
-        "Eternal": "T16",
+        "Eternal": "T15",
         "Royal": "T12",
         "Silver": "T09",
         "Sturdy": "T06"
@@ -133,6 +150,7 @@ var Inventory = {
     "Pants": {
         "Angelic": "T09",
         "Darkskin": "T08",
+        "Leather": "T02",
         "Royal": "T10",
         "Scalemail": "T06",
         "Soul Whisperer": "T13",
@@ -141,8 +159,12 @@ var Inventory = {
     "Phylactery": {
         "Thundersoul": "T16"
     },
+    "Rod": {
+        "Crystal": "T06",
+        "Ogre": "T08"
+    },
     "Ring": {
-        "Eternal": "T09",
+        "Eternal": "T15",
         "Royal": "T12",
         "Silver": "T09"
     },
@@ -160,6 +182,7 @@ var Inventory = {
         "Royal": "T10"
     },
     "Shield": {
+        "Copper Plated ": "T04",
         "Eternal Flame": "T14",
         "Flame-Eater": "T07",
         "Royal": "T10"
@@ -169,7 +192,8 @@ var Inventory = {
         "Eternal Flame": "T14"
     },
     "Sword": {
-        "Dragon Fang ": "T07",
+        "Butterfly": "T04",
+        "Dragon Fang": "T07",
         "Eternal Flame": "T14",
         "Royal": "T10",
         "Thundersoul": "T16"
@@ -194,7 +218,7 @@ var Inventory = {
     }
 };
 var newInv = {};
-jQuery('#ContentLoad').bind('DOMNodeInserted', function(event) {
+jQuery('#ContentLoad').bind('DOMNodeInserted', function (event) {
     jQuery('#SelectItemS option').each(function () {
         var name = jQuery(this).html();
         var itemLevel = getItemLevel(name);
