@@ -166,6 +166,7 @@ var Inventory = {
     "Ring": {
         "Eternal": "T15",
         "Royal": "T12",
+        "Sturdy": "T06",
         "Silver": "T09"
     },
     "Robe": {
@@ -206,6 +207,7 @@ var Inventory = {
     },
     "Tunic": {
         "Darkskin": "T08",
+        "Leather": "T02",
         "Soul Whisperer": "T13"
     },
     "Vambraces": {
