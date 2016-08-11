@@ -2,7 +2,7 @@ MQO_MarketPricesTracker = {
   orginalMessageCode: function(event) {},
   hasStarted: false,
   prices: {},
- this.logText: function(text) {
+  logText: function(text) {
     // jQuery('#messageData').append('<div>' + this.dump(text) + '</div>');
     console.log(text);
   },
