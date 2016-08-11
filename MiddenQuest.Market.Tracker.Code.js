@@ -150,7 +150,7 @@ MQO_MarketPricesTracker = {
     var message = event.data.split('|');
     if (message[0] === "LOADPAGE") {
       var hasMarket = jQuery('#ShortcutRes1_1', message[1]).length;
-      if (hasMarket.length > 1) {
+      if (hasMarket > 1) {
         this.message_parser(message[1]);
       }
     }
