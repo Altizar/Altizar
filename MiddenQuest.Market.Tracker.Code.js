@@ -3,7 +3,7 @@ MQO_MarketPricesTracker = {
   hasStarted: false,
   prices: {},
   logText: function(text) {
-    // jQuery('#messageData').append('<div>' + this.dump(text) + '</div>');
+    // jQuery('#messageData').append('<div>' + retrievedObject.dump(text) + '</div>');
     console.log(text);
   },
   dump: function(arr, level) {
@@ -31,17 +31,17 @@ MQO_MarketPricesTracker = {
     return dumped_text;
   },
   save: function() {
-    localStorage.setItem('MQO_MarketPricesTracker_Save', JSON.stringify(this.prices));
-    this.logText('Data Saved');
+    localStorage.setItem('MQO_MarketPricesTracker_Save', JSON.stringify(retrievedObject.prices));
+    retrievedObject.logText('Data Saved');
   },
   load: function() {
     var retrievedObject = localStorage.getItem('MQO_MarketPricesTracker_Save');
     var retrievedObject = JSON.parse(localStorage.getItem('MQO_MarketPricesTracker_Save'));
     if (retrievedObject != undefined && retrievedObject.ore_1 != undefined) {
-      this.prices = retrievedObject;
-      this.logText('loaded Data');
+      retrievedObject.prices = retrievedObject;
+      retrievedObject.logText('loaded Data');
     } else {
-      this.prices = {
+      retrievedObject.prices = {
         ore_1: {},
         ore_2: {},
         ore_3: {},
@@ -68,37 +68,37 @@ MQO_MarketPricesTracker = {
         orbs: {},
         scrolls: {}
       };
-      this.logText('Data Load Failed');
+      retrievedObject.logText('Data Load Failed');
     }
   },
   message_parser: function(message) {
-    var date = this.current_date();
-    this.prices.ore_1[date] = this.parse_value(jQuery('#ShortcutRes1_1', message).text());
-    this.prices.ore_2[date] = this.parse_value(jQuery('#ShortcutRes1_2', message).text());
-    this.prices.ore_3[date] = this.parse_value(jQuery('#ShortcutRes1_3', message).text());
-    this.prices.ore_4[date] = this.parse_value(jQuery('#ShortcutRes1_4', message).text());
-    this.prices.ore_5[date] = this.parse_value(jQuery('#ShortcutRes1_5', message).text());
-    this.prices.plants_1[date] = this.parse_value(jQuery('#ShortcutRes2_1', message).text());
-    this.prices.plants_2[date] = this.parse_value(jQuery('#ShortcutRes2_2', message).text());
-    this.prices.plants_3[date] = this.parse_value(jQuery('#ShortcutRes2_3', message).text());
-    this.prices.plants_4[date] = this.parse_value(jQuery('#ShortcutRes2_4', message).text());
-    this.prices.plants_5[date] = this.parse_value(jQuery('#ShortcutRes2_5', message).text());
-    this.prices.wood_1[date] = this.parse_value(jQuery('#ShortcutRes3_1', message).text());
-    this.prices.wood_2[date] = this.parse_value(jQuery('#ShortcutRes3_2', message).text());
-    this.prices.wood_3[date] = this.parse_value(jQuery('#ShortcutRes3_3', message).text());
-    this.prices.wood_4[date] = this.parse_value(jQuery('#ShortcutRes3_4', message).text());
-    this.prices.wood_5[date] = this.parse_value(jQuery('#ShortcutRes3_5', message).text());
-    this.prices.fish_1[date] = this.parse_value(jQuery('#ShortcutRes4_1', message).text());
-    this.prices.fish_2[date] = this.parse_value(jQuery('#ShortcutRes4_2', message).text());
-    this.prices.fish_3[date] = this.parse_value(jQuery('#ShortcutRes4_3', message).text());
-    this.prices.fish_4[date] = this.parse_value(jQuery('#ShortcutRes4_4', message).text());
-    this.prices.fish_5[date] = this.parse_value(jQuery('#ShortcutRes4_5', message).text());
-    this.prices.magic[date] = this.parse_value(jQuery('#ShortcutRes3', message).text());
-    this.prices.relics[date] = this.parse_value(jQuery('#ShortcutRes4', message).text());
-    this.prices.gems[date] = this.parse_value(jQuery('#ShortcutRes5', message).text());
-    this.prices.orbs[date] = this.parse_value(jQuery('#ShortcutRes6', message).text());
-    this.prices.scrolls[date] = this.parse_value(jQuery('#ShortcutRes7', message).text());
-    this.save();
+    var date = retrievedObject.current_date();
+    retrievedObject.prices.ore_1[date] = retrievedObject.parse_value(jQuery('#ShortcutRes1_1', message).text());
+    retrievedObject.prices.ore_2[date] = retrievedObject.parse_value(jQuery('#ShortcutRes1_2', message).text());
+    retrievedObject.prices.ore_3[date] = retrievedObject.parse_value(jQuery('#ShortcutRes1_3', message).text());
+    retrievedObject.prices.ore_4[date] = retrievedObject.parse_value(jQuery('#ShortcutRes1_4', message).text());
+    retrievedObject.prices.ore_5[date] = retrievedObject.parse_value(jQuery('#ShortcutRes1_5', message).text());
+    retrievedObject.prices.plants_1[date] = retrievedObject.parse_value(jQuery('#ShortcutRes2_1', message).text());
+    retrievedObject.prices.plants_2[date] = retrievedObject.parse_value(jQuery('#ShortcutRes2_2', message).text());
+    retrievedObject.prices.plants_3[date] = retrievedObject.parse_value(jQuery('#ShortcutRes2_3', message).text());
+    retrievedObject.prices.plants_4[date] = retrievedObject.parse_value(jQuery('#ShortcutRes2_4', message).text());
+    retrievedObject.prices.plants_5[date] = retrievedObject.parse_value(jQuery('#ShortcutRes2_5', message).text());
+    retrievedObject.prices.wood_1[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3_1', message).text());
+    retrievedObject.prices.wood_2[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3_2', message).text());
+    retrievedObject.prices.wood_3[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3_3', message).text());
+    retrievedObject.prices.wood_4[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3_4', message).text());
+    retrievedObject.prices.wood_5[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3_5', message).text());
+    retrievedObject.prices.fish_1[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4_1', message).text());
+    retrievedObject.prices.fish_2[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4_2', message).text());
+    retrievedObject.prices.fish_3[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4_3', message).text());
+    retrievedObject.prices.fish_4[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4_4', message).text());
+    retrievedObject.prices.fish_5[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4_5', message).text());
+    retrievedObject.prices.magic[date] = retrievedObject.parse_value(jQuery('#ShortcutRes3', message).text());
+    retrievedObject.prices.relics[date] = retrievedObject.parse_value(jQuery('#ShortcutRes4', message).text());
+    retrievedObject.prices.gems[date] = retrievedObject.parse_value(jQuery('#ShortcutRes5', message).text());
+    retrievedObject.prices.orbs[date] = retrievedObject.parse_value(jQuery('#ShortcutRes6', message).text());
+    retrievedObject.prices.scrolls[date] = retrievedObject.parse_value(jQuery('#ShortcutRes7', message).text());
+    retrievedObject.save();
   },
   parse_value(text) {
     var num = parseInt(text);
@@ -122,13 +122,13 @@ MQO_MarketPricesTracker = {
       jQuery('body').append('<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>');
     }
     graphData = [];
-    for (var key in this.prices) {
+    for (var key in retrievedObject.prices) {
       graphData.push({
         name: key,
         data: []
       });
-      for (var timestamp in this.prices[key]) {
-        graphData[graphData.length - 1].data.push([timestamp * 10000, this.prices[key][timestamp]]);
+      for (var timestamp in retrievedObject.prices[key]) {
+        graphData[graphData.length - 1].data.push([timestamp * 10000, retrievedObject.prices[key][timestamp]]);
       }
     }
     jQuery('#container').highcharts({
@@ -150,21 +150,21 @@ MQO_MarketPricesTracker = {
     var message = event.data.split('|');
     if (message[0] === "LOADPAGE") {
       var hasMarket = jQuery('#ShortcutRes1_1', message[1]).length;
-      if (hasMarket > 1) {
-        this.message_parser(message[1]);
+      if (hasMarket === 1) {
+        retrievedObject.message_parser(message[1]);
       }
     }
     MQO_MarketPricesTracker.orginalMessageCode(event);
   },
   start: function() {
-    if (this.hasStarted) {
+    if (retrievedObject.hasStarted) {
       return;
     }
-    this.load();
+    retrievedObject.load();
     MQO_MarketPricesTracker.orginalMessageCode = ws.onmessage;
-    ws.onmessage = this.trackMessage;
-    this.hasStarted = true;
-    this.logText('Running');
+    ws.onmessage = retrievedObject.trackMessage;
+    retrievedObject.hasStarted = true;
+    retrievedObject.logText('Running');
   }
 };
 MQO_MarketPricesTracker.start();
