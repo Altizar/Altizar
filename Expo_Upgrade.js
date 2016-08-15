@@ -91,4 +91,3 @@ MQO_Exp_Upgrades = {
     this.generateRows('time');
   }
 }
-MQO_Exp_Upgrades.start();
