@@ -42,7 +42,8 @@ MQO_Exp_Upgrades = {
     }
     var table = jQuery('#' + tableName).DataTable({
       dataset: dataSet,
-      columns: columnSet
+      columns: columnSet,
+      pageLength: 50
     });
     for (var lvl = 1; lvl <= 20; lvl++) {
       var row = [];
