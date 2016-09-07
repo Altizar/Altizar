@@ -20,7 +20,6 @@ function setExpoTimeout() {
     if (time !== "") {
         expo_finished = (parseInt(time) * 60 * 1000) + curTime;
         updateExpoTimeout();
-        expo_finished = 0;
     }
 }
 function updateExpoTimeout() {
@@ -37,6 +36,7 @@ function updateExpoTimeout() {
         }
     } else if (expo_finished > 0) {
         message = "Finished";
+        expo_finished = 0;
     }
     jQuery('#expo_timer').text(message);
 }
