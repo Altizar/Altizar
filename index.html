@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
-	<link rel='stylesheet prefetch' href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'>
+        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+        <link rel='stylesheet prefetch' href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'>
         <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
         <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
@@ -11,46 +11,46 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-<body>
-    <h1>My Scripts</h1>
-    <div><a href="MiddenQuest.Inventory.Tier.Namer.js">MidenQuest - Item Tier Namer</a></div>
-  <div id="messageData"></div>
-  <div>
-      <h3>Expo Upgrade Benifits</h3>
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs col-md-12" role="tablist">
-    <li role="presentation" class="active"><a href="#show_gems" aria-controls="home" role="tab" data-toggle="tab">Gems</a></li>
-    <li role="presentation"><a href="#show_relics" aria-controls="profile" role="tab" data-toggle="tab">Relics</a></li>
-    <li role="presentation"><a href="#show_keys" aria-controls="messages" role="tab" data-toggle="tab">Keys</a></li>
-    <li role="presentation"><a href="#show_orbs" aria-controls="settings" role="tab" data-toggle="tab">Orbs/Scrolls</a></li>
-    <li role="presentation"><a href="#show_time" aria-controls="settings" role="tab" data-toggle="tab">Time Redux</a></li>
-  </ul>
+    <body>
+        <h1>My Scripts</h1>
+        <div><a href="MiddenQuest.Inventory.Tier.Namer.js">MidenQuest - Item Tier Namer</a></div>
+        <div><a href="MiddenQuest.Expo.Tracker.js">MidenQuest - Expo Tracker</a></div>
+        <div id="messageData"></div>
+        <div>
+            <h3>Expo Upgrade Benifits</h3>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs col-md-12" role="tablist">
+                <li role="presentation" class="active"><a href="#show_gems" aria-controls="home" role="tab" data-toggle="tab">Gems</a></li>
+                <li role="presentation"><a href="#show_relics" aria-controls="profile" role="tab" data-toggle="tab">Relics</a></li>
+                <li role="presentation"><a href="#show_keys" aria-controls="messages" role="tab" data-toggle="tab">Keys</a></li>
+                <li role="presentation"><a href="#show_orbs" aria-controls="settings" role="tab" data-toggle="tab">Orbs/Scrolls</a></li>
+                <li role="presentation"><a href="#show_time" aria-controls="settings" role="tab" data-toggle="tab">Time Redux</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="show_gems">
+                    <table id='gems' class="col-md-12"></table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="show_relics">
+                    <table id='relics' class="col-md-12"></table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="show_keys">
+                    <table id='keys' class="col-md-12"></table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="show_orbs">
+                    <table id='orbs' class="col-md-12"></table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="show_time">
+                    <table id='time' class="col-md-12"></table>
+                </div>
+            </div>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="show_gems">
-        <table id='gems' class="col-md-12"></table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="show_relics">
-        <table id='relics' class="col-md-12"></table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="show_keys">
-        <table id='keys' class="col-md-12"></table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="show_orbs">
-        <table id='orbs' class="col-md-12"></table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="show_time">
-        <table id='time' class="col-md-12"></table>
-    </div>
-  </div>
-
-</div>
-</body>
-<script type="text/javascript">
-jQuery( document ).ready(function() {
-	MQO_Exp_Upgrades.start();
-});
-</script>
+        </div>
+    </body>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            MQO_Exp_Upgrades.start();
+        });
+    </script>
 </html>
 
