@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.2
+// @version      0.3
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -20,30 +20,29 @@ function setExpoTimeout() {
     if (time !== "") {
         expo_finished = (parseInt(time) * 60 * 1000) + curTime;
         updateExpoTimeout();
-        clearInterval(updateExpoTimeoutEvent);
-        updateExpoTimeoutEvent = 0;
+        expo_finished = 0;
     }
 }
 function updateExpoTimeout() {
     var curTime = jQuery.now();
     if (curTime < expo_finished) {
-        var time = new Date();
         var myDate = new Date(null);
         var timeLeft = parseInt((expo_finished - curTime) / 1000);
         myDate.setHours(0);
         myDate.setSeconds(timeLeft);
         if (myDate.getHours() > 0) {
-            message = myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
+            message = myDate.getHours() + 'hr ' + myDate.getMinutes() + Math.ceil(myDate.getSeconds() / 60) + 'min';
         } else {
-            message = myDate.getMinutes() + 1 + 'min';
+            message = myDate.getMinutes() + Math.ceil(myDate.getSeconds() / 60) + 'min';
         }
     } else if (expo_finished > 0) {
         message = "Finished";
-        if (updateExpoTimeoutEvent === 0) {
-            updateExpoTimeoutEvent = setInterval(setExpoTimeout, 1000);
-        }
     }
     jQuery('#expo_timer').text(message);
 }
+jQuery('#ContentLoad').bind('DOMNodeInserted', function (event) {
+    if (expo_finished === 0) {
+        setExpoTimeout();
+    }
+});
 var updateExpoTimeoutEvent = setInterval(updateExpoTimeout, 15000);
-var updateExpoTimeoutEvent = setInterval(setExpoTimeout, 1000);

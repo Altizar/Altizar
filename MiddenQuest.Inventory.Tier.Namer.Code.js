@@ -1,6 +1,15 @@
-/*
- * MidenQuest - Item Tier Namer v0.5
- */
+// ==UserScript==
+// @name         MidenQuest - Item Tier Namer
+// @namespace    https://github.com/Altizar/Altizar.github.io
+// @version      0.6
+// @description  MidenQuest Item Tier Namer
+// @author       Altizar
+// @include      http://www.midenquest.com/Game.aspx
+// @include      http://midenquest.com/Game.aspx
+// @downloadURL  https://altizar.github.io/MiddenQuest.Inventory.Tier.Namer.Code.js
+// @updateURL    https://altizar.github.io/MiddenQuest.Inventory.Tier.Namer.Code.js
+// @grant        GM_xmlhttpRequest
+// ==/UserScript==/*
 var Inventory = {
     "": {
         "Katana": "T06",
@@ -11,12 +20,14 @@ var Inventory = {
         "Aged Dragon": "T07",
         "Phoenix": "T14",
         "Royal": "T10",
+        "Scalemail": "T06",
         "Spiked": "T05",
         "Thundersoul": "T16"
     },
     "Axe": {
+        "Destruction": "T15",
         "Oracle Master": "T12",
-        "Destruction": "T15"
+        "Titan's": "T08"
     },
     "Battlestaff": {
         "Thundersoul": "T16",
