@@ -31,9 +31,9 @@ function updateExpoTimeout() {
         myDate.setHours(0);
         myDate.setSeconds(timeLeft);
         if (myDate.getHours() > 0) {
-            message = myDate.getHours() + 'hr ' + myDate.getMinutes() + Math.ceil(myDate.getSeconds() / 60) + 'min';
+            message = myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
         } else {
-            message = myDate.getMinutes() + Math.ceil(myDate.getSeconds() / 60) + 'min';
+            message = myDate.getMinutes() + 'min';
         }
     } else if (expo_finished > 0) {
         message = "Finished";
