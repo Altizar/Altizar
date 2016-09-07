@@ -12,7 +12,11 @@
 // ==/UserScript==/*
 
 var expo_finished = 0;
+var updateExpoTimeoutEvent = 0;
 var message = "Check Now";
+var target = document.getElementById('ContentLoad');
+var config = { attributes: true, childList: true, characterData: true };
+
 jQuery('#TopScreen').prepend('<div id="expo_timer_parent" style="position: absolute;left: -120px;top: 40px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
 function setExpoTimeout() {
     var time = jQuery('#ContentLoad > div:last-child > div > div:nth-child(2) > div > div > div > div:contains("min. left")').text().match('[0-9]*')[0];
@@ -20,6 +24,9 @@ function setExpoTimeout() {
     if (time !== "") {
         expo_finished = (parseInt(time) * 60 * 1000) + curTime;
         updateExpoTimeout();
+        if (updateExpoTimeoutEvent === 0) {
+            updateExpoTimeoutEvent = setInterval(updateExpoTimeout, 15000);
+        }
     }
 }
 function updateExpoTimeout() {
@@ -35,14 +42,23 @@ function updateExpoTimeout() {
             message = myDate.getMinutes() + 'min';
         }
     } else if (expo_finished > 0) {
+        if (updateExpoTimeoutEvent !== 0) {
+            clearInterval(updateExpoTimeoutEvent);
+            updateExpoTimeoutEvent = 0;
+        }
         message = "Finished";
         expo_finished = 0;
     }
     jQuery('#expo_timer').text(message);
 }
-jQuery('#ContentLoad').bind('DOMNodeInserted', function (event) {
-    if (expo_finished === 0) {
-        setExpoTimeout();
-    }
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if(mutation.addedNodes.length>0){
+            if (expo_finished === 0) {
+                setExpoTimeout();
+            }
+        }
+    });
 });
-var updateExpoTimeoutEvent = setInterval(updateExpoTimeout, 15000);
+observer.observe(target, config);
+
