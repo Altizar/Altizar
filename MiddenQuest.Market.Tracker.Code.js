@@ -142,6 +142,7 @@ MQO_MarketPricesTracker = {
         }
     },
     start: function () {
+        MQO_MarketPricesTracker.load();
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 if (mutation.addedNodes.length > 0) {
