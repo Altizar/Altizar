@@ -136,14 +136,10 @@ MQO_MarketPricesTracker = {
         });
     },
     trackMessage: function () {
-        var message = event.data.split('|');
-        if (message[0] === "LOADPAGE") {
-            var hasMarket = jQuery('#ShortcutRes1_1', this.target).length;
-            if (hasMarket === 1) {
-                MQO_MarketPricesTracker.message_parser(this.target);
-            }
+        var hasMarket = jQuery('#ShortcutRes1_1', this.target).length;
+        if (hasMarket === 1) {
+            MQO_MarketPricesTracker.message_parser(this.target);
         }
-        MQO_MarketPricesTracker.orginalMessageCode(event);
     },
     start: function () {
         var observer = new MutationObserver(function (mutations) {
