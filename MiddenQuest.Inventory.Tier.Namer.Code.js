@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Item Tier Namer
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.8
+// @version      0.8.1
 // @description  MidenQuest Item Tier Namer
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -13,7 +13,7 @@
 MQO_ItemNamer = {
     target: document.getElementById('ContentLoad'),
     config: {attributes: true, childList: true, characterData: true},
-    inventory: {
+    Inventory: {
         "": {
             "Katana": "T06",
             "Necklace": "T03",
@@ -245,22 +245,22 @@ MQO_ItemNamer = {
         if (match == undefined) {
             return false;
         }
-        var itemType = Inventory[match[2]];
+        var itemType = MQO_ItemNamer.Inventory[match[2]];
         if (itemType == undefined) {
-            newInv[match[2]] = {};
-            newInv[match[2]][match[1]] = "T??";
+            MQO_ItemNamer.newInv[match[2]] = {};
+            MQO_ItemNamer.newInv[match[2]][match[1]] = "T??";
             console.log('Unknown Item - unknown item list is:');
-            console.log(JSON.stringify(newInv));
+            console.log(JSON.stringify(MQO_ItemNamer.newInv));
             return "T?? - ";
         }
-        var itemLevel = Inventory[match[2]][match[1]];
+        var itemLevel = MQO_ItemNamer.Inventory[match[2]][match[1]];
         if (itemLevel == undefined) {
-            if (newInv[match[2]] == undefined) {
-                newInv[match[2]] = {};
+            if (MQO_ItemNamer.newInv[match[2]] == undefined) {
+                MQO_ItemNamer.newInv[match[2]] = {};
             }
-            newInv[match[2]][match[1]] = "T??";
+            MQO_ItemNamer.newInv[match[2]][match[1]] = "T??";
             console.log('Unknown Item - unknown item list is:')
-            console.log(JSON.stringify(newInv));
+            console.log(JSON.stringify(MQO_ItemNamer.newInv));
             return "T?? - ";
         }
         return itemLevel + " - ";
@@ -271,14 +271,14 @@ MQO_ItemNamer = {
                 if (mutation.addedNodes.length > 0) {
                     jQuery('#SelectItemS option').each(function () {
                         var name = jQuery(this).html();
-                        var itemLevel = getItemLevel(name);
+                        var itemLevel = MQO_ItemNamer.getItemLevel(name);
                         if (itemLevel !== undefined && itemLevel !== false) {
                             jQuery(this).html(itemLevel + name);
                         }
                     });
                     jQuery('#ContentLoad .ui-widget-content > div > div > div:first-child > div').each(function () {
                         var name = jQuery(this).clone().children().remove().end().html();
-                        var itemLevel = getItemLevel(name);
+                        var itemLevel = MQO_ItemNamer.getItemLevel(name);
                         if (itemLevel !== undefined && itemLevel !== false) {
                             jQuery(this).prepend(itemLevel);
                         }
