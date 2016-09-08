@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Item Tier Namer
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.4
+// @version      0.7
 // @description  MidenQuest Item Tier Namer
 // @author       Altizar
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js
@@ -10,7 +10,7 @@
 // @downloadURL  https://altizar.github.io/MiddenQuest.Inventory.Tier.Namer.js
 // @updateURL    https://altizar.github.io/MiddenQuest.Inventory.Tier.Namer.js
 // @grant        GM_xmlhttpRequest
-// ==/UserScript==/* 
+// ==/UserScript==/*
 
 var jA = document.createElement('script');
 jA.setAttribute('type', 'text/javascript');

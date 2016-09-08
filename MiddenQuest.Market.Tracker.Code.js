@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Market Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.1
+// @version      0.3
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @require      https://code.highcharts.com/highcharts.js
@@ -12,39 +12,12 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==/*
 MQO_MarketPricesTracker = {
-    orginalMessageCode: function (event) {
-    },
+    target: document.getElementById('ContentLoad'),
+    config: {attributes: true, childList: true, characterData: true},
     hasStarted: false,
     prices: {},
     logText: function (text) {
-        // jQuery('#messageData').append('<div>' + MQO_MarketPricesTracker.dump(text) + '</div>');
         console.log(text);
-    },
-    dump: function (arr, level) {
-        var dumped_text = "";
-        if (!level)
-            level = 0;
-
-        //The padding given at the beginning of the line.
-        var level_padding = "";
-        for (var j = 0; j < level + 1; j++)
-            level_padding += "    ";
-
-        if (typeof (arr) == 'object') { //Array/Hashes/Objects
-            for (var item in arr) {
-                var value = arr[item];
-
-                if (typeof (value) == 'object') { //If it is an array,
-                    dumped_text += level_padding + "'" + item + "' ...\n";
-                    dumped_text += dump(value, level + 1);
-                } else {
-                    dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-                }
-            }
-        } else { //Stings/Chars/Numbers etc.
-            dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
-        }
-        return dumped_text;
     },
     save: function () {
         localStorage.setItem('MQO_MarketPricesTracker_Save', JSON.stringify(MQO_MarketPricesTracker.prices));
@@ -162,25 +135,25 @@ MQO_MarketPricesTracker = {
             series: graphData,
         });
     },
-    trackMessage: function (event) {
+    trackMessage: function () {
         var message = event.data.split('|');
         if (message[0] === "LOADPAGE") {
-            var hasMarket = jQuery('#ShortcutRes1_1', message[1]).length;
+            var hasMarket = jQuery('#ShortcutRes1_1', this.target).length;
             if (hasMarket === 1) {
-                MQO_MarketPricesTracker.message_parser(message[1]);
+                MQO_MarketPricesTracker.message_parser(this.target);
             }
         }
         MQO_MarketPricesTracker.orginalMessageCode(event);
     },
     start: function () {
-        if (MQO_MarketPricesTracker.hasStarted) {
-            return;
-        }
-        MQO_MarketPricesTracker.load();
-        MQO_MarketPricesTracker.orginalMessageCode = ws.onmessage;
-        ws.onmessage = MQO_MarketPricesTracker.trackMessage;
-        MQO_MarketPricesTracker.hasStarted = true;
-        MQO_MarketPricesTracker.logText('Running');
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.addedNodes.length > 0) {
+                    MQO_MarketPricesTracker.trackMessage();
+                }
+            });
+        });
+        observer.observe(target, config);
     }
 };
 MQO_MarketPricesTracker.start();

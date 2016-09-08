@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.3
+// @version      0.4
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -15,7 +15,7 @@ var expo_finished = 0;
 var updateExpoTimeoutEvent = 0;
 var message = "Check Now";
 var target = document.getElementById('ContentLoad');
-var config = { attributes: true, childList: true, characterData: true };
+var config = {attributes: true, childList: true, characterData: true};
 
 jQuery('#TopScreen').prepend('<div id="expo_timer_parent" style="position: absolute;left: -120px;top: 40px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
 function setExpoTimeout() {
@@ -51,9 +51,9 @@ function updateExpoTimeout() {
     }
     jQuery('#expo_timer').text(message);
 }
-var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-        if(mutation.addedNodes.length>0){
+var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+        if (mutation.addedNodes.length > 0) {
             if (expo_finished === 0) {
                 setExpoTimeout();
             }

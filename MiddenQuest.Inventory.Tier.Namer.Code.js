@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Item Tier Namer
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.6
+// @version      0.7
 // @description  MidenQuest Item Tier Namer
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -10,10 +10,12 @@
 // @updateURL    https://altizar.github.io/MiddenQuest.Inventory.Tier.Namer.Code.js
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==/*
+//{"Mask":{},"Cap":{},"":{},"Helm":{},"Hood":{},"Hat":{}}
 var Inventory = {
     "": {
         "Katana": "T06",
         "Necklace": "T03",
+        "Ring": "T03",
         "Shortsword": "T02"
     },
     "Armor": {
@@ -53,7 +55,7 @@ var Inventory = {
     },
     "Cap": {
         "Cheap": "T01",
-        "Darksin": "T08"
+        "Darkskin": "T08"
     },
     "Charm": {
         "Expert": "T09",
@@ -108,7 +110,8 @@ var Inventory = {
         "Thundersoul": "T16"
     },
     "Hat": {
-        "Soul Whisperer": "T13"
+        "Soul Whisperer": "T13",
+        "Leather": "T02"
     },
     "Hauberk": {
         "Demon Bane": "T11"
@@ -119,7 +122,8 @@ var Inventory = {
     },
     "Helmet": {
         "Scalemail": "T06",
-        "Thundersoul": "T16"
+        "Thundersoul": "T16",
+        "Spiked": "T05"
     },
     "Hood": {
         "Deva-Touched": "T12",
@@ -127,7 +131,9 @@ var Inventory = {
         "Dragonscale": "T07",
         "Trollskin": "T06",
         "Miden's": "T13",
-        "Planeswalker": "T11"
+        "Planeswalker": "T11",
+        "Leather": "T04",
+        "Cotton": "T02"
     },
     "Longsword": {
         "Unforgiving": "T05",
@@ -146,7 +152,8 @@ var Inventory = {
         "Cotton": "T01",
         "Trollskin": "T05",
         "Deicide's": "T14",
-        "Wyrmscale": "T08"
+        "Wyrmscale": "T08",
+        "Leather": "T03"
     },
     "Necklace": {
         "Eternal": "T15",
