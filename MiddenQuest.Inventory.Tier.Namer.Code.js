@@ -286,7 +286,7 @@ MQO_ItemNamer = {
                 }
             });
         });
-        observer.observe(target, config);
+        observer.observe(this.target, this.config);
     }
 };
 MQO_ItemNamer.start();

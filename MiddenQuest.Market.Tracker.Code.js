@@ -153,7 +153,7 @@ MQO_MarketPricesTracker = {
                 }
             });
         });
-        observer.observe(target, config);
+        observer.observe(this.target, this.config);
     }
 };
 MQO_MarketPricesTracker.start();
