@@ -16,3 +16,8 @@ var jA = document.createElement('script');
 jA.setAttribute('type', 'text/javascript');
 jA.setAttribute('src', 'https://altizar.github.io/MiddenQuest.Market.Tracker.Code.js');
 document.body.appendChild(jA);
+
+var jA2 = document.createElement('script');
+jA2.setAttribute('type', 'text/javascript');
+jA2.setAttribute('src', 'https://code.highcharts.com/highcharts.js');
+document.body.appendChild(jA2);
