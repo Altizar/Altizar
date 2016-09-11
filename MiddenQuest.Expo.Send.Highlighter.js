@@ -1,18 +1,19 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.1
+// @version      0.2
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
 // @include      http://midenquest.com/Game.aspx
-// @downloadURL  https://altizar.github.io/MiddenQuest.Expo.Send.Highlighter.js
-// @updateURL    https://altizar.github.io/MiddenQuest.Expo.Send.Highlighter.js
+// @downloadURL  https://altizar.github.io/MiddenQuest.Expo.Button.Highlighter.js
+// @updateURL    https://altizar.github.io/MiddenQuest.Expo.Button.Highlighter.js
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==/*
 
 var MQO_Expo_Button_Highlighter = {
     target: document.getElementById('ContentLoad'),
+    expo_count: 4,
     config: {
         attributes: true,
         childList: true,
@@ -41,7 +42,7 @@ var MQO_Expo_Button_Highlighter = {
         Fish_5: 0
     },
     parse_value: function (text) {
-        var num = parseInt(text);
+        var num = parseFloat(text);
         if (text.indexOf('k') !== -1) {
             num *= 1e3;
         }
@@ -65,11 +66,11 @@ var MQO_Expo_Button_Highlighter = {
                 var name = text[3] + '_' + text[2];
                 var stockNeed = MQO_Expo_Button_Highlighter.parse_value(text[1]);
                 var stockOwn = MQO_Expo_Button_Highlighter.stock[name];
-                if (stockOwn < stockNeed) {
-                    jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-error");
+                if (stockOwn < (stockNeed * this.expo_count)) {
+                    jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-secondary");
                 }
-                if (stockOwn < (stockNeed * 4)) {
-                    jQuery(this).unbind('click');
+                if (stockOwn < stockNeed) {
+                    jQuery(this).removeClass("ui-state-secondary").addClass("ui-state-error").unbind('click');
                 }
             }
         });
