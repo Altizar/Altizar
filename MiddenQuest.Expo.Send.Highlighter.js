@@ -78,7 +78,7 @@ var MQO_Expo_Button_Highlighter = {
     parseStock: function () {
         this.stock.Ore_1 = this.getValue('T1OreDesc');
         this.stock.Ore_2 = this.getValue('T2OreDesc');
-        this.stock.ORe_3 = this.getValue('T3OreDesc');
+        this.stock.Ore_3 = this.getValue('T3OreDesc');
         this.stock.Ore_4 = this.getValue('T4OreDesc');
         this.stock.Ore_5 = this.getValue('T5OreDesc');
         this.stock.Plant_1 = this.getValue('T1GatherDesc');
