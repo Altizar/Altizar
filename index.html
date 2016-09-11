@@ -15,8 +15,14 @@
         <h1>My Scripts</h1>
         <div><a href="MiddenQuest.Inventory.Tier.Namer.js">MidenQuest - Item Tier Namer</a></div>
         <div><a href="MiddenQuest.Expo.Tracker.js">MidenQuest - Expo Tracker</a></div>
+        <div><a href="MiddenQuest.Expo.Send.Highlighter.js">MidenQuest - Expo Send Highlighter</a></div>
         <div><a href="MiddenQuest.Market.Tracker.js">MidenQuest - Market Tracker</a></div>
         <div id="messageData"></div>
+        <div>
+            <div onclick="MQO_Exp_Upgrades.start();
+                    jQuery(this).css('display', 'none')">Generate Expo Tables
+            </div>
+        </div>
         <div>
             <h3>Expo Upgrade Benifits</h3>
             <!-- Nav tabs -->
@@ -48,10 +54,5 @@
 
         </div>
     </body>
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            MQO_Exp_Upgrades.start();
-        });
-    </script>
 </html>
 
