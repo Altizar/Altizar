@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.2
+// @version      0.3
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -85,7 +85,7 @@ var MQO_Expo_Button_Highlighter = {
         this.stock.Plant_2 = this.getValue('T2GatherDesc');
         this.stock.Plant_3 = this.getValue('T3GatherDesc');
         this.stock.Plant_4 = this.getValue('T4GatherDesc');
-        this.stock.Plants_5 = this.getValue('T5GatherDesc');
+        this.stock.Plant_5 = this.getValue('T5GatherDesc');
         this.stock.Wood_1 = this.getValue('T1WoodDesc');
         this.stock.Wood_2 = this.getValue('T2WoodDesc');
         this.stock.Wood_3 = this.getValue('T3WoodDesc');
