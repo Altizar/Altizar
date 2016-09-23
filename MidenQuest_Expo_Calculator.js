@@ -443,25 +443,25 @@ var MQO_Expo_Calc = {
         needRes["res_total_cost"] = needRes["res_total_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_total_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_total_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_total_4"] * this.lowestPrice(this.expo_tiers[3]);
         needRes["res_gtotal_cost"] = needRes["res_gtotal_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_gtotal_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_gtotal_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_gtotal_4"] * this.lowestPrice(this.expo_tiers[3]);
 
-        jQuery('#res_short_cost').text(needRes["res_short_cost"]);
+        jQuery('#res_short_cost').text(this.numberWithCommas(needRes["res_short_cost"]));
         jQuery('#res_short_1').text(needRes["res_short_1"]);
         jQuery('#res_short_2').text(needRes["res_short_2"]);
         jQuery('#res_short_3').text(needRes["res_short_3"]);
         jQuery('#res_short_4').text(needRes["res_short_4"]);
 
-        jQuery('#res_long_cost').text(needRes["res_long_cost"]);
+        jQuery('#res_long_cost').text(this.numberWithCommas(needRes["res_long_cost"]));
         jQuery('#res_long_1').text(needRes["res_long_1"]);
         jQuery('#res_long_2').text(needRes["res_long_2"]);
         jQuery('#res_long_3').text(needRes["res_long_3"]);
         jQuery('#res_long_4').text(needRes["res_long_4"]);
 
-        jQuery('#res_total_cost').text(needRes["res_total_cost"]);
+        jQuery('#res_total_cost').text(this.numberWithCommas(needRes["res_total_cost"]));
         jQuery('#res_total_1').text(needRes["res_total_1"]);
         jQuery('#res_total_2').text(needRes["res_total_2"]);
         jQuery('#res_total_3').text(needRes["res_total_3"]);
         jQuery('#res_total_4').text(needRes["res_total_4"]);
 
-        jQuery('#res_gtotal_cost').text(needRes["res_gtotal_cost"]);
+        jQuery('#res_gtotal_cost').text(this.numberWithCommas(needRes["res_gtotal_cost"]));
         jQuery('#res_gtotal_1').text(needRes["res_gtotal_1"]);
         jQuery('#res_gtotal_2').text(needRes["res_gtotal_2"]);
         jQuery('#res_gtotal_3').text(needRes["res_gtotal_3"]);
