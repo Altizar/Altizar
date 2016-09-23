@@ -16,8 +16,7 @@ var MQO_Expo_Calc = {
         key_level: 0,
         orb_level: 0,
         scroll_level: 0,
-        key_level: 0,
-                time_level: 0,
+        time_level: 0,
         king_inns: 31,
         min_expo: 1,
         expo_slots: 4,
@@ -75,7 +74,7 @@ var MQO_Expo_Calc = {
         rez_fish_2: 0,
         rez_fish_3: 0,
         rez_fish_4: 0,
-        rez_fish_5: 0,
+        rez_fish_5: 0
     },
     logText: function (text) {
         console.log(text);
@@ -436,37 +435,36 @@ var MQO_Expo_Calc = {
             if (needRes[key] < 0) {
                 needRes[key] = 0;
             }
-
-            needRes["res_short_cost"] = needRes["res_short_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_short_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_short_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_short_4"] * this.lowestPrice(this.expo_tiers[3]);
-            needRes["res_long_cost"] = needRes["res_long_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_long_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_long_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_long_4"] * this.lowestPrice(this.expo_tiers[3]);
-            needRes["res_total_cost"] = needRes["res_total_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_total_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_total_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_total_4"] * this.lowestPrice(this.expo_tiers[3]);
-            needRes["res_gtotal_cost"] = needRes["res_gtotal_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_gtotal_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_gtotal_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_gtotal_4"] * this.lowestPrice(this.expo_tiers[3]);
-
-            jQuery('#res_short_cost').text(needRes["res_short_cost"]);
-            jQuery('#res_short_1').text(needRes["res_short_1"]);
-            jQuery('#res_short_2').text(needRes["res_short_2"]);
-            jQuery('#res_short_3').text(needRes["res_short_3"]);
-            jQuery('#res_short_4').text(needRes["res_short_4"]);
-
-            jQuery('#res_long_cost').text(needRes["res_long_cost"]);
-            jQuery('#res_long_1').text(needRes["res_long_1"]);
-            jQuery('#res_long_2').text(needRes["res_long_2"]);
-            jQuery('#res_long_3').text(needRes["res_long_3"]);
-            jQuery('#res_long_4').text(needRes["res_long_4"]);
-
-            jQuery('#res_total_cost').text(needRes["res_total_cost"]);
-            jQuery('#res_total_1').text(needRes["res_total_1"]);
-            jQuery('#res_total_2').text(needRes["res_total_2"]);
-            jQuery('#res_total_3').text(needRes["res_total_3"]);
-            jQuery('#res_total_4').text(needRes["res_total_4"]);
-
-            jQuery('#res_gtotal_cost').text(needRes["res_gtotal_cost"]);
-            jQuery('#res_gtotal_1').text(needRes["res_gtotal_1"]);
-            jQuery('#res_gtotal_2').text(needRes["res_gtotal_2"]);
-            jQuery('#res_gtotal_3').text(needRes["res_gtotal_3"]);
-            jQuery('#res_gtotal_4').text(needRes["res_gtotal_4"]);
-
         }
+
+        needRes["res_short_cost"] = needRes["res_short_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_short_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_short_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_short_4"] * this.lowestPrice(this.expo_tiers[3]);
+        needRes["res_long_cost"] = needRes["res_long_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_long_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_long_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_long_4"] * this.lowestPrice(this.expo_tiers[3]);
+        needRes["res_total_cost"] = needRes["res_total_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_total_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_total_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_total_4"] * this.lowestPrice(this.expo_tiers[3]);
+        needRes["res_gtotal_cost"] = needRes["res_gtotal_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_gtotal_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_gtotal_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_gtotal_4"] * this.lowestPrice(this.expo_tiers[3]);
+
+        jQuery('#res_short_cost').text(needRes["res_short_cost"]);
+        jQuery('#res_short_1').text(needRes["res_short_1"]);
+        jQuery('#res_short_2').text(needRes["res_short_2"]);
+        jQuery('#res_short_3').text(needRes["res_short_3"]);
+        jQuery('#res_short_4').text(needRes["res_short_4"]);
+
+        jQuery('#res_long_cost').text(needRes["res_long_cost"]);
+        jQuery('#res_long_1').text(needRes["res_long_1"]);
+        jQuery('#res_long_2').text(needRes["res_long_2"]);
+        jQuery('#res_long_3').text(needRes["res_long_3"]);
+        jQuery('#res_long_4').text(needRes["res_long_4"]);
+
+        jQuery('#res_total_cost').text(needRes["res_total_cost"]);
+        jQuery('#res_total_1').text(needRes["res_total_1"]);
+        jQuery('#res_total_2').text(needRes["res_total_2"]);
+        jQuery('#res_total_3').text(needRes["res_total_3"]);
+        jQuery('#res_total_4').text(needRes["res_total_4"]);
+
+        jQuery('#res_gtotal_cost').text(needRes["res_gtotal_cost"]);
+        jQuery('#res_gtotal_1').text(needRes["res_gtotal_1"]);
+        jQuery('#res_gtotal_2').text(needRes["res_gtotal_2"]);
+        jQuery('#res_gtotal_3').text(needRes["res_gtotal_3"]);
+        jQuery('#res_gtotal_4').text(needRes["res_gtotal_4"]);
     },
     lowestPrice: function (tier) {
         return Math.min(this.prices['ore_' + tier], this.prices['plants_' + tier], this.prices['wood_' + tier], this.prices['fish_' + tier]);
@@ -508,6 +506,12 @@ var MQO_Expo_Calc = {
             "order": [
                 [5, "desc"]
             ]
+        });
+        jQuery('#editable').on('click', function () {
+            jQuery(this).html("");
+        });
+        jQuery('#editable_2').on('click', function () {
+            jQuery(this).html("");
         });
     },
     doWork: function () {
