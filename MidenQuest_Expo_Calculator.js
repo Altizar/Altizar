@@ -416,22 +416,22 @@ var MQO_Expo_Calc = {
         jQuery('#res_short_name').text(this.best_short.name);
         jQuery('#res_long_name').text(best_long.name);
         var needRes = {};
-        needRes["res_short_1"] = this.best_short.res_1 * this.user_input.short_run - this.resources['rez_' + res_type_1];
-        needRes["res_short_2"] = this.best_short.res_2 * this.user_input.short_run - this.resources['rez_' + res_type_2];
-        needRes["res_short_3"] = this.best_short.res_3 * this.user_input.short_run - this.resources['rez_' + res_type_3];
-        needRes["res_short_4"] = this.best_short.res_4 * this.user_input.short_run - this.resources['rez_' + res_type_4];
-        needRes["res_long_1"] = best_long.res_1 * this.user_input.long_run - this.resources['rez_' + res_type_1];
-        needRes["res_long_2"] = best_long.res_2 * this.user_input.long_run - this.resources['rez_' + res_type_2];
-        needRes["res_long_3"] = best_long.res_3 * this.user_input.long_run - this.resources['rez_' + res_type_3];
-        needRes["res_long_4"] = best_long.res_4 * this.user_input.long_run - this.resources['rez_' + res_type_4];
-        needRes["res_total_1"] = this.best_short.res_1 * this.user_input.short_run + best_long.res_1 * this.user_input.long_run - this.resources['rez_' + res_type_1];
-        needRes["res_total_2"] = this.best_short.res_2 * this.user_input.short_run + best_long.res_2 * this.user_input.long_run - this.resources['rez_' + res_type_2];
-        needRes["res_total_3"] = this.best_short.res_3 * this.user_input.short_run + best_long.res_3 * this.user_input.long_run - this.resources['rez_' + res_type_3];
-        needRes["res_total_4"] = this.best_short.res_4 * this.user_input.short_run + best_long.res_4 * this.user_input.long_run - this.resources['rez_' + res_type_4];
-        needRes["res_gtotal_1"] = this.best_short.res_1 * this.user_input.short_run + best_long.res_1 * this.user_input.long_run;
-        needRes["res_gtotal_2"] = this.best_short.res_2 * this.user_input.short_run + best_long.res_2 * this.user_input.long_run;
-        needRes["res_gtotal_3"] = this.best_short.res_3 * this.user_input.short_run + best_long.res_3 * this.user_input.long_run;
-        needRes["res_gtotal_4"] = this.best_short.res_4 * this.user_input.short_run + best_long.res_4 * this.user_input.long_run;
+        needRes["res_short_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_1];
+        needRes["res_short_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_2];
+        needRes["res_short_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_3];
+        needRes["res_short_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_4];
+        needRes["res_long_1"] = best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_1];
+        needRes["res_long_2"] = best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_2];
+        needRes["res_long_3"] = best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_3];
+        needRes["res_long_4"] = best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_4];
+        needRes["res_total_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_1];
+        needRes["res_total_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_2];
+        needRes["res_total_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_3];
+        needRes["res_total_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_4];
+        needRes["res_gtotal_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_gtotal_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_gtotal_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_gtotal_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run;
         for (var key in needRes) {
             if (needRes[key] < 0) {
                 needRes[key] = 0;
