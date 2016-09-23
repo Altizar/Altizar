@@ -354,6 +354,9 @@ var MQO_Expo_Calc = {
 
             this.expos.push(expo);
         }
+        this.table.clear();
+        this.table_2.clear();
+        this.table_3.clear();
         var slice = [];
         this.expos.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
@@ -364,7 +367,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_short = expo;
             }
-            this.table.row.add([expo['name'], expo['time'], expo['cost'], this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
         }
         this.expos.sort(function (a, b) {
             return b.profit - a.profit;
@@ -375,7 +378,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_long = expo;
             }
-            this.table_2.row.add([expo['name'], expo['time'], expo['cost'], this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table_2.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
         }
         this.expos.sort(function (a, b) {
             if (b.time === a.time) {
@@ -392,7 +395,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_long_2 = expo;
             }
-            this.table_3.row.add([expo['name'], expo['time'], expo['cost'], this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table_3.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
         }
         this.table.draw();
         this.table_2.draw();
