@@ -1,0 +1,26 @@
+.ritz .waffle {
+    border-bottom: 1px SOLID transparent;
+    background-color: lightblue;
+    color: #000000;
+    font-family: 'Arial';
+    font-size: 10pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0px 3px 0px 3px;
+}
+.ritz .waffle .title {
+    font-weight: bold;
+    background-color: lightblue;
+}
+.price, .resources, .multi {
+    padding: 5px;
+    text-align: right;
+    background-color: #cccccc;
+}
+.details {
+    background-color: #cccccc;
+}
+.tier, .best_res_1, .best_res_2, .best_res_3, .best_res_4 {
+    text-align: center;
+}
