@@ -300,6 +300,7 @@ var MQO_Expo_Calc = {
         this.save();
     },
     buildExpos: function () {
+        this.expos = [];
         for (var expoLevel in expoBase) {
             // var expoLevel = expoBase[expoLevel];
             var levels = expoLevel.match(/([0-9]+)/g);
@@ -401,7 +402,7 @@ var MQO_Expo_Calc = {
         this.table_3.draw();
         this.calcuateNeededResources();
         var end = Date.now();
-        console.log((end - start));
+//        console.log((end - start));
     },
     calcuateNeededResources: function () {
         var best_long = this.best_long;
