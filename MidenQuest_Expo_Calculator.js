@@ -259,7 +259,7 @@ var MQO_Expo_Calc = {
         this.save();
     },
     parse_value: function (text) {
-        var num = parseInt(text);
+        var num = parseFloat(text);
         if (text.indexOf('k') !== -1) {
             num *= 1e3;
         }
