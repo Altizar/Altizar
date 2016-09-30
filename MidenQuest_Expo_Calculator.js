@@ -266,7 +266,7 @@ var MQO_Expo_Calc = {
         if (text.indexOf('m') !== -1) {
             num *= 1e6;
         }
-        return num;
+        return Math.round(num);
     },
     parse_resources: function () {
         if (jQuery('#T1Ore', '#resources_modal').length === 0) {
