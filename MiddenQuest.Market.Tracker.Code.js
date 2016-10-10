@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Market Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.3
+// @version      0.4
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @require      https://code.highcharts.com/highcharts.js
@@ -108,7 +108,7 @@ MQO_MarketPricesTracker = {
     },
     drawChart: function () {
         if (jQuery('#container').length === 0) {
-            jQuery('body').append('<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>');
+            jQuery('body').append('<div id="container" style="min-width: 310px; height: 1400px; margin: 0 auto"></div>');
         }
         graphData = [];
         for (var key in MQO_MarketPricesTracker.prices) {
@@ -117,7 +117,7 @@ MQO_MarketPricesTracker = {
                 data: []
             });
             for (var timestamp in MQO_MarketPricesTracker.prices[key]) {
-                graphData[graphData.length - 1].data.push([timestamp * 10000, MQO_MarketPricesTracker.prices[key][timestamp]]);
+                graphData[graphData.length - 1].data.push([timestamp * 1000, MQO_MarketPricesTracker.prices[key][timestamp]]);
             }
         }
         jQuery('#container').highcharts({
