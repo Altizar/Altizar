@@ -108,7 +108,7 @@ MQO_MarketPricesTracker = {
     },
     drawChart: function () {
         if (jQuery('#container').length === 0) {
-            jQuery('body').append('<div id="container" style="min-width: 310px; height: 1400px; margin: 0 auto"></div>');
+            jQuery('body').append('<div id="container" style="min-width: 310px; height: 960px; margin: 0 auto"></div>');
         }
         graphData = [];
         for (var key in MQO_MarketPricesTracker.prices) {
