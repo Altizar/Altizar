@@ -13,7 +13,7 @@
     font-weight: bold;
     background-color: lightblue;
 }
-.price, .resources, .multi {
+.price, .resources, .multi, .user_input {
     padding: 5px;
     text-align: right;
     background-color: #cccccc;

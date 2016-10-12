@@ -10,6 +10,9 @@ var MQO_Expo_Calc = {
     best_long_2: null,
     expo_tiers: {},
     resource_names: ['Ore', 'Plants', 'Wood', 'Fish'],
+    key_relic: 38.8,
+    key_gem: 0.27,
+    key_magic: 587.5,
     user_input: {
         gem_level: 0,
         relic_level: 0,
@@ -19,11 +22,12 @@ var MQO_Expo_Calc = {
         time_level: 0,
         king_inns: 31,
         min_expo: 1,
+        min_time: 60,
         expo_slots: 4,
         adv_level: 20,
         tiers: 5432,
-        long_run: 0,
-        short_run: 0,
+        long_run: 1,
+        short_run: 6,
         long_type: 1
     },
     prices: {
@@ -181,10 +185,11 @@ var MQO_Expo_Calc = {
         };
     },
     update_prices: function () {
-        jQuery('.price').each(function () {
+        this.prices.keys = Math.floor(this.prices.gems * this.key_gem + this.prices.relics * this.key_relic + this.prices.magic * this.key_magic);
+        jQuery('input.price').each(function () {
             var id = jQuery(this).prop('id');
             if (MQO_Expo_Calc.prices[id] !== undefined) {
-                jQuery(this).text(MQO_Expo_Calc.numberWithCommas(MQO_Expo_Calc.prices[id]));
+                jQuery(this).val((MQO_Expo_Calc.prices[id]));
             }
         });
     },
@@ -192,7 +197,7 @@ var MQO_Expo_Calc = {
         jQuery('.resources').each(function () {
             var id = jQuery(this).prop('id');
             if (MQO_Expo_Calc.resources[id] !== undefined) {
-                jQuery(this).text(MQO_Expo_Calc.numberWithCommas(MQO_Expo_Calc.resources[id]));
+                jQuery(this).val((MQO_Expo_Calc.resources[id]));
             }
         });
         jQuery('.best_res_1').text("T" + MQO_Expo_Calc.expo_tiers[0]);
@@ -218,7 +223,6 @@ var MQO_Expo_Calc = {
         });
         // 52
         this.expo_tiers = this.user_input['tiers'].toString().match(/([0-9])/g);
-        this.buildExpos();
     },
     import_prices: function () {
         if (jQuery('#ShortcutRes1_1', '#price_modal').length === 0) {
@@ -255,8 +259,9 @@ var MQO_Expo_Calc = {
         this.prices.gems = this.parse_value(jQuery('#ShortcutRes5', '#price_modal').text());
         this.prices.orbs = this.parse_value(jQuery('#ShortcutRes6', '#price_modal').text());
         this.prices.scrolls = this.parse_value(jQuery('#ShortcutRes7', '#price_modal').text());
-        this.prices.keys = Math.floor(this.prices.gems * 0.27 + this.prices.relics * 38.8 + this.prices.magic * 587.5);
+        this.prices.keys = Math.floor(this.prices.gems * this.key_gem + this.prices.relics * this.key_relic + this.prices.magic * this.key_magic);
         this.save();
+        this.buildExpos();
     },
     parse_value: function (text) {
         var num = parseFloat(text);
@@ -298,8 +303,10 @@ var MQO_Expo_Calc = {
         this.resources.rez_fish_4 = this.parse_value(jQuery('#T4Fish', '#resources_modal').text());
         this.resources.rez_fish_5 = this.parse_value(jQuery('#T5Fish', '#resources_modal').text());
         this.save();
+        this.buildExpos();
     },
     buildExpos: function () {
+        var start = Date.now();
         this.expos = [];
         for (var expoLevel in expoBase) {
             // var expoLevel = expoBase[expoLevel];
@@ -322,6 +329,9 @@ var MQO_Expo_Calc = {
             expo['cost'] = expo['res_1_cost'] + expo['res_2_cost'] + expo['res_3_cost'] + expo['res_4_cost'] + 50000;
 
             expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.97, MQO_Expo_Calc.user_input.king_inns));
+            if (expo['time'] < this.user_input.min_time) {
+                continue;
+            }
             expo['hourly'] = (expo['time'] / 60);
             expo['key_max'] = expoCost['key'][expo['key_key']][MQO_Expo_Calc.user_input.key_level];
             expo['key_min'] = Math.floor(expo['key_max'] * 0.3);
@@ -347,6 +357,61 @@ var MQO_Expo_Calc = {
 
             expo['profit'] = expo['income'] - expo['cost'];
 
+            expo['gem_current'] = MQO_Expo_Calc.user_input.gem_level;
+            expo['gem_break'] = expoCost['gem'][expo['gem_key']].lastIndexOf(expoCost['gem'][expo['gem_key']][MQO_Expo_Calc.user_input.gem_level]) + 1;
+            if (expo['gem_break'] === -1 || expo['gem_break'] > 40) {
+                expo['gem_break'] = 'Never';
+                expo['gem_increase'] = 'Never';
+            } else {
+                expo['gem_increase'] = expoCost['gem'][expo['gem_key']][expo['gem_break']] - expoCost['gem'][expo['gem_key']][MQO_Expo_Calc.user_input.gem_level]
+            }
+
+
+            expo['relic_current'] = MQO_Expo_Calc.user_input.relic_level;
+            expo['relic_break'] = expoCost['relic'][expo['relic_key']].lastIndexOf(expoCost['relic'][expo['relic_key']][MQO_Expo_Calc.user_input.relic_level]) + 1;
+            if (expo['relic_break'] === -1 || expo['relic_break'] > 40) {
+                expo['relic_break'] = 'Never';
+                expo['relic_increase'] = 'Never';
+            } else {
+                expo['relic_increase'] = expoCost['relic'][expo['relic_key']][expo['relic_break']] - expoCost['relic'][expo['relic_key']][MQO_Expo_Calc.user_input.relic_level]
+            }
+
+            expo['orb_current'] = MQO_Expo_Calc.user_input.orb_level;
+            expo['orb_break'] = expoCost['orb'][expo['orb_key']].lastIndexOf(expoCost['orb'][expo['orb_key']][MQO_Expo_Calc.user_input.orb_level]) + 1;
+            if (expo['orb_break'] === -1 || expo['orb_break'] > 40) {
+                expo['orb_break'] = 'Never';
+                expo['orb_increase'] = 'Never';
+            } else {
+                expo['orb_increase'] = expoCost['orb'][expo['orb_key']][expo['orb_break']] - expoCost['orb'][expo['orb_key']][MQO_Expo_Calc.user_input.orb_level]
+            }
+
+            expo['scroll_current'] = MQO_Expo_Calc.user_input.scroll_level;
+            expo['scroll_break'] = expoCost['scroll'][expo['scroll_key']].lastIndexOf(expoCost['scroll'][expo['scroll_key']][MQO_Expo_Calc.user_input.scroll_level]) + 1;
+            if (expo['scroll_break'] === -1 || expo['scroll_break'] > 40) {
+                expo['scroll_break'] = 'Never';
+                expo['scroll_increase'] = 'Never';
+            } else {
+                expo['scroll_increase'] = expoCost['scroll'][expo['scroll_key']][expo['scroll_break']] - expoCost['scroll'][expo['scroll_key']][MQO_Expo_Calc.user_input.scroll_level]
+            }
+
+            expo['key_current'] = MQO_Expo_Calc.user_input.key_level;
+            expo['key_break'] = expoCost['key'][expo['key_key']].lastIndexOf(expoCost['key'][expo['key_key']][MQO_Expo_Calc.user_input.key_level]) + 1;
+            if (expo['key_break'] === -1 || expo['key_break'] > 40) {
+                expo['key_break'] = 'Never';
+                expo['key_increase'] = 'Never';
+            } else {
+                expo['key_increase'] = expoCost['key'][expo['key_key']][expo['key_break']] - expoCost['key'][expo['key_key']][MQO_Expo_Calc.user_input.key_level]
+            }
+
+            expo['time_current'] = MQO_Expo_Calc.user_input.time_level;
+            expo['time_break'] = expoCost['time'][expo['time_key']].lastIndexOf(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level]) + 1;
+            if (expo['time_break'] === -1 || expo['time_break'] > 40) {
+                expo['time_break'] = 'Never';
+                expo['time_increase'] = 'Never';
+            } else {
+                expo['time_increase'] = expoCost['time'][expo['time_key']][expo['time_break']] - expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level]
+            }
+
             if (expo['profit'] < 0) {
                 continue;
             }
@@ -367,7 +432,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_short = expo;
             }
-            this.table.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table.row.add(this.buildExpoRow(expo));
         }
         this.expos.sort(function (a, b) {
             return b.profit - a.profit;
@@ -378,7 +443,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_long = expo;
             }
-            this.table_2.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table_2.row.add(this.buildExpoRow(expo));
         }
         this.expos.sort(function (a, b) {
             if (b.time === a.time) {
@@ -395,7 +460,7 @@ var MQO_Expo_Calc = {
             if (i === 0) {
                 this.best_long_2 = expo;
             }
-            this.table_3.row.add([expo['name'], expo['time'], this.numberWithCommas(expo['cost']), this.numberWithCommas(expo['income']), this.numberWithCommas(Math.round(expo['profit'])), this.numberWithCommas(Math.round(expo['profit_hourly'])), expo['gem_average'], expo['relic_average'], expo['orb_average'], expo['scroll_average'], expo['res_1'], expo['res_2'], expo['res_3'], expo['res_4']]);
+            this.table_3.row.add(this.buildExpoRow(expo));
         }
         this.table.draw();
         this.table_2.draw();
@@ -403,6 +468,75 @@ var MQO_Expo_Calc = {
         this.calcuateNeededResources();
         var end = Date.now();
 //        console.log((end - start));
+    },
+    buildExpoRow: function (expo) {
+        return [
+            this.buildTableExtra(expo),
+            '<div class="btn tableExtra"><span class="glyphicon glyphicon-plus-sign"></span></div>',
+            expo['name'],
+            expo['time'],
+            this.numberWithCommas(expo['cost']),
+            this.numberWithCommas(expo['income']),
+            this.numberWithCommas(Math.round(expo['profit'])),
+            this.numberWithCommas(Math.round(expo['profit_hourly'])),
+            Math.round(expo['gem_average'] + this.key_gem * expo['key_average']) + " (" + Math.round((expo['gem_average'] + this.key_gem * expo['key_average']) / expo['time'] * 60) + ")",
+            Math.round(expo['relic_average'] + this.key_relic * expo['key_average']) + " (" + Math.round((expo['relic_average'] + this.key_relic * expo['key_average']) / expo['time'] * 60) + ")",
+            Math.round(expo['orb_average']) + " (" + Math.round((expo['orb_average']) / expo['time'] * 60) + ")",
+            Math.round(expo['scroll_average']) + " (" + Math.round((expo['scroll_average']) / expo['time'] * 60) + ")",
+            expo['res_1'],
+            expo['res_2'],
+            expo['res_3'],
+            expo['res_4']];
+    },
+    formatExtra: function (d) {
+        return d[0];
+    },
+    buildTableExtra: function (expo) {
+        // `d` is the original data object for the row
+        return '<table class="table alert alert-info col-md-12">' +
+                '<tr>' +
+                '<th>Item</th>' +
+                '<th>Current</th>' +
+                '<th>Next</th>' +
+                '<th>Increase</th>' +
+                '<th>Item</th>' +
+                '<th>Current</th>' +
+                '<th>Next</th>' +
+                '<th>Increase</th>' +
+                '<th>Item</th>' +
+                '<th>Current</th>' +
+                '<th>Next</th>' +
+                '<th>Increase</th>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Gem</td>' +
+                '<td>' + expo.gem_current + '</td>' +
+                '<td>' + expo.gem_break + '</td>' +
+                '<td>' + expo.gem_increase + '</td>' +
+                '<td>Relic</td>' +
+                '<td>' + expo.relic_current + '</td>' +
+                '<td>' + expo.relic_break + '</td>' +
+                '<td>' + expo.relic_increase + '</td>' +
+                '<td>Orb</td>' +
+                '<td>' + expo.orb_current + '</td>' +
+                '<td>' + expo.orb_break + '</td>' +
+                '<td>' + expo.orb_increase + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Scroll</td>' +
+                '<td>' + expo.scroll_current + '</td>' +
+                '<td>' + expo.scroll_break + '</td>' +
+                '<td>' + expo.scroll_increase + '</td>' +
+                '<td>Key</td>' +
+                '<td>' + expo.key_current + '</td>' +
+                '<td>' + expo.key_break + '</td>' +
+                '<td>' + expo.key_increase + '</td>' +
+                '<td>Time</td>' +
+                '<td>' + expo.time_current + '</td>' +
+                '<td>' + expo.time_break + '</td>' +
+                '<td>' + expo.time_increase + '</td>' +
+                '</tr>' +
+                '</table>';
     },
     calcuateNeededResources: function () {
         var best_long = this.best_long;
@@ -492,21 +626,104 @@ var MQO_Expo_Calc = {
                 MQO_Expo_Calc.user_input[id] = val;
             }
             MQO_Expo_Calc.save();
+            MQO_Expo_Calc.buildExpos();
+        });
+        jQuery('.price').on('change', function () {
+            var id = jQuery(this).prop('id');
+            if (MQO_Expo_Calc.prices[id] !== undefined) {
+                var val = parseInt(jQuery(this).val());
+                if (isNaN(val)) {
+                    jQuery(this).val(MQO_Expo_Calc.prices[id]);
+                    return false;
+                }
+                MQO_Expo_Calc.prices[id] = val;
+            }
+            MQO_Expo_Calc.save();
+            MQO_Expo_Calc.buildExpos();
+        });
+        jQuery('.resources').on('change', function () {
+            var id = jQuery(this).prop('id');
+            if (MQO_Expo_Calc.resources[id] !== undefined) {
+                var val = parseInt(jQuery(this).val());
+                if (isNaN(val)) {
+                    jQuery(this).val(MQO_Expo_Calc.resources[id]);
+                    return false;
+                }
+                MQO_Expo_Calc.resources[id] = val;
+            }
+            MQO_Expo_Calc.save();
         });
         this.table = jQuery('#expo_table').DataTable({
             "order": [
                 [5, "desc"]
+            ],
+            "processing": true,
+            "bDeferRender": true,
+            "columnDefs": [
+                {"visible": false, "targets": [0]}
             ]
+        });
+        jQuery('#expo_table tbody').on('click', 'td .tableExtra', function () {
+            var tr = $(this).closest('tr');
+            var row = MQO_Expo_Calc.table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(MQO_Expo_Calc.formatExtra(row.data())).show();
+                tr.addClass('shown');
+            }
         });
         this.table_2 = jQuery('#expo_table_2').DataTable({
             "order": [
                 [4, "desc"]
+            ],
+            "processing": true,
+            "bDeferRender": true,
+            "columnDefs": [
+                {"visible": false, "targets": [0]}
             ]
+        });
+        jQuery('#expo_table_2 tbody').on('click', 'td .tableExtra', function () {
+            var tr = $(this).closest('tr');
+            var row = MQO_Expo_Calc.table2.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(MQO_Expo_Calc.formatExtra(row.data())).show();
+                tr.addClass('shown');
+            }
         });
         this.table_3 = jQuery('#expo_table_3').DataTable({
             "order": [
                 [5, "desc"]
+            ],
+            "processing": true,
+            "bDeferRender": true,
+            "columnDefs": [
+                {"visible": false, "targets": [0]}
             ]
+        });
+        jQuery('#expo_table_3 tbody').on('click', 'td .tableExtra', function () {
+            var tr = $(this).closest('tr');
+            var row = MQO_Expo_Calc.table3.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(MQO_Expo_Calc.formatExtra(row.data())).show();
+                tr.addClass('shown');
+            }
         });
         jQuery('#editable').on('click', function () {
             jQuery(this).html("");
@@ -522,6 +739,7 @@ var MQO_Expo_Calc = {
         MQO_Expo_Calc.update_prices();
         MQO_Expo_Calc.update_inputs();
         MQO_Expo_Calc.update_resources();
+        MQO_Expo_Calc.buildExpos();
     }
 };
 MQO_Expo_Calc.run();
