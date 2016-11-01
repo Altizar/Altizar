@@ -328,7 +328,7 @@ var MQO_Expo_Calc = {
 
             expo['cost'] = expo['res_1_cost'] + expo['res_2_cost'] + expo['res_3_cost'] + expo['res_4_cost'] + 50000;
 
-            expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.98, MQO_Expo_Calc.user_input.king_inns));
+            expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.975, MQO_Expo_Calc.user_input.king_inns));
             if (expo['time'] < this.user_input.min_time) {
                 continue;
             }
