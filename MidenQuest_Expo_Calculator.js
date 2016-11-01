@@ -689,7 +689,7 @@ var MQO_Expo_Calc = {
         });
         jQuery('#expo_table_2 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
-            var row = MQO_Expo_Calc.table2.row(tr);
+            var row = MQO_Expo_Calc.table_2.row(tr);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
@@ -713,7 +713,7 @@ var MQO_Expo_Calc = {
         });
         jQuery('#expo_table_3 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
-            var row = MQO_Expo_Calc.table3.row(tr);
+            var row = MQO_Expo_Calc.table_3.row(tr);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
