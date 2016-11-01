@@ -426,7 +426,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -437,7 +437,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit - a.profit;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -451,7 +451,7 @@ var MQO_Expo_Calc = {
             }
             return b.time - a.time;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         slice.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
@@ -655,7 +655,7 @@ var MQO_Expo_Calc = {
         });
         this.table = jQuery('#expo_table').DataTable({
             "order": [
-                [5, "desc"]
+                [7, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
@@ -679,7 +679,7 @@ var MQO_Expo_Calc = {
         });
         this.table_2 = jQuery('#expo_table_2').DataTable({
             "order": [
-                [4, "desc"]
+                [6, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
@@ -703,7 +703,7 @@ var MQO_Expo_Calc = {
         });
         this.table_3 = jQuery('#expo_table_3').DataTable({
             "order": [
-                [5, "desc"]
+                [7, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
