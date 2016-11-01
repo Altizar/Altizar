@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.6
+// @version      0.6.1
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -62,7 +62,6 @@ function updateExpoTimeout() {
             updateExpoTimeoutEvent = 0;
         }
         message = "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getExpedition.aspx?null='); fightengaged = 0;\">Finished</div>";
-        message = "";
         expo_finished = 0;
     }
     jQuery('#expo_timer').html(message);
