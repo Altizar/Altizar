@@ -274,11 +274,11 @@ var MQO_Expo_Calc = {
         return Math.round(num);
     },
     parse_resources: function () {
-        if (jQuery('#T1Ore', '#resources_modal').length === 0) {
+        if (jQuery('#T1Ore', '#price_modal').length === 0) {
             MQO_Expo_Calc.logText("missing resources");
             return false;
         }
-        if (jQuery('#T2Ore', '#resources_modal').length === 0) {
+        if (jQuery('#T2Ore', '#price_modal').length === 0) {
             MQO_Expo_Calc.logText("missing resources");
             return false;
         }
