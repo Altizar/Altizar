@@ -328,7 +328,7 @@ var MQO_Expo_Calc = {
 
             expo['cost'] = expo['res_1_cost'] + expo['res_2_cost'] + expo['res_3_cost'] + expo['res_4_cost'] + 50000;
 
-            expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.97, MQO_Expo_Calc.user_input.king_inns));
+            expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.975, MQO_Expo_Calc.user_input.king_inns));
             if (expo['time'] < this.user_input.min_time) {
                 continue;
             }
@@ -426,7 +426,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -437,7 +437,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit - a.profit;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -451,7 +451,7 @@ var MQO_Expo_Calc = {
             }
             return b.time - a.time;
         });
-        slice = this.expos.slice(0, 10);
+        slice = this.expos.slice(0, 100);
         slice.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
@@ -655,7 +655,7 @@ var MQO_Expo_Calc = {
         });
         this.table = jQuery('#expo_table').DataTable({
             "order": [
-                [5, "desc"]
+                [7, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
@@ -679,7 +679,7 @@ var MQO_Expo_Calc = {
         });
         this.table_2 = jQuery('#expo_table_2').DataTable({
             "order": [
-                [4, "desc"]
+                [6, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
@@ -689,7 +689,7 @@ var MQO_Expo_Calc = {
         });
         jQuery('#expo_table_2 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
-            var row = MQO_Expo_Calc.table2.row(tr);
+            var row = MQO_Expo_Calc.table_2.row(tr);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
@@ -703,7 +703,7 @@ var MQO_Expo_Calc = {
         });
         this.table_3 = jQuery('#expo_table_3').DataTable({
             "order": [
-                [5, "desc"]
+                [7, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
@@ -713,7 +713,7 @@ var MQO_Expo_Calc = {
         });
         jQuery('#expo_table_3 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
-            var row = MQO_Expo_Calc.table3.row(tr);
+            var row = MQO_Expo_Calc.table_3.row(tr);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
