@@ -33,8 +33,8 @@
                         </td>
                         <td class="multi" id="gem_level_multi">0</td>
                         <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="gem_level" id="gem_level" value=""></td>
-                        <td class="title">
-                            <div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#price_modal">Market</div>
+                        <td class="title" rowspan="2">
+                            <div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#price_modal">Market<br/>Resources<br/>Easy Input</div>
                         </td>
                     </tr>
                     <tr style='height:19px;'>
@@ -45,9 +45,9 @@
                         </td>
                         <td class="multi" id="relic_level_multi">0</td>
                         <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="relic_level" id="relic_level" value=""></td>
-                        <td class="title">
-                            <div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#resources_modal">Resources</div>
-                        </td>
+                        <!--<td class="title">-->
+                        <!--<div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#resources_modal">Resources</div>-->
+                        <!--</td>-->
                     </tr>
                     <tr style='height:19px;'>
                         <td class="title">Orb</td>
@@ -354,7 +354,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="MQO_Expo_Calc.import_prices();">Save changes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="MQO_Expo_Calc.import_prices();MQO_Expo_Calc.parse_resources();">Save changes</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->

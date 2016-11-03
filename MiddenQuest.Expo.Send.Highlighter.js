@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.4
+// @version      0.1
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -13,7 +13,6 @@
 
 var MQO_Expo_Button_Highlighter = {
     target: document.getElementById('ContentLoad'),
-    expo_count: 4,
     config: {
         attributes: true,
         childList: true,
@@ -66,10 +65,11 @@ var MQO_Expo_Button_Highlighter = {
                 var name = text[3] + '_' + text[2];
                 var stockNeed = MQO_Expo_Button_Highlighter.parse_value(text[1]);
                 var stockOwn = MQO_Expo_Button_Highlighter.stock[name];
-                if (stockOwn < (stockNeed * MQO_Expo_Button_Highlighter.expo_count)) {
+                if (stockOwn < (stockNeed * 4)) {
                     jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-secondary");
-                } else if (stockOwn < stockNeed) {
-                    jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-error").unbind('click');
+                }
+                if (stockOwn < stockNeed) {
+                    jQuery(this).removeClass("ui-state-secondary").addClass("ui-state-error").unbind('click');
                 }
             }
         });
