@@ -79,7 +79,6 @@ var MQO_Expo_Button_Highlighter = {
             var text = jQuery(this).text().match(/([^T]*)[T]([0-5])[ ](\w*)/);
             if (text !== null) {
                 var best = MQO_Expo_Button_Highlighter.getBest('T' + text[2]);
-                console.log(best);
                 var name = text[3] + '_' + text[2];
                 var stockNeed = MQO_Expo_Button_Highlighter.parse_value(text[1]);
                 var stockOwn = MQO_Expo_Button_Highlighter.stock[name];
