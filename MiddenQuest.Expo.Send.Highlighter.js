@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.2
+// @version      0.4
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -89,7 +89,7 @@ var MQO_Expo_Button_Highlighter = {
                     jQuery(this).removeClass("ui-state-secondary").addClass("ui-state-error").unbind('click');
                 }
                 if (text[3] === best) {
-                    jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-highlight");
+                    jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-green");
                 }
             }
         });
@@ -145,6 +145,21 @@ var MQO_Expo_Button_Highlighter = {
             });
         });
         observer.observe(this.target, this.config);
+        this.addGlobalStyle('.ui-state-green { border: 1px solid #45930b;background: #4ca20b;font-weight: normal;color: #ffffff; }');
+        this.addGlobalStyle('.ui-state-green:hover { border: 1px solid #8bd83b;background: #4eb305;font-weight: normal;color: #ffffff; }');
+    },
+    addGlobalStyle: function (css) {
+        var head, style;
+        head = document.getElementsByTagName('head')[0];
+        if (!head) {
+            return;
+        }
+
+        style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = css;
+        head.appendChild(style);
     }
 };
 MQO_Expo_Button_Highlighter.start();
+MQO_Expo_Button_Highlighter.updateButtons();
