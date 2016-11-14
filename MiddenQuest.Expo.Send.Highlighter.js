@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.4
+// @version      0.6
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
 // @include      http://midenquest.com/Game.aspx
-// @downloadURL  https://altizar.github.io/MiddenQuest.Expo.Button.Highlighter.js
-// @updateURL    https://altizar.github.io/MiddenQuest.Expo.Button.Highlighter.js
+// @downloadURL  https://altizar.github.io/MiddenQuest.Expo.Send.Highlighter.js
+// @updateURL    https://altizar.github.io/MiddenQuest.Expo.Send.Highlighter.js
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==/*
 
@@ -18,12 +18,14 @@ var MQO_Expo_Button_Highlighter = {
         childList: true,
         characterData: true
     },
-    best: {
+    rawBest: {
         T1: {name: 'None', value: 0},
         T2: {name: 'None', value: 0},
         T3: {name: 'None', value: 0},
         T4: {name: 'None', value: 0},
         T5: {name: 'None', value: 0}
+    },
+    best: {
     },
     getBest: function (tier) {
         return this.best[tier].name;
@@ -74,6 +76,7 @@ var MQO_Expo_Button_Highlighter = {
         if (hasMarket === 0) {
             return;
         }
+        this.best = this.rawBest;
         this.parseStock();
         jQuery('#ContentLoad button').each(function () {
             var text = jQuery(this).text().match(/([^T]*)[T]([0-5])[ ](\w*)/);
@@ -90,6 +93,9 @@ var MQO_Expo_Button_Highlighter = {
                 }
                 if (text[3] === best) {
                     jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-green");
+                    jQuery(this).parent().prepend('<hr>');
+                    jQuery(this).parent().prepend(jQuery(this).clone());
+                    jQuery(this).parent().parent().parent().css('height', 'inherit');
                 }
             }
         });
@@ -154,7 +160,6 @@ var MQO_Expo_Button_Highlighter = {
         if (!head) {
             return;
         }
-
         style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = css;
