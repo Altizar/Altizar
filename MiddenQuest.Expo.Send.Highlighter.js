@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Send Highlighter
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.6
+// @version      0.7
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -94,7 +94,7 @@ var MQO_Expo_Button_Highlighter = {
                 if (text[3] === best) {
                     jQuery(this).removeClass("ui-state-default").removeClass("darkBtn").addClass("ui-state-green");
                     jQuery(this).parent().prepend('<hr>');
-                    jQuery(this).parent().prepend(jQuery(this).clone());
+                    jQuery(this).parent().prepend(jQuery(this).clone(true));
                     jQuery(this).parent().parent().parent().css('height', 'inherit');
                 }
             }
