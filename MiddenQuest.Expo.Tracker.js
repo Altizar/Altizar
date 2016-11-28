@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.7.4
+// @version      0.7.5
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -156,15 +156,21 @@ var MiddenQuest_Expo_Tracker = {
         }
     },
     setExpoNavigateTimeout: function () {
-        var time = jQuery('#ContentLoad > div:nth-child(2) > div > div > div > div > div > div:last-child > div:last-child').text().trim().match('[0-9]*')[0];
-        var curTime = jQuery.now();
-        if (time !== "") {
-            MiddenQuest_Expo_Tracker.expo_navigate = (parseInt(time) * 60 * 1000) + curTime;
-            MiddenQuest_Expo_Tracker.updateExpoNavigateTimeout();
-            if (MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent === 0) {
-                MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent = setInterval(function () {
-                    MiddenQuest_Expo_Tracker.updateExpoNavigateTimeout();
-                }, 15000);
+        var text = jQuery('#ContentLoad > div:nth-child(2) > div > div > div > div > div > div:last-child > div:last-child').text().trim();
+        if (text === "You have no pending expedition") {
+            MiddenQuest_Expo_Tracker.message_2 = "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getNavigation.aspx?null='); fightengaged = 0;\">No Expo</div>";
+            jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
+        } else {
+            var time = text.match('[0-9]*')[0];
+            var curTime = jQuery.now();
+            if (time !== "") {
+                MiddenQuest_Expo_Tracker.expo_navigate = (parseInt(time) * 60 * 1000) + curTime;
+                MiddenQuest_Expo_Tracker.updateExpoNavigateTimeout();
+                if (MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent === 0) {
+                    MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent = setInterval(function () {
+                        MiddenQuest_Expo_Tracker.updateExpoNavigateTimeout();
+                    }, 15000);
+                }
             }
         }
     },
@@ -216,6 +222,7 @@ var MiddenQuest_Expo_Tracker = {
         jQuery('#TopScreen').prepend('<div id="expo_timer_parent" style="position: absolute;left: -120px;top: 20px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
         jQuery('#TopScreen').prepend('<div id="expo_copy" style="position: absolute;left: -120px;top: 120px;color: black;" class=""><button class="darkBtn ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="width:100px; height:45px; font-size: 10pt;" role="button" aria-disabled="false"><span class="ui-button-text">Copy Market</span></button></div>');
         jQuery('#TopScreen').prepend('<div id="expo_timer_parent_2" style="position: absolute;left: -120px;top: 180px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Navigation</div><br/><div><span id="expo_timer_2">Check Now</span></div></div></div>');
+        jQuery('#TopScreen').prepend('<div id="expo_sp" style="position: absolute;left: -120px;top: 280px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Seafaring</div><br/><div><span id="SeafaringPoints">1 549 SP</span></div></div></div>');
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
         jQuery('#expo_timer').html(MiddenQuest_Expo_Tracker.message);
         MiddenQuest_Expo_Tracker.copyBtn = document.querySelector('#expo_copy');
