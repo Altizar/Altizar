@@ -62,6 +62,9 @@
                                     data: []
                                 });
                                 for (var timestamp in MQO_MarketPrices.prices[key]) {
+                                    if (MQO_MarketPrices.prices[key][timestamp] < 10) {
+                                        continue;
+                                    }
                                     graphData[graphData.length - 1].data.push([timestamp * 1000, MQO_MarketPrices.prices[key][timestamp]]);
                                 }
                             }
