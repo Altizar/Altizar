@@ -4,7 +4,6 @@
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
     </head>
     <body>
-        <div class="col-md-12"><h1>Miden Quest Market Prices</h1></div>
         <div id="graphParent" style="display: ; height: 600px">
             <div id="graph" style="margin-bottom: 15px;margin-top: 10px; height: 100%;"></div>
             <div id="graphFooter" style="height: 50px;">
@@ -31,9 +30,6 @@
                         chart: null,
                         toggleGraphs: function (groupName) {
                             for (var i = 0; i < this.chart.series.length; i++) {
-                                if (window.CP.shouldStopExecution(1)) {
-                                    break;
-                                }
                                 var run = this.chart.series[i];
                                 var show = this.findGroupName(run.name, groupName);
                                 if (show) {
@@ -42,30 +38,22 @@
                                     run.hide();
                                 }
                             }
-                            window.CP.exitedLoop(1);
                         },
                         findGroupName(name, group) {
                             var keys = Object.keys(MQO_MarketPrices.chartOrder);
                             for (var key in keys) {
-                                if (window.CP.shouldStopExecution(2)) {
-                                    break;
-                                }
                                 var itemName = MQO_MarketPrices.chartOrder[keys[key]].name;
                                 var itemGroup = MQO_MarketPrices.chartOrder[keys[key]].group;
                                 if (itemName == name && group == itemGroup) {
                                     return true;
                                 }
                             }
-                            window.CP.exitedLoop(2);
                             return false;
                         },
                         drawChart: function () {
                             this.findGroupName('T1');
                             graphData = [];
                             for (var key in MQO_MarketPrices.prices) {
-                                if (window.CP.shouldStopExecution(4)) {
-                                    break;
-                                }
                                 graphData.push({
                                     name: MQO_MarketPrices.chartOrder[key].name,
                                     legendIndex: MQO_MarketPrices.chartOrder[key].order,
@@ -74,21 +62,15 @@
                                     data: []
                                 });
                                 for (var timestamp in MQO_MarketPrices.prices[key]) {
-                                    if (window.CP.shouldStopExecution(3)) {
-                                        break;
-                                    }
-                                    graphData[graphData.length - 1].data.push([
-                                        timestamp * 1000,
-                                        MQO_MarketPrices.prices[key][timestamp]
-                                    ]);
+                                    graphData[graphData.length - 1].data.push([timestamp * 1000, MQO_MarketPrices.prices[key][timestamp]]);
                                 }
-                                window.CP.exitedLoop(3);
                             }
-                            window.CP.exitedLoop(4);
+                            // this.chart = jQuery('#graph').highcharts({
                             this.chart = new Highcharts.Chart({
                                 chart: {
                                     renderTo: 'graph',
                                     zoomType: 'xy',
+                                    //move reset button out of the way.
                                     resetZoomButton: {
                                         position: {
                                             align: 'right',
@@ -101,176 +83,177 @@
                                 },
                                 title: {
                                     text: 'Resource Price',
-                                    x: -20
+                                    x: -20 //center
                                 },
                                 subtitle: {
                                     text: '',
                                     x: -20
                                 },
-                                xAxis: {type: 'datetime'},
-                                series: graphData
+                                xAxis: {
+                                    type: 'datetime'
+                                },
+                                series: graphData,
                             });
                         },
                         chartOrder: {
                             ore_1: {
                                 order: 1,
-                                name: 'Tier 1 Ore',
+                                name: "Tier 1 Ore",
                                 visible: false,
-                                group: 'T1'
+                                group: "T1"
                             },
                             ore_2: {
                                 order: 5,
-                                name: 'Tier 2 Ore',
+                                name: "Tier 2 Ore",
                                 visible: false,
-                                group: 'T2'
+                                group: "T2"
                             },
                             ore_3: {
                                 order: 9,
-                                name: 'Tier 3 Ore',
+                                name: "Tier 3 Ore",
                                 visible: false,
-                                group: 'T3'
+                                group: "T3"
                             },
                             ore_4: {
                                 order: 13,
-                                name: 'Tier 4 Ore',
+                                name: "Tier 4 Ore",
                                 visible: false,
-                                group: 'T4'
+                                group: "T4"
                             },
                             ore_5: {
                                 order: 17,
-                                name: 'Tier 5 Ore',
+                                name: "Tier 5 Ore",
                                 visible: false,
-                                group: 'T5'
+                                group: "T5"
                             },
                             plants_1: {
                                 order: 2,
-                                name: 'Tier 1 Plants',
+                                name: "Tier 1 Plants",
                                 visible: false,
-                                group: 'T1'
+                                group: "T1"
                             },
                             plants_2: {
                                 order: 6,
-                                name: 'Tier 2 Plants',
+                                name: "Tier 2 Plants",
                                 visible: false,
-                                group: 'T2'
+                                group: "T2"
                             },
                             plants_3: {
                                 order: 10,
-                                name: 'Tier 3 Plants',
+                                name: "Tier 3 Plants",
                                 visible: false,
-                                group: 'T3'
+                                group: "T3"
                             },
                             plants_4: {
                                 order: 14,
-                                name: 'Tier 4 Plants',
+                                name: "Tier 4 Plants",
                                 visible: false,
-                                group: 'T4'
+                                group: "T4"
                             },
                             plants_5: {
                                 order: 18,
-                                name: 'Tier 5 Plants',
+                                name: "Tier 5 Plants",
                                 visible: false,
-                                group: 'T5'
+                                group: "T5"
                             },
                             wood_1: {
                                 order: 3,
-                                name: 'Tier 1 Wood',
+                                name: "Tier 1 Wood",
                                 visible: false,
-                                group: 'T1'
+                                group: "T1"
                             },
                             wood_2: {
                                 order: 7,
-                                name: 'Tier 2 Wood',
+                                name: "Tier 2 Wood",
                                 visible: false,
-                                group: 'T2'
+                                group: "T2"
                             },
                             wood_3: {
                                 order: 11,
-                                name: 'Tier 3 Wood',
+                                name: "Tier 3 Wood",
                                 visible: false,
-                                group: 'T3'
+                                group: "T3"
                             },
                             wood_4: {
                                 order: 15,
-                                name: 'Tier 4 Wood',
+                                name: "Tier 4 Wood",
                                 visible: false,
-                                group: 'T4'
+                                group: "T4"
                             },
                             wood_5: {
                                 order: 19,
-                                name: 'Tier 5 Wood',
+                                name: "Tier 5 Wood",
                                 visible: false,
-                                group: 'T5'
+                                group: "T5"
                             },
                             fish_1: {
                                 order: 4,
-                                name: 'Tier 1 Fish',
+                                name: "Tier 1 Fish",
                                 visible: false,
-                                group: 'T1'
+                                group: "T1"
                             },
                             fish_2: {
                                 order: 8,
-                                name: 'Tier 2 Fish',
+                                name: "Tier 2 Fish",
                                 visible: false,
-                                group: 'T2'
+                                group: "T2"
                             },
                             fish_3: {
                                 order: 12,
-                                name: 'Tier 3 Fish',
+                                name: "Tier 3 Fish",
                                 visible: false,
-                                group: 'T3'
+                                group: "T3"
                             },
                             fish_4: {
                                 order: 16,
-                                name: 'Tier 4 Fish',
+                                name: "Tier 4 Fish",
                                 visible: false,
-                                group: 'T4'
+                                group: "T4"
                             },
                             fish_5: {
                                 order: 20,
-                                name: 'Tier 5 Fish',
+                                name: "Tier 5 Fish",
                                 visible: false,
-                                group: 'T5'
+                                group: "T5"
                             },
                             magic: {
                                 order: 21,
-                                name: 'Magic Elements',
+                                name: "Magic Elements",
                                 visible: false,
-                                group: 'ME'
+                                group: "ME"
                             },
                             relics: {
                                 order: 22,
-                                name: 'Relics',
+                                name: "Relics",
                                 visible: false,
-                                group: 'Other'
+                                group: "Other"
                             },
                             orbs: {
                                 order: 23,
-                                name: 'Orbs',
+                                name: "Orbs",
                                 visible: false,
-                                group: 'Other'
+                                group: "Other"
                             },
                             scrolls: {
                                 order: 24,
-                                name: 'Scrolls',
+                                name: "Scrolls",
                                 visible: false,
-                                group: 'Other'
+                                group: "Other"
                             },
                             gems: {
                                 order: 25,
-                                name: 'Gems',
+                                name: "Gems",
                                 visible: true,
-                                group: 'Gems'
-                            }
+                                group: "Gems"
+                            },
                         },
                         start: function (prices) {
                             this.prices = prices;
                             this.drawChart();
                             console.log('Finished');
                         }
-                    };
+                    }
                     MQO_MarketPrices.start(MQO_MarketPrices_Raw);
-                    //# sourceURL=pen.js
         </script>
     </body>
 </html>
