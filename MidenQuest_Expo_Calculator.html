@@ -5,8 +5,8 @@
     </head>
     <body>
         <div class="col-md-12 padding-top-20 padding-btm-40">
-             <h1>Altizar's Miden Quest Expo Calculator</h1>
-             <div>Updated for 2016-11-01 update</div>
+            <h1>Altizar's Miden Quest Expo Calculator</h1>
+            <div>Updated for 2016-11-01 update</div>
         </div>
         <link type="text/css" rel="stylesheet" href="MidenQuest_Expo_Calculator.css">
         <div class="ritz grid-container col-md-4" dir="ltr">
@@ -114,7 +114,16 @@
                     </tr>
                     <tr style='height:19px;'>
                         <td class="title">Used Tiers</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="tiers" id="tiers" value="3452"></td>
+                        <td class="details " dir="ltr">
+                            <!--<input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="tiers" id="tiers" value="3452">-->
+                            <select name="tiers" class="user_input">
+                                <option value="1352">1352</option>
+                                <option value="2413">2413</option>
+                                <option value="3524">3524</option>
+                                <option value="4135">4135</option>
+                                <option value="5241">5241</option>
+                            </select>
+                        </td>
                         <td class="title softmerge">
                             <div class="softmerge-inner" style="width: 59px; left: -1px;">Expo Slots</div>
                         </td>
