@@ -225,7 +225,7 @@ var MiddenQuest_Expo_Tracker = {
         var time = jQuery('#ContentLoad > div:last-child > div:last-child > div').text().trim().match('Claim your next gift from a player\'s profile in ([0-9]*) minutes')[1];
         var curTime = jQuery.now();
         if (time !== "") {
-            MiddenQuest_Expo_Tracker.event_finished = (parseInt(time) * 60 * 1000) + curTime;
+            MiddenQuest_Expo_Tracker.event_finished = ((parseInt(time) + 1) * 60 * 1000) + curTime;
             MiddenQuest_Expo_Tracker.updateEventTimeout();
             if (MiddenQuest_Expo_Tracker.updateEventTimeoutEvent === 0) {
                 MiddenQuest_Expo_Tracker.updateEventTimeoutEvent = setInterval(function () {
