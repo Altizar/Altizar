@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
-// @version      0.1.0
+// @version      0.1.1
 // @description  Tracks statistics of tradeskills
 // @author       Altizar
 // @match        http://*.drakor.com*
@@ -93,7 +93,7 @@ var Drakor_Tradeskill_Tracker = {
             Drakor_Tradeskill_Tracker.data[type][location] = JSON.parse(JSON.stringify(Drakor_Tradeskill_Tracker.baseData));
         }
         if (jQuery('.viewMat', data).length > 0) {
-            var itemName = jQuery('.viewMat', data).text().replace('[', '').replace(']', '');
+            var itemName = jQuery('.viewMat', data).first().text().replace('[', '').replace(']', '');
             if (Drakor_Tradeskill_Tracker.data[type][location].catches[itemName] === undefined) {
                 Drakor_Tradeskill_Tracker.data[type][location].catches[itemName] = 0;
             }
