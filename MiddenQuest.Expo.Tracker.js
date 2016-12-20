@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.8.3
+// @version      0.8.4
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -222,7 +222,7 @@ var MiddenQuest_Expo_Tracker = {
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
     },
     setEventTimeout: function () {
-        var time = jQuery('#ContentLoad > div:last-child > div:last-child > div').text().trim().match('Claim your next gift from a player\'s profile in ([0-9]*) minutes')[1];
+        var time = jQuery('#ContentLoad > div:last-child > div:nth-child(3) > div').text().trim().match('Claim your next gift from a player\'s profile in ([0-9]*) minutes')[1];
         var curTime = jQuery.now();
         if (time !== "") {
             MiddenQuest_Expo_Tracker.event_finished = ((parseInt(time) + 1) * 60 * 1000) + curTime;
