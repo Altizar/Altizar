@@ -314,6 +314,9 @@ var MQO_Expo_Calc = {
             if (Math.min.apply(Math, levels) < this.user_input.min_expo) {
                 continue;
             }
+            if (Math.max.apply(Math, levels) > this.user_input.adv_level) {
+                continue;
+            }
             var expo = expoBase[expoLevel];
             expo['res_1'] = resourceCosts[this.expo_tiers[0]][levels[0]]['TotalCost'];
             expo['res_2'] = resourceCosts[this.expo_tiers[1]][levels[1]]['TotalCost'];
