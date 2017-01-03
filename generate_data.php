@@ -52,10 +52,12 @@ for ($lvl = 0; $lvl <= 40; $lvl++) {
 
 $expoCost = array();
 $baseExpo = array();
-for ($warrior = 0; $warrior <= 20; $warrior++) {
-    for ($hunter = 0; $hunter <= 20; $hunter++) {
-        for ($mage = 0; $mage <= 20; $mage++) {
-            for ($healer = 0; $healer <= 20; $healer++) {
+$maxLevel = 30;
+$minLevel = 0;
+for ($warrior = $minLevel; $warrior <= $maxLevel; $warrior++) {
+    for ($hunter = $minLevel; $hunter <= $maxLevel; $hunter++) {
+        for ($mage = $minLevel; $mage <= $maxLevel; $mage++) {
+            for ($healer = $minLevel; $healer <= $maxLevel; $healer++) {
                 if (( ($warrior + $hunter + $mage + $healer) <= 3) ||
                         (max(array($warrior, $hunter, $mage, $healer)) * 3 < ($warrior + $hunter + $mage + $healer) ) ||
                         ($warrior == 0 && (min(array($hunter, $mage, $healer)) == max(array($hunter, $mage, $healer)) - 1) && ((max(array($warrior, $hunter, $mage, $healer)) - 1) * 3 < ($warrior + $hunter + $mage + $healer) )) ||
@@ -65,7 +67,7 @@ for ($warrior = 0; $warrior <= 20; $warrior++) {
                     $lvl = $warrior + $hunter + $mage + $healer;
                     $name = $lvl . '_' . ($warrior + $mage);
                     foreach ($expoRates as $expoLevel => $expoValue) {
-                        $expoCost['gem'][$lvl . '_' . ($warrior + $mage)][$expoLevel] = round($lvl/7 + round(($warrior + $mage) * $expoValue['gem']));
+                        $expoCost['gem'][$lvl . '_' . ($warrior + $mage)][$expoLevel] = round($lvl / 7 + round(($warrior + $mage) * $expoValue['gem']));
                         $expoCost['relic'][$lvl . '_' . ($warrior + $hunter)][$expoLevel] = ceil($lvl + round(($warrior + $hunter) * $expoValue['relic'])) + 2;
                         $expoCost['key'][$lvl . '_' . ($hunter + $healer)][$expoLevel] = floor($lvl / 18 + floor(($hunter + $healer) * $expoValue['key']));
                         $expoCost['orb'][$lvl . '_' . ($mage + $healer)][$expoLevel] = round($lvl / 20 + round(($mage + $healer) * $expoValue['orb']));
