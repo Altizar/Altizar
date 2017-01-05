@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.8.4
+// @version      0.8.5
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
