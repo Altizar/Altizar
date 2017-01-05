@@ -14,10 +14,8 @@
 var MiddenQuest_Expo_Tracker = {
     expo_finished: 0,
     expo_navigate: 0,
-    event_finished: 0,
     updateExpoTimeoutEvent: 0,
     updateExpoNavigateTimeoutEvent: 0,
-    updateEventTimeoutEvent: 0,
     message: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getExpedition.aspx?null='); fightengaged = 0;\">Check Now</div>",
     message_2: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getNavigation.aspx?null='); fightengaged = 0;\">Check Now</div>",
     message_3: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getEventShop.aspx?null='); fightengaged = 0;\">Check Now</div>",
@@ -221,53 +219,15 @@ var MiddenQuest_Expo_Tracker = {
         }
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
     },
-    setEventTimeout: function () {
-        var time = jQuery('#ContentLoad > div:last-child > div:nth-child(3) > div').text().trim().match('Claim your next gift from a player\'s profile in ([0-9]*) minutes')[1];
-        var curTime = jQuery.now();
-        if (time !== "") {
-            MiddenQuest_Expo_Tracker.event_finished = ((parseInt(time) + 1) * 60 * 1000) + curTime;
-            MiddenQuest_Expo_Tracker.updateEventTimeout();
-            if (MiddenQuest_Expo_Tracker.updateEventTimeoutEvent === 0) {
-                MiddenQuest_Expo_Tracker.updateEventTimeoutEvent = setInterval(function () {
-                    MiddenQuest_Expo_Tracker.updateEventTimeout();
-                }, 15000);
-            }
-        }
-    },
-    updateEventTimeout: function () {
-        var curTime = jQuery.now();
-        if (curTime < MiddenQuest_Expo_Tracker.event_finished) {
-            var myDate = new Date(null);
-            var timeLeft = parseInt((MiddenQuest_Expo_Tracker.event_finished - curTime) / 1000);
-            myDate.setHours(0);
-            myDate.setSeconds(timeLeft);
-            if (myDate.getHours() > 0) {
-                MiddenQuest_Expo_Tracker.message_3 = myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
-            } else {
-                MiddenQuest_Expo_Tracker.message_3 = myDate.getMinutes() + 'min';
-            }
-        } else if (MiddenQuest_Expo_Tracker.event_finished > 0) {
-            if (MiddenQuest_Expo_Tracker.updateEventTimeoutEvent !== 0) {
-                clearInterval(MiddenQuest_Expo_Tracker.updateEventTimeoutEvent);
-                MiddenQuest_Expo_Tracker.updateEventTimeoutEvent = 0;
-            }
-//            MiddenQuest_Expo_Tracker.message = "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getExpedition.aspx?null='); fightengaged = 0;\">Finished</div>";
-            MiddenQuest_Expo_Tracker.message_3 = "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getEventShop.aspx?null='); fightengaged = 0;\">Get Gift</div>";
-            MiddenQuest_Expo_Tracker.event_finished = 0;
-        }
-        jQuery('#event_timer').html(MiddenQuest_Expo_Tracker.message_3);
-    },
     start: function () {
         jQuery('#TopScreen').prepend('<div id="expo_timer_parent" style="position: absolute;left: -120px;top: 20px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
         jQuery('#TopScreen').prepend('<div id="expo_copy" style="position: absolute;left: -120px;top: 120px;color: black;" class=""><button class="darkBtn ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="width:100px; height:45px; font-size: 10pt;" role="button" aria-disabled="false"><span class="ui-button-text">Copy Market</span></button></div>');
         jQuery('#TopScreen').prepend('<div id="expo_timer_parent_2" style="position: absolute;left: -120px;top: 180px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Navigation</div><br/><div><span id="expo_timer_2">Check Now</span></div></div></div>');
         jQuery('#TopScreen').prepend('<div id="expo_sp" style="position: absolute;left: -120px;top: 280px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Seafaring</div><br/><div><span id="SeafaringPoints">0 SP</span></div></div></div>');
-        jQuery('#TopScreen').prepend('<div id="expo_timer_parent_2" style="position: absolute;left: -120px;top: 380px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Event Timer</div><br/><div><span id="event_timer">Check Now</span></div></div></div>');
-        jQuery('#TopScreen').prepend('<div id="quest_done" style="position: absolute;left: -120px;top: 480px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Quest Counter</div><br/><div><span id="QuestCount">No Quest</span></div></div></div>');
+        jQuery('#TopScreen').prepend('<div id="quest_done" style="position: absolute;left: -120px;top: 380px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Quest Counter</div><br/><div><span id="QuestCount">No Quest</span></div></div></div>');
 
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
         jQuery('#expo_timer').html(MiddenQuest_Expo_Tracker.message);
-        jQuery('#event_timer').html(MiddenQuest_Expo_Tracker.message_3);
         MiddenQuest_Expo_Tracker.copyBtn = document.querySelector('#expo_copy');
         MiddenQuest_Expo_Tracker.copyBtn.addEventListener('click', function (event) {
             MiddenQuest_Expo_Tracker.parseStock();
@@ -282,9 +242,6 @@ var MiddenQuest_Expo_Tracker = {
                     }
                     if (MiddenQuest_Expo_Tracker.expo_navigate === 0) {
                         MiddenQuest_Expo_Tracker.setExpoNavigateTimeout();
-                    }
-                    if (MiddenQuest_Expo_Tracker.event_finished === 0) {
-                        MiddenQuest_Expo_Tracker.setEventTimeout();
                     }
                 }
             });
