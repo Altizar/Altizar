@@ -429,7 +429,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
-        slice = this.expos.slice(0, 100);
+        slice = this.expos.slice(0, 1000);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -440,7 +440,7 @@ var MQO_Expo_Calc = {
         this.expos.sort(function (a, b) {
             return b.profit - a.profit;
         });
-        slice = this.expos.slice(0, 100);
+        slice = this.expos.slice(0, 1000);
         for (var i = 0; i < slice.length; i++) {
             var expo = slice[i];
             if (i === 0) {
@@ -454,7 +454,7 @@ var MQO_Expo_Calc = {
             }
             return b.time - a.time;
         });
-        slice = this.expos.slice(0, 100);
+        slice = this.expos.slice(0, 1000);
         slice.sort(function (a, b) {
             return b.profit_hourly - a.profit_hourly;
         });
