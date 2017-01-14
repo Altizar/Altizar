@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Resource Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      1.0
+// @version      1.2
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -30,6 +30,9 @@ var MQO_Resource_Tracker = {
     normalAverageMultiplier: 60 / 5 * 60,
     quadAverageMultiplier: 60 / 3 * 60 * 4,
     // results aren't stored under the resource because we aren't tracking tile changes/types
+    numberWithCommas: function (x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
     tsResults: {
         actions: 0,
         xp: 0,
@@ -312,11 +315,11 @@ var MQO_Resource_Tracker = {
             '&nbsp;', '&nbsp;',
             '&nbsp;gained', '&nbsp;',
 
-            't1:', this.tsResults[1].gained,
-            't2:', this.tsResults[2].gained,
-            't3:', this.tsResults[3].gained,
-            't4:', this.tsResults[4].gained,
-            't5:', this.tsResults[5].gained,
+            't1:', this.numberWithCommas(this.tsResults[1].gained),
+            't2:', this.numberWithCommas(this.tsResults[2].gained),
+            't3:', this.numberWithCommas(this.tsResults[3].gained),
+            't4:', this.numberWithCommas(this.tsResults[4].gained),
+            't5:', this.numberWithCommas(this.tsResults[5].gained),
             '&nbsp;', '&nbsp;']);
     },
     addItemOutput: function (tsResults, outputArgs) {
@@ -331,38 +334,38 @@ var MQO_Resource_Tracker = {
             'relic%:', (100 * this.tsResults.itemInfo.relicDrop / this.tsResults.actions).toFixed(4),
 
             '&nbsp;', '&nbsp;',
-            'avg ME:', (this.tsResults.itemInfo.magicElementsTotal / this.tsResults.itemInfo.magicElementsDrop).toFixed(2),
-            'avg Gold:', (this.tsResults.itemInfo.goldTotal / this.tsResults.itemInfo.goldDrop).toFixed(2),
-            'avg Relics:', (this.tsResults.itemInfo.relicTotal / this.tsResults.itemInfo.relicDrop).toFixed(2),
+            'avg ME:', this.numberWithCommas((this.tsResults.itemInfo.magicElementsTotal / this.tsResults.itemInfo.magicElementsDrop).toFixed(0)),
+            'avg Gold:', this.numberWithCommas((this.tsResults.itemInfo.goldTotal / this.tsResults.itemInfo.goldDrop).toFixed(0)),
+            'avg Relics:', this.numberWithCommas((this.tsResults.itemInfo.relicTotal / this.tsResults.itemInfo.relicDrop).toFixed(0)),
 
             '&nbsp;', '&nbsp;',
-            'Total ME:', this.tsResults.itemInfo.magicElementsTotal,
-            'Total Gold:', this.tsResults.itemInfo.goldTotal,
-            'Total Relics:', this.tsResults.itemInfo.relicTotal,
+            'Total ME:', this.numberWithCommas(this.tsResults.itemInfo.magicElementsTotal),
+            'Total Gold:', this.numberWithCommas(this.tsResults.itemInfo.goldTotal),
+            'Total Relics:', this.numberWithCommas(this.tsResults.itemInfo.relicTotal),
             '2x Relic %:', (this.tsResults.itemInfo.relicDouble / this.tsResults.itemInfo.relicDrop).toFixed(2),
             '&nbsp;', '&nbsp;']);
     },
     addSalesInfo: function (tsResults, outputArgs) {
         var avgSale = this.tsResults.sales.gained / this.tsResults.actions;
         return outputArgs.concat([
-            'Sales:', this.tsResults.sales.gained,
-            'Avg Sale:', avgSale.toFixed(2),
-            '1x Estimate:', (avgSale * this.normalAverageMultiplier).toFixed(2),
-            '4x Estimate:', (avgSale * this.quadAverageMultiplier).toFixed(2)
+            'Sales:', this.numberWithCommas(this.tsResults.sales.gained),
+            'Avg Sale:', this.numberWithCommas(avgSale.toFixed(2)),
+            '1x Estimate:', (avgSale * this.normalAverageMultiplier).toFixed(0),
+            '4x Estimate:', (avgSale * this.quadAverageMultiplier).toFixed(0)
         ]);
     },
     addScoutsInfo: function (tsResults, outputArgs) {
         var avgScout = this.tsResults.scouts.gained / this.tsResults.actions;
         return outputArgs.concat([
-            'Scouts:', this.tsResults.scouts.gained,
-            'Avg Scout:', avgScout.toFixed(2),
-            'Scout Relics:', this.tsResults.scouts.relicGained,
-            'Scout 2x Relic%:', (this.tsResults.scouts.relicDouble / this.tsResults.scouts.relicDrop * 100).toFixed(2),
+            'Scouts:', this.numberWithCommas(this.tsResults.scouts.gained),
+            'Avg Scout:', this.numberWithCommas(avgScout.toFixed(2)),
+            'Scout Relics:', this.numberWithCommas(this.tsResults.scouts.relicGained),
+            'Scout 2x Relic%:', this.numberWithCommas((this.tsResults.scouts.relicDouble / this.tsResults.scouts.relicDrop * 100).toFixed(2)),
             'Actions/Relic', (this.tsResults.actions / this.tsResults.scouts.relicGained).toFixed(2),
             'Relics/Action', (this.tsResults.scouts.relicGained / this.tsResults.actions).toFixed(2),
             '&nbsp;', '&nbsp;',
-            '1x Estimate:', (avgScout * this.normalAverageMultiplier).toFixed(2),
-            '4x Estimate:', (avgScout * this.quadAverageMultiplier).toFixed(2)
+            '1x Estimate:', this.numberWithCommas((avgScout * this.normalAverageMultiplier).toFixed(0)),
+            '4x Estimate:', this.numberWithCommas((avgScout * this.quadAverageMultiplier).toFixed(0))
         ]);
     },
     addTaxPercent: function (tsResults, outputArgs) {
@@ -392,8 +395,8 @@ var MQO_Resource_Tracker = {
     },
     addXP: function (tsResults, outputArgs) {
         return outputArgs.concat([
-            'total XP:', this.tsResults.xp,
-            'avg XP:', (this.tsResults.xp / this.tsResults.actions).toFixed(2),
+            'total XP:', this.numberWithCommas(this.tsResults.xp),
+            'avg XP:', this.numberWithCommas((this.tsResults.xp / this.tsResults.actions).toFixed(2)),
             '&nbsp;', '&nbsp;']);
     },
     updateOutput: function (results, msg) {
@@ -463,7 +466,7 @@ var MQO_Resource_Tracker = {
     toggleUI: function () {
         $("#resourceLogList").toggle();
     },
-    run: function(event) {
+    run: function (event) {
         MQO_Resource_Tracker.parseTSLog(event);
     }
 };
