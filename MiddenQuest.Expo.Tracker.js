@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.8.5
+// @version      0.9.0
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -16,11 +16,14 @@ var MiddenQuest_Expo_Tracker = {
     expo_navigate: 0,
     updateExpoTimeoutEvent: 0,
     updateExpoNavigateTimeoutEvent: 0,
+    updatePerkTimeoutEvent: 0,
     message: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getExpedition.aspx?null='); fightengaged = 0;\">Check Now</div>",
     message_2: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getNavigation.aspx?null='); fightengaged = 0;\">Check Now</div>",
     message_3: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getEventShop.aspx?null='); fightengaged = 0;\">Check Now</div>",
+    message_4: "<span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getInfoPerk.aspx?null='); fightengaged = 0;\">Check Perks</div>",
     target: document.getElementById('ContentLoad'),
     config: {attributes: true, childList: true, characterData: true},
+    perks: {},
     stock: {
         Ore_1: 0,
         Ore_2: 0,
@@ -55,6 +58,17 @@ var MiddenQuest_Expo_Tracker = {
     },
     getValue: function (target) {
         return parseInt(jQuery('#' + target).text().replace(' ', '').replace(' ', '').replace(' ', ''));
+    },
+    calcTimeout: function(timeleft) {
+        var curTime = jQuery.now();
+        var myDate = new Date(null);
+        var timeLeft = parseInt((timeleft - curTime) / 1000);
+        myDate.setHours(0);
+        myDate.setSeconds(timeLeft);
+        if (myDate.getHours() > 0) {
+            return myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
+        }
+        return myDate.getMinutes() + 'min';
     },
     parseStock: function () {
         MiddenQuest_Expo_Tracker.stock.Ore_1 = MiddenQuest_Expo_Tracker.getValue('T1OreDesc');
@@ -122,29 +136,33 @@ var MiddenQuest_Expo_Tracker = {
     },
     buildText: function () {
         return "\n<div class='col-md-3' id='T1Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_1 + "</div>" +
-                "<div class='col-md-3' id='T2Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_2 + "</div>" +
-                "<div class='col-md-3' id='T3Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_3 + "</div>" +
-                "<div class='col-md-3' id='T4Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_4 + "</div>" +
-                "<div class='col-md-3' id='T5Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_5 + "</div>" +
-                "<div class='col-md-3' id='T1Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_1 + "</div>" +
-                "<div class='col-md-3' id='T2Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_2 + "</div>" +
-                "<div class='col-md-3' id='T3Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_3 + "</div>" +
-                "<div class='col-md-3' id='T4Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_4 + "</div>" +
-                "<div class='col-md-3' id='T5Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_5 + "</div>" +
-                "<div class='col-md-3' id='T1Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_1 + "</div>" +
-                "<div class='col-md-3' id='T2Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_2 + "</div>" +
-                "<div class='col-md-3' id='T3Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_3 + "</div>" +
-                "<div class='col-md-3' id='T4Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_4 + "</div>" +
-                "<div class='col-md-3' id='T5Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_5 + "</div>" +
-                "<div class='col-md-3' id='T1Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_1 + "</div>" +
-                "<div class='col-md-3' id='T2Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_2 + "</div>" +
-                "<div class='col-md-3' id='T3Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_3 + "</div>" +
-                "<div class='col-md-3' id='T4Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_4 + "</div>" +
-                "<div class='col-md-3' id='T5Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_5 + "</div>" +
-                "<br style='clear: both'/><br style='clear: both'/><br style='clear: both'/>";
+            "<div class='col-md-3' id='T2Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_2 + "</div>" +
+            "<div class='col-md-3' id='T3Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_3 + "</div>" +
+            "<div class='col-md-3' id='T4Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_4 + "</div>" +
+            "<div class='col-md-3' id='T5Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_5 + "</div>" +
+            "<div class='col-md-3' id='T1Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_1 + "</div>" +
+            "<div class='col-md-3' id='T2Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_2 + "</div>" +
+            "<div class='col-md-3' id='T3Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_3 + "</div>" +
+            "<div class='col-md-3' id='T4Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_4 + "</div>" +
+            "<div class='col-md-3' id='T5Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_5 + "</div>" +
+            "<div class='col-md-3' id='T1Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_1 + "</div>" +
+            "<div class='col-md-3' id='T2Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_2 + "</div>" +
+            "<div class='col-md-3' id='T3Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_3 + "</div>" +
+            "<div class='col-md-3' id='T4Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_4 + "</div>" +
+            "<div class='col-md-3' id='T5Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_5 + "</div>" +
+            "<div class='col-md-3' id='T1Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_1 + "</div>" +
+            "<div class='col-md-3' id='T2Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_2 + "</div>" +
+            "<div class='col-md-3' id='T3Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_3 + "</div>" +
+            "<div class='col-md-3' id='T4Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_4 + "</div>" +
+            "<div class='col-md-3' id='T5Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_5 + "</div>" +
+            "<br style='clear: both'/><br style='clear: both'/><br style='clear: both'/>";
     },
     setExpoTimeout: function () {
-        var time = jQuery('#ContentLoad > div:last-child > div > div:nth-child(2) > div > div > div > div:contains("min. left")').text().match('[0-9]*')[0];
+        var timeDiv = jQuery('#ContentLoad > div:last-child > div > div:nth-child(2) > div > div > div > div:contains("min. left")').text();
+        if (timeDiv === "") {
+            return;
+        }
+        time = timeDiv.match('[0-9]*')[0];
         var curTime = jQuery.now();
         if (time !== "") {
             MiddenQuest_Expo_Tracker.expo_finished = (parseInt(time) * 60 * 1000) + curTime;
@@ -159,15 +177,7 @@ var MiddenQuest_Expo_Tracker = {
     updateExpoTimeout: function () {
         var curTime = jQuery.now();
         if (curTime < MiddenQuest_Expo_Tracker.expo_finished) {
-            var myDate = new Date(null);
-            var timeLeft = parseInt((MiddenQuest_Expo_Tracker.expo_finished - curTime) / 1000);
-            myDate.setHours(0);
-            myDate.setSeconds(timeLeft);
-            if (myDate.getHours() > 0) {
-                MiddenQuest_Expo_Tracker.message = myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
-            } else {
-                MiddenQuest_Expo_Tracker.message = myDate.getMinutes() + 'min';
-            }
+            MiddenQuest_Expo_Tracker.message = MiddenQuest_Expo_Tracker.calcTimeout(MiddenQuest_Expo_Tracker.expo_finished);
         } else if (MiddenQuest_Expo_Tracker.expo_finished > 0) {
             if (MiddenQuest_Expo_Tracker.updateExpoTimeoutEvent !== 0) {
                 clearInterval(MiddenQuest_Expo_Tracker.updateExpoTimeoutEvent);
@@ -200,15 +210,7 @@ var MiddenQuest_Expo_Tracker = {
     updateExpoNavigateTimeout: function () {
         var curTime = jQuery.now();
         if (curTime < MiddenQuest_Expo_Tracker.expo_navigate) {
-            var myDate = new Date(null);
-            var timeLeft = parseInt((MiddenQuest_Expo_Tracker.expo_navigate - curTime) / 1000);
-            myDate.setHours(0);
-            myDate.setSeconds(timeLeft);
-            if (myDate.getHours() > 0) {
-                MiddenQuest_Expo_Tracker.message_2 = myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
-            } else {
-                MiddenQuest_Expo_Tracker.message_2 = myDate.getMinutes() + 'min';
-            }
+            MiddenQuest_Expo_Tracker.message_2 = MiddenQuest_Expo_Tracker.calcTimeout(MiddenQuest_Expo_Tracker.expo_navigate);
         } else if (MiddenQuest_Expo_Tracker.expo_finished > 0) {
             if (MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent !== 0) {
                 clearInterval(MiddenQuest_Expo_Tracker.updateExpoNavigateTimeoutEvent);
@@ -219,15 +221,65 @@ var MiddenQuest_Expo_Tracker = {
         }
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
     },
+    updatePerkTimes: function() {
+        var curTime = jQuery.now();
+        jQuery('#ContentLoad > div:last-child > div:last-child > div > div').each(function() {
+            if (jQuery('div',this).length !== 2) {return;}
+            var perkName = jQuery('div',this).first().text().trim().match(/(\w+) lvl. (\d+)/);
+            var perkValue = jQuery('div',this).last().text().trim().match(/[(](\w+) min[)]/);
+            if(perkName === null || perkName.length !== 3) {return;}
+            if (MiddenQuest_Expo_Tracker.perks[perkName[1]] === undefined) {
+                MiddenQuest_Expo_Tracker.perks[perkName[1]] = 0;
+            }
+            console.log(perkValue[1]);
+            if (parseInt(perkValue[1]) > 0) {
+                MiddenQuest_Expo_Tracker.perks[perkName[1]] = ((parseInt(perkValue[1])+1) * 60 * 1000) + curTime;
+            } else {
+                MiddenQuest_Expo_Tracker.perks[perkName[1]] = 0;
+            }
+        });
+        MiddenQuest_Expo_Tracker.drawPerkTimers();
+    },
+    drawPerkTimers: function() {
+        var active = false;
+        var curTime = jQuery.now();
+        MiddenQuest_Expo_Tracker.message_4 = '';
+        for (var key in MiddenQuest_Expo_Tracker.perks) {
+            MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 5px;">'+key+'</div>';
+            if (curTime > MiddenQuest_Expo_Tracker.perks[key]) {
+                MiddenQuest_Expo_Tracker.perks[key] = 0;
+            }
+            if (MiddenQuest_Expo_Tracker.perks[key] === 0) {
+                MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 15px;color: red;">Inactive</div>';
+            } else {
+                active = true;
+                MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 15px;color: black;">'+MiddenQuest_Expo_Tracker.calcTimeout(MiddenQuest_Expo_Tracker.perks[key])+'</div>';
+            }
+        }
+        MiddenQuest_Expo_Tracker.message_4 += "<div><span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getInfoPerk.aspx?null='); fightengaged = 0;\">Update Perks</span></div>";
+        jQuery('#perkStatus').html(MiddenQuest_Expo_Tracker.message_4);
+        if (MiddenQuest_Expo_Tracker.updatePerkTimeoutEvent > 0 && active === false) {
+            clearInterval(MiddenQuest_Expo_Tracker.updatePerkTimeoutEvent);
+            MiddenQuest_Expo_Tracker.updatePerkTimeoutEvent = 0;
+        }
+        if (active && MiddenQuest_Expo_Tracker.updatePerkTimeoutEvent === 0) {
+            MiddenQuest_Expo_Tracker.updatePerkTimeoutEvent = setInterval(function () {
+                MiddenQuest_Expo_Tracker.drawPerkTimers();
+            }, 15000);
+        }
+    },
     start: function () {
-        jQuery('#TopScreen').prepend('<div id="expo_timer_parent" style="position: absolute;left: -120px;top: 20px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
-        jQuery('#TopScreen').prepend('<div id="expo_copy" style="position: absolute;left: -120px;top: 120px;color: black;" class=""><button class="darkBtn ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="width:100px; height:45px; font-size: 10pt;" role="button" aria-disabled="false"><span class="ui-button-text">Copy Market</span></button></div>');
-        jQuery('#TopScreen').prepend('<div id="expo_timer_parent_2" style="position: absolute;left: -120px;top: 180px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Navigation</div><br/><div><span id="expo_timer_2">Check Now</span></div></div></div>');
-        jQuery('#TopScreen').prepend('<div id="expo_sp" style="position: absolute;left: -120px;top: 280px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Seafaring</div><br/><div><span id="SeafaringPoints">0 SP</span></div></div></div>');
-        jQuery('#TopScreen').prepend('<div id="quest_done" style="position: absolute;left: -120px;top: 380px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Quest Counter</div><br/><div><span id="QuestCount">No Quest</span></div></div></div>');
+        jQuery('#TopScreen').prepend('<div id="MQ_Expo_Tracker" style="position: absolute;left: -120px;top: 20px"></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="expo_timer_parent" style="margin-bottom: 15px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Expedition</div><br/><div><span id="expo_timer">Check Now</span></div></div></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="expo_copy" style="margin-bottom: 15px;color: black;" class=""><button class="darkBtn ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="width:100px; height:45px; font-size: 10pt;" role="button" aria-disabled="false"><span class="ui-button-text">Copy Market</span></button></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="expo_timer_parent_2" style="margin-bottom: 15px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Navigation</div><br/><div><span id="expo_timer_2">Check Now</span></div></div></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="expo_sp" style="margin-bottom: 15px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Seafaring</div><br/><div><span id="SeafaringPoints">0 SP</span></div></div></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="quest_done" style="margin-bottom: 15px;color: black;" class=""><div style="width:100px; height:80px; background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Quest Counter</div><br/><div><span id="QuestCount">No Quest</span></div></div></div>');
+        jQuery('#MQ_Expo_Tracker').append('<div id="perk_status" style="margin-bottom: 15px;color: black;" class=""><div style="padding-bottom: 10px;width:100px;background-color:#CCC; text-align: center; border-radius: 5px; border: 1px solid black;"><br/><div>Perks</div><br/><div><span id="perkStatus">Check Now</span></div></div></div>');
 
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
         jQuery('#expo_timer').html(MiddenQuest_Expo_Tracker.message);
+        jQuery('#perkStatus').html(MiddenQuest_Expo_Tracker.message_4);
         MiddenQuest_Expo_Tracker.copyBtn = document.querySelector('#expo_copy');
         MiddenQuest_Expo_Tracker.copyBtn.addEventListener('click', function (event) {
             MiddenQuest_Expo_Tracker.parseStock();
@@ -242,6 +294,9 @@ var MiddenQuest_Expo_Tracker = {
                     }
                     if (MiddenQuest_Expo_Tracker.expo_navigate === 0) {
                         MiddenQuest_Expo_Tracker.setExpoNavigateTimeout();
+                    }
+                    if (jQuery('#ContentLoad > div:last-child > div:last-child > div > div:first-child').first().text() === 'Perks') {
+                        MiddenQuest_Expo_Tracker.updatePerkTimes();
                     }
                 }
             });
