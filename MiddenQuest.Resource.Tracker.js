@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Resource Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      1.2
+// @version      1.3
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -448,7 +448,7 @@ var MQO_Resource_Tracker = {
         this.updateUI(outputArgs);
     },
     formatResource: function (label, value) {
-        return '<li><div>' + label + ' ' + value + '</div></li>';
+        return '<li style="width: 200px;clear: both;"><div style="float: left;">' + label + '</div><div style="float: right;text-align: right;">' + value + '</div></li>';
     },
     updateUI: function (outputArgs) {
         $('#' + this.resourceListId).empty();
@@ -461,7 +461,7 @@ var MQO_Resource_Tracker = {
         }
     },
     initializeUI: function () {
-        $("body").append('<div id="resourceLogContainer" style="position: absolute;top: 0;right: 0; width: 210px;"><div>Resource Log <div style="float: right;"><a href="javascript:toggleUI();">[Toggle]</a></div></div> <ul id="resourceLogList" style="display"></ul></div>');
+        $("body").append('<div id="resourceLogContainer" style="position: absolute;top: 0;right: 20px; width: 200px;"><div>Resource Log <div style="float: right;"><a href="javascript:toggleUI();">[Toggle]</a></div></div> <ul id="resourceLogList" style="display"></ul></div>');
     },
     toggleUI: function () {
         $("#resourceLogList").toggle();
