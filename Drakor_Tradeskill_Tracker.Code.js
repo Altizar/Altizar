@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
-// @version      0.1.2
+// @version      0.1.3
 // @description  Tracks statistics of tradeskills
 // @author       Altizar
 // @match        http://*.drakor.com*
@@ -133,7 +133,7 @@ var Drakor_Tradeskill_Tracker = {
         table += '<tr><th>Runs</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].runs + '</td></tr>';
         table += '<tr><th>Exp</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].exp + '</td></tr>';
         table += '<tr><th>Exp Avg</th><td colspan="2">' + parseInt(Drakor_Tradeskill_Tracker.data[type][location].exp / Drakor_Tradeskill_Tracker.data[type][location].runs) + '</td></tr>';
-        table += '<tr><th>Reset</th><td colspan="2"><div class="drIcon cardRare" onClick="Drakor_Tradeskill_Tracker.resetNode(\'' + type + '\',\'' + location + '\')">Reset Node</div></td></tr>';
+        table += '<tr><th>Reset</th><td colspan="2"><div class="drIcon cardRare" style="height: 20px;" onClick="Drakor_Tradeskill_Tracker.resetNode(\'' + type + '\',\'' + location + '\')">Reset Node</div></td></tr>';
         jQuery('#tradeskilltrackerlist').empty().append(table);
         jQuery('#tradeskilltrackertype').text(type);
     },
