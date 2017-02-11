@@ -1,10 +1,16 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
-// @version      0.1.3
+// @namespace    https://github.com/Altizar/Altizar.github.io
+// @version      0.1.4
 // @description  Tracks statistics of tradeskills
+// @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
-// @match        http://*.drakor.com*
-// ==/UserScript==
+// @include      http://*.drakor.com*
+// @downloadURL  https://altizar.github.io/Drakor_Tradeskill_Tracker.Code.js
+// @updateURL    https://altizar.github.io/Drakor_Tradeskill_Tracker.Code.js
+// @grant        GM_xmlhttpRequest
+// ==/UserScript==/*
+
 var Drakor_Tradeskill_Tracker = {
     target: document.getElementById('drakorWorld'),
     config: {
