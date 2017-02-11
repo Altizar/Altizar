@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.1.4
+// @version      0.1.6
 // @description  Tracks statistics of tradeskills
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
@@ -131,11 +131,21 @@ var Drakor_Tradeskill_Tracker = {
         }
         Drakor_Tradeskill_Tracker.drawTable(type);
         var table = '';
-        for (var key in Drakor_Tradeskill_Tracker.data[type][location].catches) {
+        var firstRow = true;
+        Object.keys(Drakor_Tradeskill_Tracker.data.Fishing["Great Barrier Peak"].catches).sort().forEach(function (key) {
+            if (firstRow) {
+                table += '<tr><td colspan="3" style="lineheight=2px;">&nbsp;</td></tr>';
+                firstRow = false;
+            } else {
+                table += '<tr><td colspan="3" style="lineheight=2px;"><hr/></td></tr>';
+            }
+//        for (var key in Drakor_Tradeskill_Tracker.data[type][location].catches) {
             var found = Drakor_Tradeskill_Tracker.data[type][location].catches[key];
             var percent = parseInt(found / Drakor_Tradeskill_Tracker.data[type][location].runs * 100);
             table += '<tr><td>' + key + '</td><td>' + found + '</td><td>' + percent + '<td></tr>';
-        }
+        });
+//        }
+        table += '<tr><td colspan="3" style="lineheight=2px;">&nbsp;</td></tr>';
         table += '<tr><th>Runs</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].runs + '</td></tr>';
         table += '<tr><th>Exp</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].exp + '</td></tr>';
         table += '<tr><th>Exp Avg</th><td colspan="2">' + parseInt(Drakor_Tradeskill_Tracker.data[type][location].exp / Drakor_Tradeskill_Tracker.data[type][location].runs) + '</td></tr>';
@@ -159,7 +169,20 @@ var Drakor_Tradeskill_Tracker = {
             jQuery('#drakorWorld').append('<div id="tradeskilltracker" style="position: absolute;width: 200px;top: 0px;left: -235px" class="dContainer"><h3>Tracking <span id="tradeskilltrackertype">Unknown</span></h3><table><thead><tr><th>Item</th><th>Actions</th><th>Rate</th></tr></thead><tbody id="tradeskilltrackerlist"></tbody></table></div>');
         }
         jQuery('#tradeskilltrackertype').text(type);
-
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { padding: 0px; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { text-align: right; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td:first-child { text-align: left; }");
+    },
+    addGlobalStyle: function (css) {
+        var head, style;
+        head = document.getElementsByTagName('head')[0];
+        if (!head) {
+            return;
+        }
+        style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = css;
+        head.appendChild(style);
     },
     run: function () {
         // Drakor_Tradeskill_Tracker.logText('Fishing Tracker Loaded');
@@ -172,7 +195,13 @@ var Drakor_Tradeskill_Tracker = {
                 if (mutation.addedNodes.length > 0) {
                     var target = document.getElementById('skillResults');
                     if (target !== null) {
-                        Drakor_Tradeskill_Tracker.buildTable();
+                        var type = jQuery('.skillResultsHeader').first().text().match(/Your (\w*|\w*\s\w*) (History|Log)/)[1];
+                        var location = jQuery('.locationTitle').clone().children().remove().end().text();
+                        if (type === undefined || location === undefined) {
+                            Drakor_Tradeskill_Tracker.buildTable();
+                        } else {
+                            Drakor_Tradeskill_Tracker.buildTable(type, location);
+                        }
                         Drakor_Tradeskill_Tracker.observer2.observe(target, Drakor_Tradeskill_Tracker.config);
                     }
                 }
