@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.1.6
+// @version      0.1.7
 // @description  Tracks statistics of tradeskills
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
@@ -149,7 +149,7 @@ var Drakor_Tradeskill_Tracker = {
         table += '<tr><th>Runs</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].runs + '</td></tr>';
         table += '<tr><th>Exp</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].exp + '</td></tr>';
         table += '<tr><th>Exp Avg</th><td colspan="2">' + parseInt(Drakor_Tradeskill_Tracker.data[type][location].exp / Drakor_Tradeskill_Tracker.data[type][location].runs) + '</td></tr>';
-        table += '<tr><th>Reset</th><td colspan="2"><div class="drIcon cardRare" style="height: 20px;" onClick="Drakor_Tradeskill_Tracker.resetNode(\'' + type + '\',\'' + location + '\')">Reset Node</div></td></tr>';
+        table += '<tr><th>Reset</th><td colspan="2"><div class="cardRare" style="height: 20px;cursor: pointer;text-align: center;" onClick="Drakor_Tradeskill_Tracker.resetNode(\'' + type + '\',\'' + location + '\')">Reset Node</div></td></tr>';
         jQuery('#tradeskilltrackerlist').empty().append(table);
         jQuery('#tradeskilltrackertype').text(type);
     },
@@ -160,8 +160,9 @@ var Drakor_Tradeskill_Tracker = {
         if (Drakor_Tradeskill_Tracker.data[type][location] === undefined) {
             return;
         }
-        delete Drakor_Tradeskill_Tracker.data[type][location];
+        Drakor_Tradeskill_Tracker.data[type][location] = JSON.parse(JSON.stringify(Drakor_Tradeskill_Tracker.baseData));
         Drakor_Tradeskill_Tracker.save();
+        Drakor_Tradeskill_Tracker.buildTable(type, location);
     },
     drawTable: function (type) {
         var target = document.getElementById('tradeskilltracker');
@@ -169,6 +170,7 @@ var Drakor_Tradeskill_Tracker = {
             jQuery('#drakorWorld').append('<div id="tradeskilltracker" style="position: absolute;width: 200px;top: 0px;left: -235px" class="dContainer"><h3>Tracking <span id="tradeskilltrackertype">Unknown</span></h3><table><thead><tr><th>Item</th><th>Actions</th><th>Rate</th></tr></thead><tbody id="tradeskilltrackerlist"></tbody></table></div>');
         }
         jQuery('#tradeskilltrackertype').text(type);
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table { width: 100%; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { padding: 0px; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { text-align: right; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td:first-child { text-align: left; }");
