@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.2.0
+// @version      0.2.1
 // @description  Tracks statistics of tradeskills
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
@@ -173,6 +173,7 @@ var Drakor_Tradeskill_Tracker = {
             jQuery('#drakorWorld').append('<div id="tradeskilltracker" style="position: absolute;width: 200px;top: 0px;left: -235px" class="dContainer"><h3>Tracking <span id="tradeskilltrackertype">Unknown</span></h3><table><thead><tr><th>Item</th><th>Actions</th><th>Rate</th></tr></thead><tbody id="tradeskilltrackerlist"></tbody></table></div>');
         }
         jQuery('#tradeskilltrackertype').text(type);
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker { z-index: 5; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table { width: 100%; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { padding: 0px; }");
         Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { text-align: right; }");
