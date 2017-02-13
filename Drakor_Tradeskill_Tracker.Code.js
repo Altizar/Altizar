@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.1.8
+// @version      0.2.0
 // @description  Tracks statistics of tradeskills
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
@@ -99,7 +99,8 @@ var Drakor_Tradeskill_Tracker = {
             Drakor_Tradeskill_Tracker.data[type][location] = JSON.parse(JSON.stringify(Drakor_Tradeskill_Tracker.baseData));
         }
         if (jQuery('.viewMat', data).length > 0) {
-            var itemName = jQuery('.viewMat', data).first().text().replace('[', '').replace(']', '');
+//            var itemName = jQuery('.viewMat', data).first().text().replace('[', '').replace(']', '');
+            var itemName = jQuery('.viewMat', data).first()[0].outerHTML;
             if (Drakor_Tradeskill_Tracker.data[type][location].catches[itemName] === undefined) {
                 Drakor_Tradeskill_Tracker.data[type][location].catches[itemName] = 0;
             }
@@ -132,7 +133,9 @@ var Drakor_Tradeskill_Tracker = {
         Drakor_Tradeskill_Tracker.drawTable(type);
         var table = '';
         var firstRow = true;
-        Object.keys(Drakor_Tradeskill_Tracker.data[type][location].catches).sort().forEach(function (key) {
+        Object.keys(Drakor_Tradeskill_Tracker.data[type][location].catches).sort(function (a, b) {
+            return jQuery(a).text().localeCompare(jQuery(b).text())
+        }).forEach(function (key) {
             if (firstRow) {
                 table += '<tr><td colspan="3" style="lineheight=2px;">&nbsp;</td></tr>';
                 firstRow = false;
