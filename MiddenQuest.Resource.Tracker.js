@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Resource Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      1.3
+// @version      1.4
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -16,6 +16,7 @@ var MQO_Resource_Tracker = {
     outputTaxes: true,
     outputTiers: true,
     outputQuests: true,
+    outputPerks: true,
     printItemDrops: true,
     outputToConsole: false,
     saveLogText: false,
@@ -91,6 +92,19 @@ var MQO_Resource_Tracker = {
             relicDrop: 0,
             relicTotal: 0,
             relicDouble: 0
+        },
+        perks: {
+            Drunk: 0,
+            Drunk_Scout: 0,
+            Drunk_Sell: 0,
+            Drunk_Mine: 0,
+            Drunk_Gather: 0,
+            Drunk_Log: 0,
+            Drunk_Fish: 0,
+            Enraged: 0,
+            Captain: 0,
+            Pitied: 0,
+            Hoarder: 0,
         }
     },
     cleartsResults: function () {
@@ -230,22 +244,53 @@ var MQO_Resource_Tracker = {
         else
             this.tsResults.scouts.gained += marksEarned;
     },
+    parsePerk: function(msg) {
+        if (msg.indexOf('Enraged') >= 0) {
+            this.tsResults.perks.Enraged += 1;
+        }
+        if (msg.indexOf('drunkenly') >= 0) {
+            this.tsResults.perks.Drunk += 1;
+            if (msg.indexOf('scout') >= 0) {
+                this.tsResults.perks.Drunk_Scout += 1;
+            }
+            if (msg.indexOf('sold') >= 0) {
+                this.tsResults.perks.Drunk_Sell += 1;
+            }
+            if (msg.indexOf('mined') >= 0) {
+                this.tsResults.perks.Drunk_Mine += 1;
+            }
+            if (msg.indexOf('gathered') >= 0) {
+                this.tsResults.perks.Drunk_Gather += 1;
+            }
+            if (msg.indexOf('cut') >= 0) {
+                this.tsResults.perks.Drunk_Log += 1;
+            }
+            if (msg.indexOf('fished') >= 0) {
+                this.tsResults.perks.Drunk_Fish += 1;
+            }
+        }
+    },
     parseScoutResourceRelic: function (msg) {
         var count = parseInt(msg.match(this.scoutRelicRegex)[1]);
         // not sure if this one occurs, safety first
-        if (msg.indexOf('a relic') >= 0)
+        if (msg.indexOf('a relic') >= 0) {
             count = 1;
+        }
         // relics can be taxed now
-        if (msg.indexOf("taxes") >= 0)
+        if (msg.indexOf("taxes") >= 0) {
             this.tsResults.scouts.relicTaxedCount += count;
-        else
+        } else {
             this.tsResults.scouts.relicGained += count;
+        }
         // track the total relic drops for taxes/doubles
         this.tsResults.scouts.relicDrop += 1;
-        if (msg.indexOf('double') >= 0)
+        if (msg.indexOf('double') >= 0) {
             this.tsResults.scouts.relicDouble += 1;
-        if (msg.indexOf('taxes') >= 0)
+        }
+        if (msg.indexOf('taxes') >= 0) {
             this.tsResults.scouts.relicTaxed += 1;
+        }
+        this.updateOutput(this.tsResults, msg);
     },
     parseTSLog: function (data) {
         var datum = data.data;
@@ -269,20 +314,25 @@ var MQO_Resource_Tracker = {
                 return this.handleQuestItem(msg);
             return this.handleItemDrop(msg);
         } else if (channel == 2) {
+            if (msg.indexOf('**') > -1) {
+                return this.parsePerk(msg);
+            }
             // skip level up message before counting the action
-            if (msg.indexOf('gained a new tradeskill level') > -1)
+            if (msg.indexOf('gained a new tradeskill level') > -1) {
                 return;
+            }
             // scouting's relic gain is in resource log now
-            if (msg.indexOf('relic') > -1)
+            if (msg.indexOf('relic') > -1) {
                 return this.parseScoutResourceRelic(msg);
-
+            }
             this.tsResults.actions += 1;
-            if (this.tsResults.questActive)
+            if (this.tsResults.questActive) {
                 this.tsResults.questActions += 1;
+            }
             var wasTaxed = msg.indexOf('to taxes') > -1;
-            if (wasTaxed)
+            if (wasTaxed) {
                 this.tsResults.taxedActions += 1;
-
+            }
             this.tsResults.xp += parseInt(msg.match(this.tsXPRegex)[1]);
 
             if (msg.indexOf('You cut') >= 0) {
@@ -345,27 +395,44 @@ var MQO_Resource_Tracker = {
             '2x Relic %:', (this.tsResults.itemInfo.relicDouble / this.tsResults.itemInfo.relicDrop).toFixed(2),
             '&nbsp;', '&nbsp;']);
     },
+    addPerkInfo: function (tsResults, outputArgs) {
+        return outputArgs.concat([
+            '&nbsp;', '&nbsp;',
+            'Enraged %:', (100 * this.tsResults.perks.Enraged / this.tsResults.actions).toFixed(4),
+            '&nbsp;', '&nbsp;',
+            'Drunk %:', (100 * this.tsResults.perks.Drunk / this.tsResults.actions).toFixed(4),
+            'Drunk Scout %:', (100 * this.tsResults.perks.Drunk_Scout / this.tsResults.actions).toFixed(4),
+            'Drunk Sell %:', (100 * this.tsResults.perks.Drunk_Sell / this.tsResults.actions).toFixed(4),
+            'Drunk Mine %:', (100 * this.tsResults.perks.Drunk_Mine / this.tsResults.actions).toFixed(4),
+            'Drunk Gather %:', (100 * this.tsResults.perks.Drunk_Gather / this.tsResults.actions).toFixed(4),
+            'Drunk Log %:', (100 * this.tsResults.perks.Drunk_Log / this.tsResults.actions).toFixed(4),
+            'Drunk Fish %:', (100 * this.tsResults.perks.Drunk_Fish / this.tsResults.actions).toFixed(4),
+//            'Captain %:', (100 * this.tsResults.perks.Captain / this.tsResults.actions).toFixed(4),
+//            'Pitied %:', (100 * this.tsResults.perks.Pitied / this.tsResults.actions).toFixed(4),
+//            'Hoarder %:', (100 * this.tsResults.perks.Hoarder / this.tsResults.actions).toFixed(4),
+            ]);
+    },
     addSalesInfo: function (tsResults, outputArgs) {
         var avgSale = this.tsResults.sales.gained / this.tsResults.actions;
         return outputArgs.concat([
             'Sales:', this.numberWithCommas(this.tsResults.sales.gained),
             'Avg Sale:', this.numberWithCommas(avgSale.toFixed(2)),
-            '1x Estimate:', (avgSale * this.normalAverageMultiplier).toFixed(0),
-            '4x Estimate:', (avgSale * this.quadAverageMultiplier).toFixed(0)
+//            '1x Estimate:', (avgSale * this.normalAverageMultiplier).toFixed(0),
+//            '4x Estimate:', (avgSale * this.quadAverageMultiplier).toFixed(0)
         ]);
     },
     addScoutsInfo: function (tsResults, outputArgs) {
         var avgScout = this.tsResults.scouts.gained / this.tsResults.actions;
         return outputArgs.concat([
             'Scouts:', this.numberWithCommas(this.tsResults.scouts.gained),
-            'Avg Scout:', this.numberWithCommas(avgScout.toFixed(2)),
+            'Avg Scout:', this.numberWithCommas(avgScout.toFixed(0)),
             'Scout Relics:', this.numberWithCommas(this.tsResults.scouts.relicGained),
             'Scout 2x Relic%:', this.numberWithCommas((this.tsResults.scouts.relicDouble / this.tsResults.scouts.relicDrop * 100).toFixed(2)),
             'Actions/Relic', (this.tsResults.actions / this.tsResults.scouts.relicGained).toFixed(2),
             'Relics/Action', (this.tsResults.scouts.relicGained / this.tsResults.actions).toFixed(2),
-            '&nbsp;', '&nbsp;',
-            '1x Estimate:', this.numberWithCommas((avgScout * this.normalAverageMultiplier).toFixed(0)),
-            '4x Estimate:', this.numberWithCommas((avgScout * this.quadAverageMultiplier).toFixed(0))
+//            '&nbsp;', '&nbsp;',
+//            '1x Estimate:', this.numberWithCommas((avgScout * this.normalAverageMultiplier).toFixed(0)),
+//            '4x Estimate:', this.numberWithCommas((avgScout * this.quadAverageMultiplier).toFixed(0))
         ]);
     },
     addTaxPercent: function (tsResults, outputArgs) {
@@ -436,6 +503,10 @@ var MQO_Resource_Tracker = {
             }
         }
 
+        if (this.outputPerks) {
+            outputArgs = this.addPerkInfo(this.tsResults, outputArgs);
+        }
+
         outputArgs = outputArgs.concat(['\tmsg:', msg]);
 
         if (this.outputToConsole) {
@@ -471,11 +542,11 @@ var MQO_Resource_Tracker = {
     }
 };
 
-if (unsafeWindow.MQO_Resource_Tracker === undefined) {
-    unsafeWindow.MQO_Resource_Tracker = MQO_Resource_Tracker;
-}
-MQO_Resource_Tracker.initializeUI();
-if (MQO_WebsocketWrapper === undefined && unsafeWindow.MQO_WebsocketWrapper !== undefined) {
-    MQO_WebsocketWrapper = unsafeWindow.MQO_WebsocketWrapper;
-}
-MQO_WebsocketWrapper.addCallback(MQO_Resource_Tracker.run);
+ if (unsafeWindow.MQO_Resource_Tracker === undefined) {
+     unsafeWindow.MQO_Resource_Tracker = MQO_Resource_Tracker;
+ }
+ MQO_Resource_Tracker.initializeUI();
+ if (MQO_WebsocketWrapper === undefined && unsafeWindow.MQO_WebsocketWrapper !== undefined) {
+     MQO_WebsocketWrapper = unsafeWindow.MQO_WebsocketWrapper;
+ }
+ MQO_WebsocketWrapper.addCallback(MQO_Resource_Tracker.run);
