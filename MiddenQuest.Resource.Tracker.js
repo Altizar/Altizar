@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Resource Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      1.4
+// @version      1.6
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -17,7 +17,7 @@ var MQO_Resource_Tracker = {
     outputTiers: true,
     outputQuests: true,
     outputPerks: true,
-    printItemDrops: true,
+    printItemDrops: false,
     outputToConsole: false,
     saveLogText: false,
 
@@ -104,7 +104,7 @@ var MQO_Resource_Tracker = {
             Enraged: 0,
             Captain: 0,
             Pitied: 0,
-            Hoarder: 0,
+            Hoarder: 0
         }
     },
     cleartsResults: function () {
@@ -142,6 +142,18 @@ var MQO_Resource_Tracker = {
         this.tsResults.scouts.relicGained = 0;
         this.tsResults.scouts.relicDouble = 0;
         this.tsResults.scouts.relicDrop = 0;
+
+        this.tsResults.perks.Drunk = 0;
+        this.tsResults.perks.Drunk_Scout = 0;
+        this.tsResults.perks.Drunk_Sell = 0;
+        this.tsResults.perks.Drunk_Mine = 0;
+        this.tsResults.perks.Drunk_Gather = 0;
+        this.tsResults.perks.Drunk_Log = 0;
+        this.tsResults.perks.Drunk_Fish = 0;
+        this.tsResults.perks.Enraged = 0;
+        this.tsResults.perks.Captain = 0;
+        this.tsResults.perks.Pitied = 0;
+        this.tsResults.perks.Hoarder = 0;
 
         for (var i = 1, iLen = 6; i < iLen; i++) {
             this.tsResults[i] = {drop: 0, total: 0, gained: 0, taxed: 0};
@@ -244,7 +256,8 @@ var MQO_Resource_Tracker = {
         else
             this.tsResults.scouts.gained += marksEarned;
     },
-    parsePerk: function(msg) {
+    parsePerk: function (msg) {
+        console.info(Date(), msg);
         if (msg.indexOf('Enraged') >= 0) {
             this.tsResults.perks.Enraged += 1;
         }
@@ -315,7 +328,7 @@ var MQO_Resource_Tracker = {
             return this.handleItemDrop(msg);
         } else if (channel == 2) {
             if (msg.indexOf('**') > -1) {
-                return this.parsePerk(msg);
+                this.parsePerk(msg);
             }
             // skip level up message before counting the action
             if (msg.indexOf('gained a new tradeskill level') > -1) {
@@ -410,7 +423,7 @@ var MQO_Resource_Tracker = {
 //            'Captain %:', (100 * this.tsResults.perks.Captain / this.tsResults.actions).toFixed(4),
 //            'Pitied %:', (100 * this.tsResults.perks.Pitied / this.tsResults.actions).toFixed(4),
 //            'Hoarder %:', (100 * this.tsResults.perks.Hoarder / this.tsResults.actions).toFixed(4),
-            ]);
+        ]);
     },
     addSalesInfo: function (tsResults, outputArgs) {
         var avgSale = this.tsResults.sales.gained / this.tsResults.actions;
@@ -523,16 +536,16 @@ var MQO_Resource_Tracker = {
     },
     updateUI: function (outputArgs) {
         $('#' + this.resourceListId).empty();
-        $('#' + this.resourceListId).append('<li><div id="reset_data" style="color:blue;cursor: pointer;">Reset Data</a></div></li>');
-        $('#reset_data').on('click', function () {
-            MQO_Resource_Tracker.cleartsResults();
-        });
         for (var i = 0, iLen = outputArgs.length; i < iLen; i += 2) {
             $('#' + this.resourceListId).append(this.formatResource(outputArgs[i], outputArgs[i + 1]));
         }
     },
     initializeUI: function () {
         $("body").append('<div id="resourceLogContainer" style="position: absolute;top: 0;right: 20px; width: 200px;"><div>Resource Log <div style="float: right;"><a href="javascript:toggleUI();">[Toggle]</a></div></div> <ul id="resourceLogList" style="display"></ul></div>');
+        $('#resourceLogContainer').append('<div id="reset_data" style="color:blue;cursor: pointer;clear: both;margin-top: 20px;">Reset Data</a></div>');
+        $('#reset_data').on('click', function () {
+            MQO_Resource_Tracker.cleartsResults();
+        });
     },
     toggleUI: function () {
         $("#resourceLogList").toggle();
@@ -542,11 +555,11 @@ var MQO_Resource_Tracker = {
     }
 };
 
- if (unsafeWindow.MQO_Resource_Tracker === undefined) {
-     unsafeWindow.MQO_Resource_Tracker = MQO_Resource_Tracker;
- }
- MQO_Resource_Tracker.initializeUI();
- if (MQO_WebsocketWrapper === undefined && unsafeWindow.MQO_WebsocketWrapper !== undefined) {
-     MQO_WebsocketWrapper = unsafeWindow.MQO_WebsocketWrapper;
- }
- MQO_WebsocketWrapper.addCallback(MQO_Resource_Tracker.run);
+if (unsafeWindow.MQO_Resource_Tracker === undefined) {
+    unsafeWindow.MQO_Resource_Tracker = MQO_Resource_Tracker;
+}
+MQO_Resource_Tracker.initializeUI();
+if (MQO_WebsocketWrapper === undefined && unsafeWindow.MQO_WebsocketWrapper !== undefined) {
+    MQO_WebsocketWrapper = unsafeWindow.MQO_WebsocketWrapper;
+}
+MQO_WebsocketWrapper.addCallback(MQO_Resource_Tracker.run);
