@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Expo Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.9.0
+// @version      0.9.1
 // @description  MidenQuest - Market Tracker
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -59,7 +59,7 @@ var MiddenQuest_Expo_Tracker = {
     getValue: function (target) {
         return parseInt(jQuery('#' + target).text().replace(' ', '').replace(' ', '').replace(' ', ''));
     },
-    calcTimeout: function(timeleft) {
+    calcTimeout: function (timeleft) {
         var curTime = jQuery.now();
         var myDate = new Date(null);
         var timeLeft = parseInt((timeleft - curTime) / 1000);
@@ -136,26 +136,26 @@ var MiddenQuest_Expo_Tracker = {
     },
     buildText: function () {
         return "\n<div class='col-md-3' id='T1Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_1 + "</div>" +
-            "<div class='col-md-3' id='T2Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_2 + "</div>" +
-            "<div class='col-md-3' id='T3Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_3 + "</div>" +
-            "<div class='col-md-3' id='T4Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_4 + "</div>" +
-            "<div class='col-md-3' id='T5Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_5 + "</div>" +
-            "<div class='col-md-3' id='T1Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_1 + "</div>" +
-            "<div class='col-md-3' id='T2Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_2 + "</div>" +
-            "<div class='col-md-3' id='T3Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_3 + "</div>" +
-            "<div class='col-md-3' id='T4Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_4 + "</div>" +
-            "<div class='col-md-3' id='T5Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_5 + "</div>" +
-            "<div class='col-md-3' id='T1Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_1 + "</div>" +
-            "<div class='col-md-3' id='T2Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_2 + "</div>" +
-            "<div class='col-md-3' id='T3Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_3 + "</div>" +
-            "<div class='col-md-3' id='T4Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_4 + "</div>" +
-            "<div class='col-md-3' id='T5Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_5 + "</div>" +
-            "<div class='col-md-3' id='T1Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_1 + "</div>" +
-            "<div class='col-md-3' id='T2Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_2 + "</div>" +
-            "<div class='col-md-3' id='T3Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_3 + "</div>" +
-            "<div class='col-md-3' id='T4Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_4 + "</div>" +
-            "<div class='col-md-3' id='T5Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_5 + "</div>" +
-            "<br style='clear: both'/><br style='clear: both'/><br style='clear: both'/>";
+                "<div class='col-md-3' id='T2Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_2 + "</div>" +
+                "<div class='col-md-3' id='T3Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_3 + "</div>" +
+                "<div class='col-md-3' id='T4Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_4 + "</div>" +
+                "<div class='col-md-3' id='T5Ore'>" + MiddenQuest_Expo_Tracker.stock.Ore_5 + "</div>" +
+                "<div class='col-md-3' id='T1Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_1 + "</div>" +
+                "<div class='col-md-3' id='T2Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_2 + "</div>" +
+                "<div class='col-md-3' id='T3Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_3 + "</div>" +
+                "<div class='col-md-3' id='T4Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_4 + "</div>" +
+                "<div class='col-md-3' id='T5Gather'>" + MiddenQuest_Expo_Tracker.stock.Plant_5 + "</div>" +
+                "<div class='col-md-3' id='T1Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_1 + "</div>" +
+                "<div class='col-md-3' id='T2Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_2 + "</div>" +
+                "<div class='col-md-3' id='T3Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_3 + "</div>" +
+                "<div class='col-md-3' id='T4Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_4 + "</div>" +
+                "<div class='col-md-3' id='T5Wood'>" + MiddenQuest_Expo_Tracker.stock.Wood_5 + "</div>" +
+                "<div class='col-md-3' id='T1Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_1 + "</div>" +
+                "<div class='col-md-3' id='T2Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_2 + "</div>" +
+                "<div class='col-md-3' id='T3Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_3 + "</div>" +
+                "<div class='col-md-3' id='T4Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_4 + "</div>" +
+                "<div class='col-md-3' id='T5Fish'>" + MiddenQuest_Expo_Tracker.stock.Fish_5 + "</div>" +
+                "<br style='clear: both'/><br style='clear: both'/><br style='clear: both'/>";
     },
     setExpoTimeout: function () {
         var timeDiv = jQuery('#ContentLoad > div:last-child > div > div:nth-child(2) > div > div > div > div:contains("min. left")').text();
@@ -221,31 +221,34 @@ var MiddenQuest_Expo_Tracker = {
         }
         jQuery('#expo_timer_2').html(MiddenQuest_Expo_Tracker.message_2);
     },
-    updatePerkTimes: function() {
+    updatePerkTimes: function () {
         var curTime = jQuery.now();
-        jQuery('#ContentLoad > div:last-child > div:last-child > div > div').each(function() {
-            if (jQuery('div',this).length !== 2) {return;}
-            var perkName = jQuery('div',this).first().text().trim().match(/(\w+) lvl. (\d+)/);
-            var perkValue = jQuery('div',this).last().text().trim().match(/[(](\w+) min[)]/);
-            if(perkName === null || perkName.length !== 3) {return;}
+        jQuery('#ContentLoad > div:last-child > div:last-child > div > div').each(function () {
+            if (jQuery('div', this).length !== 2) {
+                return;
+            }
+            var perkName = jQuery('div', this).first().text().trim().match(/(\w+) lvl. (\d+)/);
+            var perkValue = jQuery('div', this).last().text().trim().match(/[(](\w+) min[)]/);
+            if (perkName === null || perkName.length !== 3) {
+                return;
+            }
             if (MiddenQuest_Expo_Tracker.perks[perkName[1]] === undefined) {
                 MiddenQuest_Expo_Tracker.perks[perkName[1]] = 0;
             }
-            console.log(perkValue[1]);
             if (parseInt(perkValue[1]) > 0) {
-                MiddenQuest_Expo_Tracker.perks[perkName[1]] = ((parseInt(perkValue[1])+1) * 60 * 1000) + curTime;
+                MiddenQuest_Expo_Tracker.perks[perkName[1]] = ((parseInt(perkValue[1]) + 1) * 60 * 1000) + curTime;
             } else {
                 MiddenQuest_Expo_Tracker.perks[perkName[1]] = 0;
             }
         });
         MiddenQuest_Expo_Tracker.drawPerkTimers();
     },
-    drawPerkTimers: function() {
+    drawPerkTimers: function () {
         var active = false;
         var curTime = jQuery.now();
         MiddenQuest_Expo_Tracker.message_4 = '';
         for (var key in MiddenQuest_Expo_Tracker.perks) {
-            MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 5px;">'+key+'</div>';
+            MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 5px;">' + key + '</div>';
             if (curTime > MiddenQuest_Expo_Tracker.perks[key]) {
                 MiddenQuest_Expo_Tracker.perks[key] = 0;
             }
@@ -253,7 +256,7 @@ var MiddenQuest_Expo_Tracker = {
                 MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 15px;color: red;">Inactive</div>';
             } else {
                 active = true;
-                MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 15px;color: black;">'+MiddenQuest_Expo_Tracker.calcTimeout(MiddenQuest_Expo_Tracker.perks[key])+'</div>';
+                MiddenQuest_Expo_Tracker.message_4 += '<div style="margin-bottom: 15px;color: black;">' + MiddenQuest_Expo_Tracker.calcTimeout(MiddenQuest_Expo_Tracker.perks[key]) + '</div>';
             }
         }
         MiddenQuest_Expo_Tracker.message_4 += "<div><span style='color:blue;cursor: pointer;' onClick=\"sendRequestContentFill('getInfoPerk.aspx?null='); fightengaged = 0;\">Update Perks</span></div>";
