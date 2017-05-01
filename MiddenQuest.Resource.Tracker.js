@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MidenQuest - Resource Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      1.6
+// @version      1.6.1
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
 // @include      http://www.midenquest.com/Game.aspx
@@ -257,11 +257,10 @@ var MQO_Resource_Tracker = {
             this.tsResults.scouts.gained += marksEarned;
     },
     parsePerk: function (msg) {
-        console.info(Date(), msg);
+
         if (msg.indexOf('Enraged') >= 0) {
             this.tsResults.perks.Enraged += 1;
-        }
-        if (msg.indexOf('drunkenly') >= 0) {
+        } else if (msg.indexOf('drunkenly') >= 0) {
             this.tsResults.perks.Drunk += 1;
             if (msg.indexOf('scout') >= 0) {
                 this.tsResults.perks.Drunk_Scout += 1;
@@ -281,6 +280,8 @@ var MQO_Resource_Tracker = {
             if (msg.indexOf('fished') >= 0) {
                 this.tsResults.perks.Drunk_Fish += 1;
             }
+        } else {
+            console.info(Date(), msg);
         }
     },
     parseScoutResourceRelic: function (msg) {
