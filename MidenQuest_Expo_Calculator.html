@@ -4,289 +4,325 @@
         <link rel="stylesheet prefetch" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
-        <div class="col-md-12 padding-top-20 padding-btm-40">
+        <div class="col-md-12 padding-top-20 padding-btm-40 border">
             <h1>Altizar's Miden Quest Expo Calculator</h1>
-            <div>Updated for 2016-11-01 update</div>
+            <div>Updated for 2017-04-26 update</div>
         </div>
         <link type="text/css" rel="stylesheet" href="MidenQuest_Expo_Calculator.css">
-        <div class="ritz grid-container col-md-4" dir="ltr">
-            <table class="waffle col-md-12" cellspacing="0" cellpadding="0">
-                <thead>
-                    <tr>
-                        <th class="title col-md-2">&nbsp;</th>
-                        <th class="title col-md-2">&nbsp;</th>
-                        <th class="title col-md-2">&nbsp;</th>
-                        <th class="title col-md-2">&nbsp;</th>
-                        <th class="title col-md-2">&nbsp;</th>
-                        <th class="title col-md-2">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style='height:19px;'>
-                        <td class="title" colspan="2">Reward Prices</td>
-                        <td class="title" colspan="2">Expo Bonuses</td>
-                        <td class="title" dir="ltr">Level</td>
-                        <td class="title">Import:
-                        </td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Gem</td>
-                        <td><input type="number" class="price" id="gems" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Gems</div>
-                        </td>
-                        <td class="multi" id="gem_level_multi">0</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="gem_level" id="gem_level" value=""></td>
-                        <td class="title" rowspan="2">
-                            <div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#price_modal">Market<br/>Resources<br/>Easy Input</div>
-                        </td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Relic</td>
-                        <td><input type="number" class="price" id="relics" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Relics</div>
-                        </td>
-                        <td class="multi" id="relic_level_multi">0</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="relic_level" id="relic_level" value=""></td>
-                        <!--<td class="title">-->
-                        <!--<div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#resources_modal">Resources</div>-->
-                        <!--</td>-->
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Orb</td>
-                        <td><input type="number" class="price" id="orbs" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Keys</div>
-                        </td>
-                        <td class="multi" id="key_level_multi">0</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="key_level" id="key_level" value=""></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Scroll</td>
-                        <td><input type="number" class="price" id="scrolls" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title">Max Orbs</td>
-                        <td class="multi" id="orb_level_multi">0</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="orb_level" id="orb_level" value=""></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">ME</td>
-                        <td><input type="number" class="price" id="magic" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Scrolls</div>
-                        </td>
-                        <td class="multi" id="scroll_level_multi">0</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="scroll_level" id="scroll_level" value=""></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Keys</td>
-                        <td><input type="number" class="price" disabled="true" id="keys" value="0" min="0" max="99999" step="1" size="12"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Time reduct.</div>
-                        </td>
-                        <td class="multi" id="time_level_multi">10</td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="time_level" id="time_level" value=""></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Set min Time</td>
-                        <td class="details "><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="min_time" id="min_time" value="1"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">King. Inns</div>
-                        </td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="king_inns" id="king_inns" value=""></td>
-                        <td class="title"></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Set min Expo</td>
-                        <td class="details "><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="min_expo" id="min_expo" value="1"></td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Adv. Level</div>
-                        </td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="adv_level" id="adv_level" value=""></td>
-                        <td class="title" dir="ltr">Short</td>
-                        <td class="" dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="short_run" id="short_run" value=""></td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Used Tiers</td>
-                        <td class="details " dir="ltr">
-                            <!--<input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="tiers" id="tiers" value="3452">-->
-                            <select name="tiers" class="user_input" id="tiers">
-                                <option value="1352">1352</option>
-                                <option value="2413">2413</option>
-                                <option value="3524">3524</option>
-                                <option value="4135">4135</option>
-                                <option value="5241">5241</option>
-                            </select>
-                        </td>
-                        <td class="title softmerge">
-                            <div class="softmerge-inner" style="width: 59px; left: -1px;">Expo Slots</div>
-                        </td>
-                        <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="expo_slots" id="expo_slots" value="4"></td>
-                        <td class="title">Long</td>
-                        <td class="" dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="long_run" id="long_run" value=""></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title text-center" colspan="7">Resource Prices</td>
-                        <td class="title"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title"></td>
-                        <td class="title tier" >T1</td>
-                        <td class="title tier">T2</td>
-                        <td class="title tier">T3</td>
-                        <td class="title tier">T4</td>
-                        <td class="title tier">T5</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Ore</td>
-                        <td><input type="number" class="price" id="ore_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="ore_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="ore_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="ore_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="ore_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Plants</td>
-                        <td><input type="number" class="price" id="plants_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="plants_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="plants_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="plants_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="plants_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Wood</td>
-                        <td><input type="number" class="price" id="wood_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="wood_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="wood_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="wood_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="wood_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Fish</td>
-                        <td><input type="number" class="price" id="fish_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="fish_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="fish_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="fish_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="price" id="fish_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title text-center" colspan="7">Owned Resources</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title"></td>
-                        <td class="title tier">T1</td>
-                        <td class="title tier">T2</td>
-                        <td class="title tier">T3</td>
-                        <td class="title tier">T4</td>
-                        <td class="title tier">T5</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Ore</td>
-                        <td><input type="number" class="resources" id="rez_ore_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_ore_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_ore_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_ore_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_ore_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Plants</td>
-                        <td><input type="number" class="resources" id="rez_plants_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_plants_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_plants_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_plants_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_plants_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Wood</td>
-                        <td><input type="number" class="resources" id="rez_wood_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_wood_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_wood_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_wood_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_wood_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title">Fish</td>
-                        <td><input type="number" class="resources" id="rez_fish_1" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_fish_2" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_fish_3" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_fish_4" value="0" min="0" max="99999" step="1" size="6"></td>
-                        <td><input type="number" class="resources" id="rez_fish_5" value="0" min="0" max="99999" step="1" size="6"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title text-center" colspan="7">Resources Needed For Expos</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title" dir="ltr">Long Type</td>
-                        <td class="title"></td>
-                        <td class="title tier" id="best_res_1"></td>
-                        <td class="title tier" id="best_res_2"></td>
-                        <td class="title tier" id="best_res_3"></td>
-                        <td class="title tier" id="best_res_4"></td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title" dir="ltr">
-                            <select class="user_input" name="long_type" id="long_type">
-                                <option value="1">Long Profit</option>
-                                <option value="2">Long Time</option>
-                            </select>
-                        </td>
-                        <td class="title" dir="ltr">Cost</td>
-                        <td class="title best_res_1">T?</td>
-                        <td class="title best_res_2">T?</td>
-                        <td class="title best_res_3">T?</td>
-                        <td class="title best_res_4">T?</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title" id="res_short_name">0/0/0/0</td>
-                        <td class="title" id="res_short_cost">000m</td>
-                        <td class="details" id="res_short_1">0</td>
-                        <td class="details" id="res_short_2">0</td>
-                        <td class="details" id="res_short_3">0</td>
-                        <td class="details" id="res_short_4">0</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title" id="res_long_name">0/0/0/0</td>
-                        <td class="title" id="res_long_cost">000m</td>
-                        <td class="details" id="res_long_1">0</td>
-                        <td class="details" id="res_long_2">0</td>
-                        <td class="details" id="res_long_3">0</td>
-                        <td class="details" id="res_long_4">0</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title softmerge" dir="ltr">
-                            <div class="softmerge-inner" style="width: 77px; left: -1px;">Total Missing</div>
-                        </td>
-                        <td class="title" id="res_total_cost">000m</td>
-                        <td class="details" id="res_total_1">0</td>
-                        <td class="details" id="res_total_2">0</td>
-                        <td class="details" id="res_total_3">0</td>
-                        <td class="details" id="res_total_4">0</td>
-                    </tr>
-                    <tr style='height:19px;'>
-                        <td class="title softmerge" dir="ltr">
-                            <div class="softmerge-inner" style="width: 77px; left: -1px;">Total Needed</div>
-                        </td>
-                        <td class="title" id="res_gtotal_cost">000m</td>
-                        <td class="details" id="res_gtotal_1">0</td>
-                        <td class="details" id="res_gtotal_2">0</td>
-                        <td class="details" id="res_gtotal_3">0</td>
-                        <td class="details" id="res_gtotal_4">0</td>
-                    </tr>
-            </table>
-        </div>
-        <div class="ritz grid-container col-md-7" dir="ltr">
+        <table class="waffle col-md-4" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="title col-md-2">&nbsp;</th>
+                    <th class="title col-md-2">&nbsp;</th>
+                    <th class="title col-md-2">&nbsp;</th>
+                    <th class="title col-md-2">&nbsp;</th>
+                    <th class="title col-md-2">&nbsp;</th>
+                    <th class="title col-md-2">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style='height:19px;'>
+                    <td class="title" colspan="2">Reward Prices</td>
+                    <td class="title" colspan="2">Expo Bonuses</td>
+                    <td class="title" dir="ltr">Level</td>
+                    <td class="title">Import:
+                    </td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Gem</td>
+                    <td><input type="number" class="price" id="gems" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Gems</div>
+                    </td>
+                    <td class="multi" id="gem_level_multi">0</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="gem_level" id="gem_level" value=""></td>
+                    <td class="title" rowspan="2">
+                        <div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#price_modal">Market<br/>Resources<br/>Easy Input</div>
+                    </td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Relic</td>
+                    <td><input type="number" class="price" id="relics" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Relics</div>
+                    </td>
+                    <td class="multi" id="relic_level_multi">0</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="relic_level" id="relic_level" value=""></td>
+                    <!--<td class="title">-->
+                    <!--<div class="btn btn-primary" style="margin-left: 10px;" id="loadData" data-toggle="modal" data-target="#resources_modal">Resources</div>-->
+                    <!--</td>-->
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Orb</td>
+                    <td><input type="number" class="price" id="orbs" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Keys</div>
+                    </td>
+                    <td class="multi" id="key_level_multi">0</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="key_level" id="key_level" value=""></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Scroll</td>
+                    <td><input type="number" class="price" id="scrolls" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title">Max Orbs</td>
+                    <td class="multi" id="orb_level_multi">0</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="orb_level" id="orb_level" value=""></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">ME</td>
+                    <td><input type="number" class="price" id="magic" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Max Scrolls</div>
+                    </td>
+                    <td class="multi" id="scroll_level_multi">0</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="scroll_level" id="scroll_level" value=""></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Keys</td>
+                    <td><input type="number" class="price" disabled="disabled" id="keys" value="0" min="0" max="99999" step="1" size="12"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Time reduct.</div>
+                    </td>
+                    <td class="multi" id="time_level_multi">10</td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="time_level" id="time_level" value=""></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Set min Time</td>
+                    <td class="details "><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="min_time" id="min_time" value="1"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">King. Inns</div>
+                    </td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="king_inns" id="king_inns" value=""></td>
+                    <td class="title"></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Set min Expo</td>
+                    <td class="details "><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="min_expo" id="min_expo" value="1"></td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Adv. Level</div>
+                    </td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="adv_level" id="adv_level" value=""></td>
+                    <td class="title" dir="ltr">Short</td>
+                    <td class="" dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="short_run" id="short_run" value=""></td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Used Tiers</td>
+                    <td class="details " dir="ltr">
+                        <!--<input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="tiers" id="tiers" value="3452">-->
+                        <select name="tiers" class="user_input" id="tiers">
+                            <option value="1352">1352</option>
+                            <option value="2413">2413</option>
+                            <option value="3524">3524</option>
+                            <option value="4135">4135</option>
+                            <option value="5241">5241</option>
+                        </select>
+                    </td>
+                    <td class="title softmerge">
+                        <div class="softmerge-inner" style="width: 59px; left: -1px;">Expo Slots</div>
+                    </td>
+                    <td class="details " dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="expo_slots" id="expo_slots" value="4"></td>
+                    <td class="title">Long</td>
+                    <td class="" dir="ltr"><input type="number" size="12" class="user_input" min="0" max="99999" step="1" name="long_run" id="long_run" value=""></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title text-center" colspan="7">Resource Prices</td>
+                    <td class="title"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title"></td>
+                    <td class="title tier">T1</td>
+                    <td class="title tier">T2</td>
+                    <td class="title tier">T3</td>
+                    <td class="title tier">T4</td>
+                    <td class="title tier">T5</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Ore</td>
+                    <td><input type="number" class="price" id="ore_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="ore_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="ore_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="ore_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="ore_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Plants</td>
+                    <td><input type="number" class="price" id="plants_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="plants_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="plants_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="plants_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="plants_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Wood</td>
+                    <td><input type="number" class="price" id="wood_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="wood_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="wood_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="wood_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="wood_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Fish</td>
+                    <td><input type="number" class="price" id="fish_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="fish_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="fish_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="fish_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="price" id="fish_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title text-center" colspan="7">Owned Resources</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title"></td>
+                    <td class="title tier">T1</td>
+                    <td class="title tier">T2</td>
+                    <td class="title tier">T3</td>
+                    <td class="title tier">T4</td>
+                    <td class="title tier">T5</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Ore</td>
+                    <td><input type="number" class="resources" id="rez_ore_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_ore_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_ore_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_ore_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_ore_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Plants</td>
+                    <td><input type="number" class="resources" id="rez_plants_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_plants_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_plants_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_plants_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_plants_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Wood</td>
+                    <td><input type="number" class="resources" id="rez_wood_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_wood_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_wood_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_wood_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_wood_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title">Fish</td>
+                    <td><input type="number" class="resources" id="rez_fish_1" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_fish_2" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_fish_3" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_fish_4" value="0" min="0" max="99999" step="1" size="6"></td>
+                    <td><input type="number" class="resources" id="rez_fish_5" value="0" min="0" max="99999" step="1" size="6"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title text-center" colspan="7">Resources Needed For Expos</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" dir="ltr">Long Type</td>
+                    <td class="title"></td>
+                    <td colspan="4" class="title tier" id="best_res_1"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" dir="ltr">
+                        <select class="user_input" name="long_type" id="long_type">
+                            <option value="1">Long Profit</option>
+                            <option value="2">Long Time</option>
+                        </select>
+                    </td>
+                    <td class="title" dir="ltr">Cost</td>
+                    <td class="title best_res_1">T?</td>
+                    <td class="title best_res_2">T?</td>
+                    <td class="title best_res_3">T?</td>
+                    <td class="title best_res_4">T?</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" id="res_short_name">0/0/0/0</td>
+                    <td class="title" id="res_short_cost">000m</td>
+                    <td class="details" id="res_short_1">0</td>
+                    <td class="details" id="res_short_2">0</td>
+                    <td class="details" id="res_short_3">0</td>
+                    <td class="details" id="res_short_4">0</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title softmerge" dir="ltr">
+                        <div class="softmerge-inner" style="width: 77px; left: -1px;">Total Needed</div>
+                    </td>
+                    <td class="title" id="res_total_cost">000m</td>
+                    <td class="details" id="res_total_1">0</td>
+                    <td class="details" id="res_total_2">0</td>
+                    <td class="details" id="res_total_3">0</td>
+                    <td class="details" id="res_total_4">0</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" dir="ltr"></td>
+                    <td class="title"></td>
+                    <td colspan="4" class="title tier" id="best_res_2"></td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" dir="ltr">
+                    </td>
+                    <td class="title" dir="ltr"></td>
+                    <td class="title best_res_1">T?</td>
+                    <td class="title best_res_2">T?</td>
+                    <td class="title best_res_3">T?</td>
+                    <td class="title best_res_4">T?</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" id="res_long_name">0/0/0/0</td>
+                    <td class="title" id="res_long_cost">000m</td>
+                    <td class="details" id="res_long_1">0</td>
+                    <td class="details" id="res_long_2">0</td>
+                    <td class="details" id="res_long_3">0</td>
+                    <td class="details" id="res_long_4">0</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title softmerge" dir="ltr">
+                        <div class="softmerge-inner" style="width: 77px; left: -1px;">Total Needed</div>
+                    </td>
+                    <td class="title" id="res_total_cost_2">000m</td>
+                    <td class="details" id="res_total_1a">0</td>
+                    <td class="details" id="res_total_2a">0</td>
+                    <td class="details" id="res_total_3a">0</td>
+                    <td class="details" id="res_total_4a">0</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title" dir="ltr"></td>
+                    <td class="title"></td>
+                    <td colspan="4" class="title tier">Total Missing</td>
+                </tr>
+                <tr style='height:19px;'>
+                    <td class="title softmerge" dir="ltr">
+                        <div class="softmerge-inner" style="width: 77px; left: -1px;" id="res_type_1"></div>
+                    </td>
+                    <td class="title" id="res_gtotal_cost">000m</td>
+                    <td class="details" id="res_gtotal_1">0</td>
+                    <td class="details" id="res_gtotal_2">0</td>
+                    <td class="details" id="res_gtotal_3">0</td>
+                    <td class="details" id="res_gtotal_4">0</td>
+                </tr>
+                <tr style='height:19px;' class="hidden" id="best_res_type_2">
+                    <td class="title softmerge" dir="ltr">
+                        <div class="softmerge-inner" style="width: 77px; left: -1px;" id="res_type_2"></div>
+                    </td>
+                    <td class="title" id="res_gtotal_costa">000m</td>
+                    <td class="details" id="res_gtotal_1a">0</td>
+                    <td class="details" id="res_gtotal_2a">0</td>
+                    <td class="details" id="res_gtotal_3a">0</td>
+                    <td class="details" id="res_gtotal_4a">0</td>
+                </tr>
+        </table>
+        <div class="ritz grid-container col-md-6" dir="ltr">
             <h2 class="col-md-12">Best Proift Per Hour</h2>
             <table class="col-md-12 table table-striped" id="expo_table">
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
+
+                        <th>Rez</th>
                         <th>Level</th>
                         <th>Duration</th>
                         <th>Cost</th>
@@ -310,6 +346,7 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
+                        <th>Rez</th>
                         <th>Level</th>
                         <th>Duration</th>
                         <th>Cost</th>
@@ -333,6 +370,7 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
+                        <th>Rez</th>
                         <th>Level</th>
                         <th>Duration</th>
                         <th>Cost</th>
@@ -404,4 +442,5 @@
         <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
         <script src="MQO_Expo_Base.js"></script>
         <script src="MidenQuest_Expo_Calculator.js"></script>
-    </body></html>
+    </body>
+</html>

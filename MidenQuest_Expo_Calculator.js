@@ -10,9 +10,9 @@ var MQO_Expo_Calc = {
     best_long_2: null,
     expo_tiers: {},
     resource_names: ['Ore', 'Plants', 'Wood', 'Fish'],
-    key_relic: 38.8,
-    key_gem: 0.27,
-    key_magic: 587.5,
+    key_relic: 52,
+    key_gem: 0.2075,
+    key_magic: 1109.375,
     user_input: {
         gem_level: 0,
         relic_level: 0,
@@ -20,42 +20,42 @@ var MQO_Expo_Calc = {
         orb_level: 0,
         scroll_level: 0,
         time_level: 0,
-        king_inns: 31,
+        king_inns: 20,
         min_expo: 1,
-        min_time: 60,
+        min_time: 0,
         expo_slots: 4,
         adv_level: 20,
-        tiers: 5432,
+        tiers: 1352,
         long_run: 1,
         short_run: 6,
         long_type: 1
     },
     prices: {
-        ore_1: 0,
-        ore_2: 0,
-        ore_3: 0,
-        ore_4: 0,
-        ore_5: 0,
-        plants_1: 0,
-        plants_2: 0,
-        plants_3: 0,
-        plants_4: 0,
-        plants_5: 0,
-        wood_1: 0,
-        wood_2: 0,
-        wood_3: 0,
-        wood_4: 0,
-        wood_5: 0,
-        fish_1: 0,
-        fish_2: 0,
-        fish_3: 0,
-        fish_4: 0,
-        fish_5: 0,
-        magic: 0,
-        relics: 0,
-        gems: 0,
-        orbs: 0,
-        scrolls: 0,
+        ore_1: 100,
+        ore_2: 200,
+        ore_3: 400,
+        ore_4: 600,
+        ore_5: 700,
+        plants_1: 101,
+        plants_2: 201,
+        plants_3: 401,
+        plants_4: 601,
+        plants_5: 701,
+        wood_1: 102,
+        wood_2: 202,
+        wood_3: 402,
+        wood_4: 602,
+        wood_5: 702,
+        fish_1: 103,
+        fish_2: 203,
+        fish_3: 403,
+        fish_4: 603,
+        fish_5: 703,
+        magic: 40,
+        relics: 300000,
+        gems: 75000000,
+        orbs: 3000000,
+        scrolls: 3000000,
         keys: 0
     },
     resources: {
@@ -84,6 +84,9 @@ var MQO_Expo_Calc = {
         console.log(text);
     },
     numberWithCommas: function (x) {
+        if (x === undefined) {
+            return '';
+        }
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     db: null,
@@ -107,8 +110,7 @@ var MQO_Expo_Calc = {
                 keyPath: "id"
             });
         };
-        request.notfound = function (event) {
-        };
+        request.notfound = function (event) {};
     },
     load_data: function (current, loaded) {
         for (var key in loaded) {
@@ -142,8 +144,12 @@ var MQO_Expo_Calc = {
         MQO_Expo_Calc.update_prices();
         MQO_Expo_Calc.update_inputs();
         MQO_Expo_Calc.update_resources();
+        MQO_Expo_Calc.buildExpos();
     },
     load: function () {
+        MQO_Expo_Calc.update_prices();
+        MQO_Expo_Calc.update_inputs();
+        MQO_Expo_Calc.update_resources();
         if (this.db === null) {
             this.logText('DB not loaded for loading');
             return false;
@@ -154,6 +160,9 @@ var MQO_Expo_Calc = {
         request.onsuccess = function (event) {
             if (request.result !== undefined) {
                 MQO_Expo_Calc.prices = MQO_Expo_Calc.load_data(MQO_Expo_Calc.prices, request.result.data);
+            }
+            MQO_Expo_Calc.update_prices();
+            if (request.error == null) {
                 MQO_Expo_Calc.loadState += 1;
                 MQO_Expo_Calc.doWork();
             }
@@ -165,6 +174,9 @@ var MQO_Expo_Calc = {
         request2.onsuccess = function (event) {
             if (request2.result !== undefined) {
                 MQO_Expo_Calc.user_input = MQO_Expo_Calc.load_data(MQO_Expo_Calc.user_input, request2.result.data);
+            }
+            MQO_Expo_Calc.update_inputs();
+            if (request.error == null) {
                 MQO_Expo_Calc.loadState += 1;
                 MQO_Expo_Calc.doWork();
             }
@@ -176,9 +188,13 @@ var MQO_Expo_Calc = {
         request3.onsuccess = function (event) {
             if (request3.result !== undefined) {
                 MQO_Expo_Calc.resources = MQO_Expo_Calc.load_data(MQO_Expo_Calc.resources, request3.result.data);
+            }
+            MQO_Expo_Calc.update_resources();
+            if (request.error == null) {
                 MQO_Expo_Calc.loadState += 1;
                 MQO_Expo_Calc.doWork();
             }
+
         };
         request3.onerror = function (event) {
             MQO_Expo_Calc.logText('User Resource Data Missing');
@@ -201,13 +217,9 @@ var MQO_Expo_Calc = {
             }
         });
         jQuery('.best_res_1').text("T" + MQO_Expo_Calc.expo_tiers[0]);
-        jQuery('#best_res_1').text(this.resource_names[MQO_Expo_Calc.lowestPriceType(MQO_Expo_Calc.expo_tiers[0])]);
         jQuery('.best_res_2').text("T" + MQO_Expo_Calc.expo_tiers[1]);
-        jQuery('#best_res_2').text(this.resource_names[MQO_Expo_Calc.lowestPriceType(this.expo_tiers[1])]);
         jQuery('.best_res_3').text("T" + MQO_Expo_Calc.expo_tiers[2]);
-        jQuery('#best_res_3').text(this.resource_names[MQO_Expo_Calc.lowestPriceType(this.expo_tiers[2])]);
         jQuery('.best_res_4').text("T" + MQO_Expo_Calc.expo_tiers[3]);
-        jQuery('#best_res_4').text(this.resource_names[MQO_Expo_Calc.lowestPriceType(this.expo_tiers[3])]);
     },
     update_inputs: function () {
         jQuery('.user_input').each(function () {
@@ -221,7 +233,6 @@ var MQO_Expo_Calc = {
                 }
             }
         });
-        // 52
         this.expo_tiers = this.user_input['tiers'].toString().match(/([0-9])/g);
     },
     import_prices: function () {
@@ -305,6 +316,37 @@ var MQO_Expo_Calc = {
         this.save();
         this.buildExpos();
     },
+    bestResoure: function (levels) {
+        var orePrice = resourceCosts[this.expo_tiers[0]][levels[0]]['TotalCost'] * this.prices['ore_' + this.expo_tiers[0]];
+        orePrice += resourceCosts[this.expo_tiers[1]][levels[1]]['TotalCost'] * this.prices['ore_' + this.expo_tiers[1]];
+        orePrice += resourceCosts[this.expo_tiers[2]][levels[2]]['TotalCost'] * this.prices['ore_' + this.expo_tiers[2]];
+        orePrice += resourceCosts[this.expo_tiers[3]][levels[3]]['TotalCost'] * this.prices['ore_' + this.expo_tiers[3]];
+        var woodPrice = resourceCosts[this.expo_tiers[0]][levels[0]]['TotalCost'] * this.prices['wood_' + this.expo_tiers[0]];
+        woodPrice += resourceCosts[this.expo_tiers[1]][levels[1]]['TotalCost'] * this.prices['wood_' + this.expo_tiers[1]];
+        woodPrice += resourceCosts[this.expo_tiers[2]][levels[2]]['TotalCost'] * this.prices['wood_' + this.expo_tiers[2]];
+        woodPrice += resourceCosts[this.expo_tiers[3]][levels[3]]['TotalCost'] * this.prices['wood_' + this.expo_tiers[3]];
+        var plantPrice = resourceCosts[this.expo_tiers[0]][levels[0]]['TotalCost'] * this.prices['plants_' + this.expo_tiers[0]];
+        plantPrice += resourceCosts[this.expo_tiers[1]][levels[1]]['TotalCost'] * this.prices['plants_' + this.expo_tiers[1]];
+        plantPrice += resourceCosts[this.expo_tiers[2]][levels[2]]['TotalCost'] * this.prices['plants_' + this.expo_tiers[2]];
+        plantPrice += resourceCosts[this.expo_tiers[3]][levels[3]]['TotalCost'] * this.prices['plants_' + this.expo_tiers[3]];
+        var fishPrice = resourceCosts[this.expo_tiers[0]][levels[0]]['TotalCost'] * this.prices['fish_' + this.expo_tiers[0]];
+        fishPrice += resourceCosts[this.expo_tiers[1]][levels[1]]['TotalCost'] * this.prices['fish_' + this.expo_tiers[1]];
+        fishPrice += resourceCosts[this.expo_tiers[2]][levels[2]]['TotalCost'] * this.prices['fish_' + this.expo_tiers[2]];
+        fishPrice += resourceCosts[this.expo_tiers[3]][levels[3]]['TotalCost'] * this.prices['fish_' + this.expo_tiers[3]];
+        var lowPrice = Math.min(orePrice, woodPrice, plantPrice, fishPrice);
+        if (lowPrice == orePrice) {
+            return 'ore_';
+        }
+        if (lowPrice == woodPrice) {
+            return 'wood_';
+        }
+        if (lowPrice == plantPrice) {
+            return 'plants_';
+        }
+        if (lowPrice == fishPrice) {
+            return 'fish_';
+        }
+    },
     buildExpos: function () {
         var start = Date.now();
         this.expos = [];
@@ -323,15 +365,20 @@ var MQO_Expo_Calc = {
             expo['res_3'] = resourceCosts[this.expo_tiers[2]][levels[2]]['TotalCost'];
             expo['res_4'] = resourceCosts[this.expo_tiers[3]][levels[3]]['TotalCost'];
 
-            expo['res_1_cost'] = expo['res_1'] * this.lowestPrice(this.expo_tiers[0]);
-            expo['res_2_cost'] = expo['res_2'] * this.lowestPrice(this.expo_tiers[1]);
-            expo['res_3_cost'] = expo['res_3'] * this.lowestPrice(this.expo_tiers[2]);
-            expo['res_4_cost'] = expo['res_4'] * this.lowestPrice(this.expo_tiers[3]);
-            expo['res_4_price'] = this.lowestPrice(this.expo_tiers[3]);
+            expo['best_res'] = this.bestResoure(levels);
+
+            expo['res_1_cost'] = expo['res_1'] * this.prices[expo['best_res'] + this.expo_tiers[0]];
+            expo['res_2_cost'] = expo['res_2'] * this.prices[expo['best_res'] + this.expo_tiers[0]]
+            expo['res_3_cost'] = expo['res_3'] * this.prices[expo['best_res'] + this.expo_tiers[0]]
+            expo['res_4_cost'] = expo['res_4'] * this.prices[expo['best_res'] + this.expo_tiers[0]]
 
             expo['cost'] = expo['res_1_cost'] + expo['res_2_cost'] + expo['res_3_cost'] + expo['res_4_cost'] + 50000;
 
-            expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.975, MQO_Expo_Calc.user_input.king_inns));
+            if (MQO_Expo_Calc.user_input.king_inns > 20) {
+                expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.975, 20) * Math.pow(0.985, (MQO_Expo_Calc.user_input.king_inns - 20)));
+            } else {
+                expo['time'] = Math.ceil(expoCost['time'][expo['time_key']][MQO_Expo_Calc.user_input.time_level] * Math.pow(0.975, MQO_Expo_Calc.user_input.king_inns));
+            }
             if (expo['time'] < this.user_input.min_time) {
                 continue;
             }
@@ -368,7 +415,6 @@ var MQO_Expo_Calc = {
             } else {
                 expo['gem_increase'] = expoCost['gem'][expo['gem_key']][expo['gem_break']] - expoCost['gem'][expo['gem_key']][MQO_Expo_Calc.user_input.gem_level]
             }
-
 
             expo['relic_current'] = MQO_Expo_Calc.user_input.relic_level;
             expo['relic_break'] = expoCost['relic'][expo['relic_key']].lastIndexOf(expoCost['relic'][expo['relic_key']][MQO_Expo_Calc.user_input.relic_level]) + 1;
@@ -470,26 +516,42 @@ var MQO_Expo_Calc = {
         this.table_3.draw();
         this.calcuateNeededResources();
         var end = Date.now();
-//        console.log((end - start));
+        //        console.log((end - start));
+    },
+    getDisplayName: function (resType) {
+        if (resType == 'ore_') {
+            return 'Ore';
+        }
+        if (resType == 'wood_') {
+            return 'Wood';
+        }
+        if (resType == 'plants_') {
+            return 'Plants';
+        }
+        if (resType == 'fish_') {
+            return 'Fish';
+        }
     },
     buildExpoRow: function (expo) {
         return [
             this.buildTableExtra(expo),
             '<div class="btn tableExtra"><span class="glyphicon glyphicon-plus-sign"></span></div>',
+            this.getDisplayName(expo['best_res']),
             expo['name'],
             expo['time'],
             this.numberWithCommas(expo['cost']),
             this.numberWithCommas(expo['income']),
             this.numberWithCommas(Math.round(expo['profit'])),
             this.numberWithCommas(Math.round(expo['profit_hourly'])),
-            Math.round(expo['gem_average'] + this.key_gem * expo['key_average']) + " (" + Math.round((expo['gem_average'] + this.key_gem * expo['key_average']) / expo['time'] * 60) + ")",
+            Math.round(expo['gem_average'] + this.key_gem * expo['key_average']) + " (" + (60 * (expo['gem_average'] + this.key_gem * expo['key_average']) / expo['time']).toFixed(2) + ")",
             Math.round(expo['relic_average'] + this.key_relic * expo['key_average']) + " (" + Math.round((expo['relic_average'] + this.key_relic * expo['key_average']) / expo['time'] * 60) + ")",
             Math.round(expo['orb_average']) + " (" + Math.round((expo['orb_average']) / expo['time'] * 60) + ")",
             Math.round(expo['scroll_average']) + " (" + Math.round((expo['scroll_average']) / expo['time'] * 60) + ")",
             expo['res_1'],
             expo['res_2'],
             expo['res_3'],
-            expo['res_4']];
+            expo['res_4']
+        ];
     },
     formatExtra: function (d) {
         return d[0];
@@ -546,39 +608,68 @@ var MQO_Expo_Calc = {
         if (this.user_input.long_type === 2) {
             best_long = this.best_long_2;
         }
-        var res_type_1 = this.resource_names[this.lowestPriceType(this.expo_tiers[0])].toLowerCase() + "_" + this.expo_tiers[0];
-        var res_type_2 = this.resource_names[this.lowestPriceType(this.expo_tiers[1])].toLowerCase() + "_" + this.expo_tiers[1];
-        var res_type_3 = this.resource_names[this.lowestPriceType(this.expo_tiers[2])].toLowerCase() + "_" + this.expo_tiers[2];
-        var res_type_4 = this.resource_names[this.lowestPriceType(this.expo_tiers[3])].toLowerCase() + "_" + this.expo_tiers[3];
-        jQuery('#res_short_name').text(this.best_short.name);
+        var best_short = this.best_short;
+        jQuery('#best_res_1').text(this.getDisplayName(best_short['best_res']));
+        jQuery('#best_res_2').text(this.getDisplayName(best_long['best_res']));
+        jQuery('#res_short_name').text(best_short.name);
         jQuery('#res_long_name').text(best_long.name);
+        jQuery('#res_type_1').text(this.getDisplayName(best_short['best_res']));
+        jQuery('#res_type_2').text(this.getDisplayName(best_long['best_res']));
+        if (best_long['best_res'] !== best_short['best_res']) {
+            jQuery('#best_res_type_2').removeClass('hidden');
+        }
+
         var needRes = {};
-        needRes["res_short_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_1];
-        needRes["res_short_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_2];
-        needRes["res_short_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_3];
-        needRes["res_short_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + res_type_4];
-        needRes["res_long_1"] = best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_1];
-        needRes["res_long_2"] = best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_2];
-        needRes["res_long_3"] = best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_3];
-        needRes["res_long_4"] = best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_4];
-        needRes["res_total_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_1];
-        needRes["res_total_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_2];
-        needRes["res_total_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_3];
-        needRes["res_total_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + res_type_4];
-        needRes["res_gtotal_1"] = this.best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run;
-        needRes["res_gtotal_2"] = this.best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run;
-        needRes["res_gtotal_3"] = this.best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run;
-        needRes["res_gtotal_4"] = this.best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_short_1"] = best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[0]];
+        needRes["res_short_2"] = best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[1]];
+        needRes["res_short_3"] = best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[2]];
+        needRes["res_short_4"] = best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[3]];
+        needRes["res_total_1"] = best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run;
+        needRes["res_total_2"] = best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run;
+        needRes["res_total_3"] = best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run;
+        needRes["res_total_4"] = best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run;
+
+        needRes["res_long_1"] = best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[0]];
+        needRes["res_long_2"] = best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[1]];
+        needRes["res_long_3"] = best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[2]];
+        needRes["res_long_4"] = best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[3]];
+        needRes["res_total_1a"] = best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_total_2a"] = best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_total_3a"] = best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run;
+        needRes["res_total_4a"] = best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run;
+
+        if (best_long['best_res'] !== best_short['best_res']) {
+            needRes["res_gtotal_1"] = best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[0]];
+            needRes["res_gtotal_2"] = best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[1]];
+            needRes["res_gtotal_3"] = best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[2]];
+            needRes["res_gtotal_4"] = best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run - this.resources['rez_' + best_short['best_res'] + this.expo_tiers[3]];
+            needRes["res_gtotal_1a"] = best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[0]];
+            needRes["res_gtotal_2a"] = best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[1]];
+            needRes["res_gtotal_3a"] = best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[2]];
+            needRes["res_gtotal_4a"] = best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[3]];
+        } else {
+            needRes["res_gtotal_1"] = best_short.res_1 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_1 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[0]];
+            needRes["res_gtotal_2"] = best_short.res_2 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_2 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[1]];
+            needRes["res_gtotal_3"] = best_short.res_3 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_3 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[2]];
+            needRes["res_gtotal_4"] = best_short.res_4 * this.user_input.expo_slots * this.user_input.short_run + best_long.res_4 * this.user_input.expo_slots * this.user_input.long_run - this.resources['rez_' + best_long['best_res'] + this.expo_tiers[3]];
+        }
         for (var key in needRes) {
             if (needRes[key] < 0) {
                 needRes[key] = 0;
             }
         }
 
-        needRes["res_short_cost"] = needRes["res_short_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_short_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_short_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_short_4"] * this.lowestPrice(this.expo_tiers[3]);
-        needRes["res_long_cost"] = needRes["res_long_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_long_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_long_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_long_4"] * this.lowestPrice(this.expo_tiers[3]);
-        needRes["res_total_cost"] = needRes["res_total_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_total_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_total_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_total_4"] * this.lowestPrice(this.expo_tiers[3]);
-        needRes["res_gtotal_cost"] = needRes["res_gtotal_1"] * this.lowestPrice(this.expo_tiers[0]) + needRes["res_gtotal_2"] * this.lowestPrice(this.expo_tiers[1]) + needRes["res_gtotal_3"] * this.lowestPrice(this.expo_tiers[2]) + needRes["res_gtotal_4"] * this.lowestPrice(this.expo_tiers[3]);
+        needRes["res_short_cost"] = needRes["res_short_1"] * this.prices[best_short['best_res'] + this.expo_tiers[0]] + needRes["res_short_2"] * this.prices[best_short['best_res'] + this.expo_tiers[1]] + needRes["res_short_3"] * this.prices[best_short['best_res'] + this.expo_tiers[2]] + needRes["res_short_4"] * this.prices[best_short['best_res'] + this.expo_tiers[3]];
+
+        needRes["res_long_cost"] = needRes["res_long_1"] * this.prices[best_long['best_res'] + this.expo_tiers[0]] + needRes["res_long_2"] * this.prices[best_long['best_res'] + this.expo_tiers[1]] + needRes["res_long_3"] * this.prices[best_long['best_res'] + this.expo_tiers[2]] + needRes["res_long_4"] * this.prices[best_long['best_res'] + this.expo_tiers[3]];
+
+        needRes["res_total_cost"] = needRes["res_total_1"] * this.prices[best_short['best_res'] + this.expo_tiers[0]] + needRes["res_total_2"] * this.prices[best_short['best_res'] + this.expo_tiers[1]] + needRes["res_total_3"] * this.prices[best_short['best_res'] + this.expo_tiers[2]] + needRes["res_total_4"] * this.prices[best_short['best_res'] + this.expo_tiers[3]];
+
+        needRes["res_total_cost_2"] = needRes["res_total_1a"] * this.prices[best_long['best_res'] + this.expo_tiers[0]] + needRes["res_total_2a"] * this.prices[best_long['best_res'] + this.expo_tiers[1]] + needRes["res_total_3a"] * this.prices[best_long['best_res'] + this.expo_tiers[2]] + needRes["res_total_4a"] * this.prices[best_long['best_res'] + this.expo_tiers[3]];
+
+        needRes["res_gtotal_cost"] = needRes["res_short_1"] * this.prices[best_short['best_res'] + this.expo_tiers[0]] + needRes["res_short_2"] * this.prices[best_short['best_res'] + this.expo_tiers[1]] + needRes["res_short_3"] * this.prices[best_short['best_res'] + this.expo_tiers[2]] + needRes["res_short_4"] * this.prices[best_short['best_res'] + this.expo_tiers[3]];
+
+        needRes["res_gtotal_cost_2"] = needRes["res_long_1"] * this.prices[best_short['best_res'] + this.expo_tiers[0]] + needRes["res_long_2"] * this.prices[best_short['best_res'] + this.expo_tiers[1]] + needRes["res_long_3"] * this.prices[best_short['best_res'] + this.expo_tiers[2]] + needRes["res_long_4"] * this.prices[best_short['best_res'] + this.expo_tiers[3]];
 
         jQuery('#res_short_cost').text(this.numberWithCommas(needRes["res_short_cost"]));
         jQuery('#res_short_1').text(needRes["res_short_1"]);
@@ -598,17 +689,29 @@ var MQO_Expo_Calc = {
         jQuery('#res_total_3').text(needRes["res_total_3"]);
         jQuery('#res_total_4').text(needRes["res_total_4"]);
 
+        jQuery('#res_total_cost_2').text(this.numberWithCommas(needRes["res_total_cost_2"]));
+        jQuery('#res_total_1a').text(needRes["res_total_1a"]);
+        jQuery('#res_total_2a').text(needRes["res_total_2a"]);
+        jQuery('#res_total_3a').text(needRes["res_total_3a"]);
+        jQuery('#res_total_4a').text(needRes["res_total_4a"]);
+
         jQuery('#res_gtotal_cost').text(this.numberWithCommas(needRes["res_gtotal_cost"]));
         jQuery('#res_gtotal_1').text(needRes["res_gtotal_1"]);
         jQuery('#res_gtotal_2').text(needRes["res_gtotal_2"]);
         jQuery('#res_gtotal_3').text(needRes["res_gtotal_3"]);
         jQuery('#res_gtotal_4').text(needRes["res_gtotal_4"]);
+
+        jQuery('#res_gtotal_cost_2').text(this.numberWithCommas(needRes["res_gtotal_cost_2"]));
+        jQuery('#res_gtotal_1a').text(needRes["res_gtotal_1a"]);
+        jQuery('#res_gtotal_2a').text(needRes["res_gtotal_2a"]);
+        jQuery('#res_gtotal_3a').text(needRes["res_gtotal_3a"]);
+        jQuery('#res_gtotal_4a').text(needRes["res_gtotal_4a"]);
     },
     lowestPrice: function (tier) {
         return Math.min(this.prices['ore_' + tier], this.prices['plants_' + tier], this.prices['wood_' + tier], this.prices['fish_' + tier]);
     },
     lowestPriceType: function (tier) {
-        var prices = [this.prices['ore_' + tier], this.prices['plants_' + tier], this.prices['wood_' + tier], this.prices['fish_' + tier]];
+        var prices = [this.prices['ore_' + tier], this.prices['plants_' + tier], this.prices['wood_' + tier], this.prices['fish_' + tier]]
         var lowestPrice = this.lowestPrice(tier);
         return prices.indexOf(lowestPrice);
     },
@@ -658,13 +761,14 @@ var MQO_Expo_Calc = {
         });
         this.table = jQuery('#expo_table').DataTable({
             "order": [
-                [7, "desc"]
+                [8, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
-            "columnDefs": [
-                {"visible": false, "targets": [0]}
-            ]
+            "columnDefs": [{
+                    "visible": false,
+                    "targets": [0]
+                }]
         });
         jQuery('#expo_table tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
@@ -682,13 +786,14 @@ var MQO_Expo_Calc = {
         });
         this.table_2 = jQuery('#expo_table_2').DataTable({
             "order": [
-                [6, "desc"]
+                [7, "desc"]
             ],
             "processing": true,
             "bDeferRender": true,
-            "columnDefs": [
-                {"visible": false, "targets": [0]}
-            ]
+            "columnDefs": [{
+                    "visible": false,
+                    "targets": [0]
+                }]
         });
         jQuery('#expo_table_2 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
@@ -710,9 +815,10 @@ var MQO_Expo_Calc = {
             ],
             "processing": true,
             "bDeferRender": true,
-            "columnDefs": [
-                {"visible": false, "targets": [0]}
-            ]
+            "columnDefs": [{
+                    "visible": false,
+                    "targets": [0]
+                }]
         });
         jQuery('#expo_table_3 tbody').on('click', 'td .tableExtra', function () {
             var tr = $(this).closest('tr');
@@ -739,9 +845,6 @@ var MQO_Expo_Calc = {
         if (this.loadState < 3) {
             return false;
         }
-        MQO_Expo_Calc.update_prices();
-        MQO_Expo_Calc.update_inputs();
-        MQO_Expo_Calc.update_resources();
         MQO_Expo_Calc.buildExpos();
     }
 };
