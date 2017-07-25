@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Drakor TS Tracker
 // @namespace    https://github.com/Altizar/Altizar.github.io
-// @version      0.2.1
+// @version      0.2.4
 // @description  Tracks statistics of tradeskills
 // @description  MidenQuest - Expo Send Highlighter
 // @author       Altizar
-// @include      http://*.drakor.com*
+// @include      https://drakor.com*
+// @include      https://*.drakor.com*
 // @downloadURL  https://altizar.github.io/Drakor_Tradeskill_Tracker.Code.js
 // @updateURL    https://altizar.github.io/Drakor_Tradeskill_Tracker.Code.js
 // @grant        GM_xmlhttpRequest
@@ -134,7 +135,7 @@ var Drakor_Tradeskill_Tracker = {
         var table = '';
         var firstRow = true;
         Object.keys(Drakor_Tradeskill_Tracker.data[type][location].catches).sort(function (a, b) {
-            return jQuery(a).text().localeCompare(jQuery(b).text())
+            return jQuery(a).text().localeCompare(jQuery(b).text());
         }).forEach(function (key) {
             if (firstRow) {
                 table += '<tr><td colspan="3" style="lineheight=2px;">&nbsp;</td></tr>';
@@ -142,12 +143,10 @@ var Drakor_Tradeskill_Tracker = {
             } else {
                 table += '<tr><td colspan="3" style="lineheight=2px;"><hr/></td></tr>';
             }
-//        for (var key in Drakor_Tradeskill_Tracker.data[type][location].catches) {
             var found = Drakor_Tradeskill_Tracker.data[type][location].catches[key];
             var percent = parseInt(found / Drakor_Tradeskill_Tracker.data[type][location].runs * 100);
             table += '<tr><td>' + key + '</td><td>' + found + '</td><td>' + percent + '<td></tr>';
         });
-//        }
         table += '<tr><td colspan="3" style="lineheight=2px;">&nbsp;</td></tr>';
         table += '<tr><th>Runs</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].runs + '</td></tr>';
         table += '<tr><th>Exp</th><td colspan="2">' + Drakor_Tradeskill_Tracker.data[type][location].exp + '</td></tr>';
@@ -173,11 +172,6 @@ var Drakor_Tradeskill_Tracker = {
             jQuery('#drakorWorld').append('<div id="tradeskilltracker" style="position: absolute;width: 200px;top: 0px;left: -235px" class="dContainer"><h3>Tracking <span id="tradeskilltrackertype">Unknown</span></h3><table><thead><tr><th>Item</th><th>Actions</th><th>Rate</th></tr></thead><tbody id="tradeskilltrackerlist"></tbody></table></div>');
         }
         jQuery('#tradeskilltrackertype').text(type);
-        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker { z-index: 5; }");
-        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table { width: 100%; }");
-        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { padding: 0px; }");
-        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { text-align: right; }");
-        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td:first-child { text-align: left; }");
     },
     addGlobalStyle: function (css) {
         var head, style;
@@ -193,8 +187,17 @@ var Drakor_Tradeskill_Tracker = {
     run: function () {
         // Drakor_Tradeskill_Tracker.logText('Fishing Tracker Loaded');
         Drakor_Tradeskill_Tracker.initDB();
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker { z-index: 5; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table { width: 100%; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { padding: 0px; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td { text-align: right; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td hr { margin: 4px; }");
+        Drakor_Tradeskill_Tracker.addGlobalStyle("#tradeskilltracker table tr td:first-child { text-align: left; }");
     },
     doWork: function () {
+        if (jQuery('#drakorWorld').length === 0) {
+            return false;
+        }
         Drakor_Tradeskill_Tracker.load();
         Drakor_Tradeskill_Tracker.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
