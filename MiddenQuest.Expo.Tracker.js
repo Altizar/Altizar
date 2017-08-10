@@ -60,15 +60,31 @@ var MiddenQuest_Expo_Tracker = {
         return parseInt(jQuery('#' + target).text().replace(' ', '').replace(' ', '').replace(' ', ''));
     },
     calcTimeout: function (timeleft) {
+        var toReturn = "";
         var curTime = jQuery.now();
         var myDate = new Date(null);
-        var timeLeft = parseInt((timeleft - curTime) / 1000);
-        myDate.setHours(0);
-        myDate.setSeconds(timeLeft);
-        if (myDate.getHours() > 0) {
-            return myDate.getHours() + 'hr ' + myDate.getMinutes() + 'min';
+        var timeLeft = Math.ceil((timeleft - curTime) / 1000);
+        myDate.setUTCHours(0);
+        myDate.setUTCSeconds(timeLeft);
+        var showTime = false;
+        if (myDate.getUTCDate() > 2) {
+            toReturn += myDate.getUTCDate() - 1 + "days ";
+            showTime = true;
+        } else if (myDate.getUTCDate() === 2) {
+            toReturn += myDate.getUTCDate() - 1 + "day ";
+            showTime = true;
         }
-        return myDate.getMinutes() + 'min';
+        if (myDate.getUTCHours() === 1) {
+            toReturn += myDate.getUTCHours() + "hr ";
+        } else if (myDate.getUTCHours() > 0 || showTime) {
+            toReturn += myDate.getUTCHours() + "hrs ";
+        }
+        if (myDate.getUTCMinutes() <= 1) {
+            toReturn += myDate.getUTCMinutes() + "min";
+        } else {
+            toReturn += myDate.getUTCMinutes() + "mins";
+        }
+        return toReturn;
     },
     parseStock: function () {
         MiddenQuest_Expo_Tracker.stock.Ore_1 = MiddenQuest_Expo_Tracker.getValue('T1OreDesc');
